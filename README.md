@@ -8,7 +8,7 @@ An innovative bridge of small-team management and socialization solving issues p
  - Allee Rogers [@github/AlleeR](github.com/AlleeR)
  - Connor Morris, [@github/connormo0221](github.com/connormo0221)
  - Lane Durst, [@github/LaneDurst](github.com/LaneDurst)
- - Landon Clarke
+ - Landon Clarke, [@github/Larke20](github.com/Larke20)
  - Logan Price [@github/BigLDPS](github.com/BigLDPS)
    
 ## Project Details
