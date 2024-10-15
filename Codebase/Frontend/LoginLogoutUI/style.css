@@ -11,7 +11,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: black;
+    background: url('bgimg.jpg');
 }
 .wrapper/*the box*/{
     position: relative;
@@ -43,6 +43,21 @@ body{
 }
 .wrapper.active .form-wrapper.sign-up/*transitions between signin/signup*/{
     transform: translateY(-450px);
+}
+h1/*CLARITY title on login/signup page*/{
+    font-size: 80px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px #7d12ff;
+    color: white;
+    text-align: center;
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+
+
 }
 h2 /*"The literal word 'Login' header"*/{
     font-size: 30px;
