@@ -13,7 +13,7 @@ body{
     min-height: 100vh;
     background: black;
 }
-.wrapper/*the login box*/{
+.wrapper/*the box*/{
     position: relative;
     width: 400px;
     height: 500px;
@@ -21,6 +21,7 @@ body{
     box-shadow: 0 0 50px #7d12ff;
     border-radius: 30px;
     padding: 40px;
+    overflow: hidden;
 
 }
 .form-wrapper{
@@ -29,7 +30,19 @@ body{
     align-items: center;
     width: 100%;
     height: 100%;
+    transition: 1s ease-in-out;
 
+}
+.wrapper.active .form-wrapper.sign-in/*transitions between signin/signup (makes login go out of box)*/{
+    transform: translateY(-450px);
+}
+.wrapper .form-wrapper.sign-up/*transitions related, just makes it so overflow isnt still in other box when it shouldn't */{
+    position: absolute;
+    top: 450px;
+    left: 0;
+}
+.wrapper.active .form-wrapper.sign-up/*transitions between signin/signup*/{
+    transform: translateY(-450px);
 }
 h2 /*"The literal word 'Login' header"*/{
     font-size: 30px;
@@ -41,7 +54,7 @@ h2 /*"The literal word 'Login' header"*/{
     margin: 30px 0;
     border-bottom: 2px solid white;
 }
-.input-group label{
+.input-group label/*pw and username fields*/{
     position: absolute;
     top: 50%;
     left: 5px;
@@ -51,7 +64,7 @@ h2 /*"The literal word 'Login' header"*/{
     pointer-events: none;
     transition: .5s;
 }
-.input-group input{
+.input-group input/*pw and username fields*/{
     width: 320px;
     height: 40px;
     font-size: 16px;
@@ -62,6 +75,7 @@ h2 /*"The literal word 'Login' header"*/{
     outline: none;
 
 }
+/*pw and username fields*/
 .input-group input:focus~label,
 .input-group input:valid~label{
     top: 1px;
@@ -71,12 +85,12 @@ h2 /*"The literal word 'Login' header"*/{
     margin: -5px 0 15px 5px;
 
 }
-.remember label{
+.remember label/*remember me button stuff*/{
     color: white;
     font-size: 16px;
 
 }
-.remember label input{
+.remember label input/*remember me button stuff*/{
     accent-color: goldenrod;
     
 }
