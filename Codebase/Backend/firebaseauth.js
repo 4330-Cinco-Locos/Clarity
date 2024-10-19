@@ -20,8 +20,8 @@
     event.preventDefault();
     alert(5);
   })
+
   //login button function
-  
   const loginSubmit = document.getElementById('login-submit');
   loginSubmit.addEventListener('click', function(event){
     event.preventDefault();
