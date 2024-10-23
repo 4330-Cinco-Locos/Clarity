@@ -7,22 +7,24 @@
         <link rel = "stylesheet" href = "style.css" />
     </head>
     <body>
-        <div class = "message-history">
-            <div class = "other-messages">
-                <div class = "message-sender">Other</div>
-                <div class = "message-body">Hello</div>
-                <div class = "time">10:29 PM</div>
+        <div class = "message-container">
+            <div class = "messages">
+                <div class = "other-messages message">
+                    <div class = "message-sender">Other</div>
+                    <div class = "message-body">Hello</div>
+                    <div class = "time">10:29 PM</div>
+                </div>
+                <div class = "my-messages message">
+                    <div class = "message-sender">Me</div>
+                    <div class = "message-body">Hello</div>
+                    <div class = "time">10:29 PM</div>
+                </div>
             </div>
-            <div class = "my-messages">
-                <div class = "my-id">Me</div>
-                <div class = "message-body">Hello</div>
-                <div class = "time">10:29 PM</div>
-            </div>
+            <form class = "user-input-form">
+                <input type = "text" class = "my-input" placeholder="My Message..."/>
+                <button type = "submit" class = "button send-message-button">Send</button>
+            </form>
         </div>
-        <form class = "user-input">
-            <input type = "text" class = "my-input" placeholder="My Message..."/>
-            <button type = "submit" class = "send-message">Send</button>
-        </form>
     </body>
     <footer>
 
