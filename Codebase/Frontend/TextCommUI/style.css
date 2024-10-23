@@ -86,12 +86,15 @@ body{
     background: #141823;
 }
 .user-input-form{
+    position:fixed;
+    bottom: 1rem;
+    width:85%;
     display: flex;
     align-items: center;
     margin-top: 2em;
 }
 .my-input{
-    width: 100;
+    width: 100%;
     padding: 0.65em;
     border: none;
     border-radius: 0.5em;
@@ -101,6 +104,13 @@ body{
     flex-grow: 1;
 }
 .send-message-button{
+    background-color: #141823;
+    color: #f9fbee;
+    font-size: 1em;
+    font-weight: bold;
+    margin-left: 0.625em;
+}
+.link-image-button{
     background-color: #141823;
     color: #f9fbee;
     font-size: 1em;
