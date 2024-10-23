@@ -30,6 +30,14 @@ body{
     background-color: #141823;
     overflow-x: hidden;
 }
+.active-users h1{
+    color: #f9fbee;
+    font-size: medium;
+    padding: 16px;
+    text-decoration: none;
+    border-bottom-style: solid;
+    display: block;
+}
 .active-users a{
     color: #f9fbee;
     padding: 16px;
