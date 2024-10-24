@@ -1,0 +1,127 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    background: #3a414b;
+    height: 100vh;
+    font-family: 'Times New Roman', Times, serif;
+}
+.button{
+    border: none;
+    padding: 0.625em;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+.button:hover{
+    filter: brightness(0.9);
+    cursor:pointer;
+}
+.button:active{
+    transform: translateY(2px);
+}
+.active-users{
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #141823;
+    overflow-x: hidden;
+}
+.active-users h1{
+    color: #f9fbee;
+    font-size: medium;
+    padding: 16px;
+    text-decoration: none;
+    border-bottom-style: solid;
+    display: block;
+}
+.active-users a{
+    color: #f9fbee;
+    padding: 16px;
+    text-decoration: none;
+    display: block;
+}
+.active-users a:hover{
+    background:#f9fbee;
+    color: #141823;
+}
+.message-container{
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 0.5em;
+    padding: 0.5em 1.25em;
+    margin-left: 200px;
+    height: 100%;
+    min-height: 100%;
+    overflow-y: auto;
+}
+.messages{
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.messages::-webkit-scrollbar{
+    display: none;
+}
+.message{
+    padding:0.625em;
+    border-radius:1em;
+    margin-bottom: 0.625em;
+    display: flex;
+    color: #f9fbee;
+    flex-direction: column;
+}
+.message-sender{
+    font-weight: bold;
+    margin-bottom: 0.31em;
+}
+.message-text{
+    font-size: 1em;
+    margin-bottom: 0.31em;
+    word-wrap: break-word;
+}
+.time{
+    font-size: 0.75em;
+    text-align: right;
+}
+.other-messages{
+    background: #f9fbee;
+    color: #141823;
+}
+.my-messages{
+    background: #141823;
+}
+.user-input-form{
+    position:fixed;
+    bottom: 1rem;
+    width:85%;
+    display: flex;
+    align-items: center;
+    margin-top: 2em;
+}
+.my-input{
+    width: 100%;
+    padding: 0.65em;
+    border: none;
+    border-radius: 0.5em;
+    background-color: #f9fbee;
+    color: black;
+    font-size: 1em;
+    flex-grow: 1;
+}
+.send-message-button{
+    background-color: #141823;
+    color: #f9fbee;
+    font-size: 1em;
+    font-weight: bold;
+    margin-left: 0.625em;
+}
+.link-image-button{
+    background-color: #141823;
+    color: #f9fbee;
+    font-size: 1em;
+    font-weight: bold;
+    margin-left: 0.625em;
+}
