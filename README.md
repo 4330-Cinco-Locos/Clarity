@@ -19,8 +19,8 @@ Codebase
 - Back end: <Placeholder>
 
 ### Integration
-- [ ] Basic UI Integration
-- [ ] Committ tracking/planning functionality
+- [x] Basic UI Integration
+- [x] Committ tracking/planning functionality
 - [ ] Login function
 - [ ] Heirarchy of users (managers, users, etc)
 - [ ] Timetables and metrics
