@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="kanban.css">
+    <title>Task Scheduler</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            background-color: #141823; /* Dark Blue / Grey */
+            background-image: url('bgimg.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Chakra Petch', sans-serif;
+            color: #f9fbee; /* White */
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 200px;
+            background-color: #141823;
+            position: fixed;
+            height: 100%;
+            overflow: auto;
+            box-shadow: 0 0 20px #f9fbee;
+            border-right: 2px solid #f9fbee;
+            padding: 20px;
+        }
+
+        .logo {
+            width: 100%;
+            height: auto;
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #f9fbee;
+            padding: 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a.active {
+            background-color: #f9fbee;
+            color: #141823;
+        }
+
+        .sidebar a:hover:not(.active) {
+            background-color: #1d1f2a;
+            color: #f9fbee;
+        }
+
+        /* Content and queue box styling */
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: calc(100% - 220px);
+        }
+
+        .queue-box {
+            width: 22%;
+            background-color: #141823;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 15px;
+            min-height: 400px;
+            box-shadow: 0 0 20px #f9fbee;
+            border: 2px solid #f9fbee;
+            transition: transform 0.2s;
+        }
+
+        .queue-box:hover {
+            transform: scale(1.05);
+        }
+
+        .queue-box h3 {
+            text-align: center;
+            background-color: #f9fbee;
+            color: #141823;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #f9fbee;
+        }
+
+        /* Task item styling */
+        .task {
+            background-color: #1d1f2a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 15px #f9fbee;
+            border: 2px solid #f9fbee;
+            cursor: pointer;
+            color: #f9fbee;
+        }
+
+        .task:hover {
+            background-color: #2c2f3a;
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background-color: #f9fbee;
+            color: #141823;
+            padding: 20px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal .modal-header {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .modal label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .modal input, .modal select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #141823;
+        }
+
+        .modal-buttons {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            padding: 8px 16px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-buttons .save {
+            background-color: #141823;
+            color: #f9fbee;
+        }
+
+        .modal-buttons .close {
+            background-color: #f1f1f1;
+            color: #141823;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar with logo and task pool -->
+    <div class="sidebar">
+        <img src="logo.jpg" alt="Logo" class="logo">
+        <h2>Task Pool</h2>
+        <div class="task-list" id="taskPool">
+            <div class="task" draggable="true" id="task1">Catch These Vibes</div>
+            <div class="task" draggable="true" id="task2">It's Giving Main Character</div>
+            <div class="task" draggable="true" id="task3">Slay All Day</div>
+            <div class="task" draggable="true" id="task4">This Ain't It Chief</div>
+            <div class="task" draggable="true" id="task5">Certified Bussin’ Moment</div>
+        </div>
+    </div>
+
+    <!-- Main content area with queue boxes -->
+    <div class="content">
+        <div class="queue-box" id="immediate"><h3>Immediate (ASAP)</h3></div>
+        <div class="queue-box" id="one-week"><h3>1 Week</h3></div>
+        <div class="queue-box" id="two-weeks"><h3>2 Weeks</h3></div>
+        <div class="queue-box" id="one-month"><h3>1 Month</h3></div>
+    </div>
+
+    <!-- Modal for editing task details -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">Task Details</div>
+            <label for="taskName">Name:</label>
+            <input type="text" id="taskName" placeholder="Enter task name">
+            
+            <label for="dateAdded">Date Added:</label>
+            <input type="date" id="dateAdded">
+
+            <label for="dateDue">Date Due:</label>
+            <input type="date" id="dateDue">
+
+            <label for="priority">Priority:</label>
+            <select id="priority">
+                <option value="1">Immediate</option>
+                <option value="2">1 Week</option>
+                <option value="3">2 Weeks</option>
+                <option value="4">1 Month+</option>
+            </select>
+
+            <label for="attributes">Attributes:</label>
+            <input type="text" id="attributes" placeholder="Enter attributes">
+
+            <div class="modal-buttons">
+                <button class="close" onclick="closeModal()">Close</button>
+                <button class="save" onclick="saveTask()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for drag-and-drop and modal functionality
+        const modalOverlay = document.getElementById('modalOverlay');
+        const taskNameInput = document.getElementById('taskName');
+        const dateAddedInput = document.getElementById('dateAdded');
+        const dateDueInput = document.getElementById('dateDue');
+        const prioritySelect = document.getElementById('priority');
+        const attributesInput = document.getElementById('attributes');
+        let currentTask = null;
+
+        function openModal(taskElement) {
+            currentTask = taskElement;
+            taskNameInput.value = taskElement.textContent;
+            modalOverlay.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modalOverlay.style.display = 'none';
+            currentTask = null;
+        }
+
+        function saveTask() {
+            if (!currentTask) return;
+
+            currentTask.textContent = taskNameInput.value;
+
+            const priority = prioritySelect.value;
+            let targetBucket;
+
+            switch (priority) {
+                case '1':
+                    targetBucket = document.getElementById('immediate');
+                    break;
+                case '2':
+                    targetBucket = document.getElementById('one-week');
+                    break;
+                case '3':
+                    targetBucket = document.getElementById('two-weeks');
+                    break;
+                case '4':
+                    targetBucket = document.getElementById('one-month');
+                    break;
+            }
+
+            if (targetBucket) {
+                targetBucket.appendChild(currentTask);
+            }
+
+            console.log("Task saved:", {
+                name: taskNameInput.value,
+                dateAdded: dateAddedInput.value,
+                dateDue: dateDueInput.value,
+                priority: priority,
+                attributes: attributesInput.value
+            });
+
+            closeModal();
+        }
+
+        document.querySelectorAll('.task').forEach(task => {
+            task.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent drag from blocking click
+                openModal(task);
+            });
+
+            task.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.id);
+                setTimeout(() => {
+                    e.target.style.display = 'none';
+                }, 0);
+            });
+
+            task.addEventListener('dragend', (e) => {
+                e.target.style.display = 'block';
+            });
+        });
+
+        document.querySelectorAll('.queue-box, .task-list').forEach(box => {
+            box.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            box.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const id = e.dataTransfer.getData('text/plain');
+                const task = document.getElementById(id);
+                box.appendChild(task);
+                task.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
