@@ -59,7 +59,8 @@
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      alert("Signing In..");
+      alert("Signing In, click ok to continue...");
+      window.location.href = "../HomeNav/index.html";
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -67,4 +68,11 @@
       alert(errorMessage);
     });
   })
-
+// sign out button function
+const signOut = document.querySelector('#signoutbutton');
+signOut.addEventListener('click', function(event){
+  event.preventDefault();
+  auth.signOut().then(() => {
+    console.log("user signed out!")
+  })
+})
