@@ -1,0 +1,10 @@
+I1112 11:25:52.394998    1804 load.go:37] Reloading schema and connectors...
+I1112 11:25:52.409505    1804 control.go:45] [engine.Service /emulator/Clarity-1 10af] UpdateSchema(): done sources: schema/schema.gql [1384B] 
+I1112 11:25:52.417022    1804 control.go:73] [engine.Service /emulator/Clarity-1 10af] UpdateConnector(default): done sources: connector/mutations.gql [1163B] connector/queries.gql [1855B] 
+I1112 11:25:52.432341    1804 collector.go:107] schema extensions wrote into "/Users/bigldp/Desktop/Clarity/Clarity-1/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [62831B] 
+I1112 11:25:52.432481    1804 load.go:115] Finished reloading
+I1112 11:25:52.436087    1804 dev.go:95] Listening on address (HTTP + gRPC): 127.0.0.1:9399
+I1112 11:25:52.437199    1804 dev.go:95] Listening on address (HTTP + gRPC): [::1]:9399
+I1112 11:25:55.365022    1804 control.go:45] [engine.Service /emulator/Clarity-1 2d52] UpdateSchema(): done sources: schema/schema.gql [1384B] 
+I1112 11:25:55.365308    1804 control.go:73] [engine.Service /emulator/Clarity-1 2d52] UpdateConnector(default): done sources: connector/mutations.gql [1163B] connector/queries.gql [1855B] 

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="kanban.css">
+    <title>Task Scheduler with Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyAAxXs88pJUfCoeotb0C8gfTGxvltpPBz8",
+  authDomain: "clarity-295d8.firebaseapp.com",
+  databaseURL: "https://clarity-295d8-default-rtdb.firebaseio.com",
+  projectId: "clarity-295d8",
+  storageBucket: "clarity-295d8.firebasestorage.app",
+  messagingSenderId: "117186684063",
+  appId: "1:117186684063:web:a0a70113604e5c07ed2eaa"
+};
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+
+        // Initialize Realtime Database and get a reference to the service
+        const database = firebase.database(app);
+    </script>
+</head>
+<body>
+
+    <!-- Header/Navbar -->
+    <header>
+        <div class="navigationbar">
+            <div class="logo"><a href="#">C14r17y</a></div>
+            <div class="pageheadlinks">
+                <a href="#">Home</a>
+                <a href="#">Features</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="act_btn">Sign In</div>
+            <div class="toggle_button">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="dropdown">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li class="act_btn">Sign In</li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Sidebar for Task Pool with logo at the top -->
+    <div class="sidebar">
+        <img src="logo.webp" alt="Logo" class="logo">
+        <h2>Task Pool</h2>
+        <div class="task-list" id="taskPool">
+            <div class="task" draggable="true" id="task1">Catch These Vibes</div>
+            <div class="task" draggable="true" id="task2">It's Giving Main Character</div>
+            <div class="task" draggable="true" id="task3">Slay All Day</div>
+            <div class="task" draggable="true" id="task4">This Ain't It Chief</div>
+            <div class="task" draggable="true" id="task5">Certified Bussin’ Moment</div>
+        </div>
+    </div>
+
+    <!-- Modal for editing task details -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">Task Details</div>
+            <label for="taskName">Name:</label>
+            <input type="text" id="taskName" placeholder="Enter task name">
+            
+            <label for="dateAdded">Date Added:</label>
+            <input type="date" id="dateAdded">
+
+            <label for="dateDue">Date Due:</label>
+            <input type="date" id="dateDue">
+
+            <label for="priority">Priority:</label>
+            <select id="priority">
+                <option value="1">Immediate</option>
+                <option value="2">1 Week</option>
+                <option value="3">2 Weeks</option>
+                <option value="4">1 Month+</option>
+            </select>
+
+            <label for="attributes">Attributes:</label>
+            <input type="text" id="attributes" placeholder="Enter attributes">
+
+            <div class="modal-buttons">
+                <button class="close" onclick="closeModal()">Close</button>
+                <button class="save" onclick="saveTask()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content area with the queue boxes -->
+    <div class="content">
+        <div class="queue-box" id="immediate"><h3>Immediate (ASAP)</h3></div>
+        <div class="queue-box" id="one-week"><h3>1 Week</h3></div>
+        <div class="queue-box" id="two-weeks"><h3>2 Weeks</h3></div>
+        <div class="queue-box" id="one-month"><h3>1 Month</h3></div>
+    </div>
+
+    <!-- JavaScript for Navbar Dropdown Toggle -->
+    <script>
+        // JavaScript for drag-and-drop and modal functionality
+        const modalOverlay = document.getElementById('modalOverlay');
+        const taskNameInput = document.getElementById('taskName');
+        const dateAddedInput = document.getElementById('dateAdded');
+        const dateDueInput = document.getElementById('dateDue');
+        const prioritySelect = document.getElementById('priority');
+        const attributesInput = document.getElementById('attributes');
+        let currentTask = null;
+
+        function openModal(taskElement) {
+            currentTask = taskElement;
+            taskNameInput.value = taskElement.textContent;
+            modalOverlay.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modalOverlay.style.display = 'none';
+            currentTask = null;
+        }
+
+        function saveTask() {
+            if (!currentTask) return;
+
+            currentTask.textContent = taskNameInput.value;
+
+            const priority = prioritySelect.value;
+            let targetBucket;
+
+            switch (priority) {
+                case '1':
+                    targetBucket = document.getElementById('immediate');
+                    break;
+                case '2':
+                    targetBucket = document.getElementById('one-week');
+                    break;
+                case '3':
+                    targetBucket = document.getElementById('two-weeks');
+                    break;
+                case '4':
+                    targetBucket = document.getElementById('one-month');
+                    break;
+            }
+
+            if (targetBucket) {
+                targetBucket.appendChild(currentTask);
+            }
+
+            console.log("Task saved:", {
+                name: taskNameInput.value,
+                dateAdded: dateAddedInput.value,
+                dateDue: dateDueInput.value,
+                priority: priority,
+                attributes: attributesInput.value
+            });
+
+            closeModal();
+        }
+
+        document.querySelectorAll('.task').forEach(task => {
+            task.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(task);
+            });
+
+            task.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.id);
+                setTimeout(() => {
+                    e.target.style.display = 'none';
+                }, 0);
+            });
+
+            task.addEventListener('dragend', (e) => {
+                e.target.style.display = 'block';
+            });
+        });
+
+        document.querySelectorAll('.queue-box, .task-list').forEach(box => {
+            box.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            box.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const id = e.dataTransfer.getData('text/plain');
+                const task = document.getElementById(id);
+                box.appendChild(task);
+                task.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
