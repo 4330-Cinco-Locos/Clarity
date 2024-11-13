@@ -111,14 +111,14 @@ body{
     font-size: 1em;
     flex-grow: 1;
 }
-.send-message-button{
+#sendBtn{
     background-color: #141823;
     color: #f9fbee;
     font-size: 1em;
     font-weight: bold;
     margin-left: 0.625em;
 }
-.link-image-button{
+#imgBtn{
     background-color: #141823;
     color: #f9fbee;
     font-size: 1em;
