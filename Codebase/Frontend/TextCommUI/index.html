@@ -80,16 +80,34 @@
 
             function getData() // Read entries from the database
             {
+                // NOTE: there may be a way to do this without having to iterate through the whole db everytime
+                // If possible, implement this version instead, as iterating through the whole db will get very
+                // slow as the db scales up
+
+                // read through each entry in the db
+                    // if the message's senderId == userId, display it as a user message element
+                    // else display it as an other message element
 
             }
 
             function updateData() // Update an entry in the database
             {
+                // called when an edit button is clicked on an individual message
+                
+                // pull the username and timestamp to get the msgId
 
+                // push the message's text into the text box and wait for user editing
+
+                // when the user hits submit, edit the entry in the db
             }
 
             function deleteData() // Delete an entry from the database
             {
+                // called when a delete button is clicked on an individual message
+
+                // pull the username and timestamp to get the msgId
+
+                // delete the message from the db
 
             }
 
