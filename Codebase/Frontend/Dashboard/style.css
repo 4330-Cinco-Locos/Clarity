@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700;800;900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Chakra Petch', 'sans-serif'
+}
+body{
+    height: 100vh;
+    background-color: #141823;
+    background-size: cover;
+    background-position: center;
+}
+/* handles style of app's component links*/
+li{
+    list-style: none;
+
+}
+/* text of app's component links*/
+a{
+    text-decoration: none;
+    color: #f9fbee;
+    font-size: 16px;
+}
+a:hover{
+    color: goldenrod;
+}
+/* top page head*/
+header{
+    position: relative;
+    padding: 0 32px;
+}
+/*nav bar on top of page head*/
+.navigationbar{
+    width: 100%;
+    height: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navigationbar .logo a{
+    font-size: 24px;
+    font-weight: bold;
+
+}
+.navigationbar .pageheadlinks{
+    display: flex;
+    gap: 32px;
+}
+/* the bars*/
+.navigationbar .toggle_button{
+    color: #f9fbee;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+}
+/* signout/signin button*/
+.act_btn{
+    background-color: #f9fbee;
+    color: #141823;
+    padding: 8px 16px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: scale .2 ease;
+}
+.act_btn:hover{
+    scale: 1.05;
+    color: #141823;
+
+}
+.act_btn:active{
+    scale: 0.95;
+
+}
+/* dropdown bars */
+.dropdown{
+    display: none;
+    position: absolute;
+    right: 32px;
+    top: 60px;
+    height: 0;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: height .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.dropdown.open{
+    height: 240px;
+
+}
+.dropdown li{
+    padding: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* the actual button in the dropdown*/
+.dropdown .act_btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+/* welcome txt*/
+section#middlescreen{
+    height: calc(50vh - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #f9fbee;
+}
+/*responsive*/
+@media (max-width: 1920px){
+    .navigationbar .links,
+    .navigationbar .act_btn{
+        display: none;
+    }
+
+    .navigationbar .toggle_button{
+        display: block;
+    }
+    .dropdown{
+        display: block;
+    }
+}
+
+.page_display {
+    display: flex;
+}
+
+.page_display .queue-box{
+    width: 45%;
+    background-color: #141823;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 15px;
+    min-height: 400px;
+    box-shadow: 0 0 20px #f9fbee;
+    border: 2px solid #f9fbee;
+    transition: transform 0.2s;
+    flex: 1;
+}
+
+.queue-box h3 {
+    text-align: center;
+    background-color: #f9fbee;
+    color: #141823;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #f9fbee;
+}
+
+.task {
+    background-color: #1d1f2a;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 15px #f9fbee;
+    border: 2px solid #f9fbee;
+    cursor: pointer;
+    color: #f9fbee;
+}
+
+.page_display .navigation_buttons {
+    width: 45%;
+    background-color: #141823;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 15px;
+    min-height: 400px;
+    box-shadow: 0 0 20px #f9fbee;
+    border: 2px solid #f9fbee;
+    transition: transform 0.2s;
+    flex: 1;
+}
+
+.navigation_buttons h4 {
+    text-align: center;
+    background-color: #f9fbee;
+    color: #141823;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #f9fbee;
+}
+
+.nav_btn {
+    width: 95%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #1d1f2a;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 15px #f9fbee;
+    border: 2px solid #f9fbee;
+    cursor: pointer;
+    color: #f9fbee;
+}

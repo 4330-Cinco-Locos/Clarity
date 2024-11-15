@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" />
+    <title>Welcome to Clarity</title>
+</head>
+<body>
+    <header>
+        <div class="navigationbar">
+            <div class="logo"><a href="#">Clarity</a></div>
+            <ul class="pageheadlinks">
+                <li><a href="aboutclarity">About Clarity</a></li>
+                <li><a href="contact">Contact Us</a></li>
+                <li><a href="getstarted">Get Started -></a></li>
+            </ul>
+            <div class="toggle_button">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <li><a href="../HomeNav/index.html">Home</a></li>
+            <li><a href="../TextCommUI/index.html">Chatroom</a></li>
+            <li><a href="../Kanban/index.html">Kanban</a></li>
+            <li><a href="../CalendarUI/index.html">Calendar</a></li>
+            <a href="../LoginLogoutUI/index.html" class="act_btn" id="signoutbutton">Sign Out</a>
+        </div>
+    </header>
+    <main>
+
+        <div class = "page_display">
+
+        <div class="queue-box" id="immediate"><h3>Immediate Tasks</h3>
+            <div class="task" draggable="true" id="task1">Task 1</div>
+            <div class="task" draggable="true" id="task2">Task 2</div>
+            <div class="task" draggable="true" id="task3">Task 3</div>
+            <div class="task" draggable="true" id="task4">Task 4</div>
+            <div class="task" draggable="true" id="task5">Task 5</div>
+        </div>
+
+
+        <div class = "navigation_buttons"><h4>Other Pages</h4>
+            <div class="update_buttons">
+                <button class="nav_btn" onclick="window.location.herf = '../Kanban/index.html'">Kaban Board</button>
+                <button class="nav_btn" onclick="window.location.herf = '../TextCommUI/index.html'">Messaging</button>
+                <button class="nav_btn" onclick="window.location.herf = '../CalendarUI/index.html'">Calendar</button>
+            </div>
+        </div>
+
+        </div>
+
+    </main>
+    <script type="module" src="../../Backend/firebaseauth.js" defer></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
