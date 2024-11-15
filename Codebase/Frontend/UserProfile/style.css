@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700;800;900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Chakra Petch', 'sans-serif'
+}
+body{
+    height: 100vh;
+    background-color: #141823;
+    background-size: cover;
+    background-position: center;
+}
+/* handles style of app's component links*/
+li{
+    list-style: none;
+
+}
+/* text of app's component links*/
+a{
+    text-decoration: none;
+    color: #f9fbee;
+    font-size: 16px;
+}
+a:hover{
+    color: goldenrod;
+}
+/* top page head*/
+header{
+    position: relative;
+    padding: 0 32px;
+}
+/*nav bar on top of page head*/
+.navigationbar{
+    width: 100%;
+    height: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navigationbar .logo a{
+    font-size: 24px;
+    font-weight: bold;
+
+}
+.navigationbar .pageheadlinks{
+    display: flex;
+    gap: 32px;
+}
+/* the bars*/
+.navigationbar .toggle_button{
+    color: #f9fbee;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+}
+/* signout/signin button*/
+.act_btn{
+    background-color: #f9fbee;
+    color: #141823;
+    padding: 8px 16px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: scale .2 ease;
+}
+.act_btn:hover{
+    scale: 1.05;
+    color: #141823;
+
+}
+.act_btn:active{
+    scale: 0.95;
+
+}
+/* dropdown bars */
+.dropdown{
+    display: none;
+    position: absolute;
+    right: 32px;
+    top: 60px;
+    height: 0;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: height .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.dropdown.open{
+    height: 240px;
+
+}
+.dropdown li{
+    padding: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* the actual button in the dropdown*/
+.dropdown .act_btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/*responsive*/
+@media (max-width: 1920px){
+    .navigationbar .links,
+    .navigationbar .act_btn{
+        display: none;
+    }
+
+    .navigationbar .toggle_button{
+        display: block;
+    }
+    .dropdown{
+        display: block;
+    }
+}
+
+.card {
+    width: 75%;
+    background-color: #141823;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 15px;
+    min-height: 400px;
+    box-shadow: 0 0 20px #f9fbee;
+    border: 2px solid #f9fbee;
+}
+
+.card h1{
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    padding-bottom: 25px;
+    align-items: center;
+}
+
+.card .info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+.card .password_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .info table {
+    border: none;
+    font-size: 16px;
+    height: 75%;
+    width: 100%;
+    align-items: center;
+    border-collapse: collapse;
+    align-content: center;
+    padding-bottom: 100px;
+}
+
+.card .info table td {
+    color: white;
+    text-align: left;
+    padding: 0px;
+}
+
+.card .info table tr {
+    color: white;
+    padding: 0px;
+}
+
+.card .password_button button{
+    border: none;
+    font-size: 16px;
+    height: 25px;
+    width: 250px;
+    padding: 0px;
+    text-align: center;
+    margin: 10px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #f9fbee;
+    border: 2px solid #f9fbee;
+    position: relative;
+
+}
+
+/* Overlay styling */
+.update_password_overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.update_password {
+    background-color: #f9fbee;
+    color: #141823;
+    padding: 20px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.update_passowrd .overlay_header {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.update_password label {
+    display: block;
+    margin-top: 10px;
+}
+
+.update_password input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #141823;
+}
+
+.update_buttons {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.update_buttons button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.update_buttons .save {
+    background-color: #141823;
+    color: #f9fbee;
+}
+
+.update_buttons .close {
+    background-color: #f1f1f1;
+    color: #141823;
+}

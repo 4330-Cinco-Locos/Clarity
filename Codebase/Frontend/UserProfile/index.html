@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" />
+    <title>Welcome to Clarity</title>
+</head>
+<body>
+    <header>
+        <div class="navigationbar">
+            <div class="logo"><a href="#">Clarity</a></div>
+            <ul class="pageheadlinks">
+                <li><a href="aboutclarity">About Clarity</a></li>
+                <li><a href="contact">Contact Us</a></li>
+                <li><a href="getstarted">Get Started -></a></li>
+            </ul>
+            <div class="toggle_button">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <li><a href="../HomeNav/index.html">Home</a></li>
+            <li><a href="../TextCommUI/index.html">Chatroom</a></li>
+            <li><a href="../Kanban/index.html">Kanban</a></li>
+            <li><a href="../CalendarUI/index.html">Calendar</a></li>
+            <a href="../LoginLogoutUI/index.html" class="act_btn" id="signoutbutton">Sign Out</a>
+        </div>
+    </header>
+    <main>
+
+        <div class = "card">
+            <h1>User Profile</h1>
+            <div class = "info">
+                <table>
+                    <tbody>
+
+                        <tr>
+                            <td>First Name</td>
+                            <td>: </td>
+                            <td>Admin</td>
+                        </tr>
+
+                        <tr>
+                            <td>Last Name</td>
+                            <td>: </td>
+                            <td>Admin</td>
+                        </tr>
+
+                        <tr>
+                            <td>Email</td>
+                            <td>: </td>
+                            <td>Admin@admin.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class = password_button>
+                <button id="update_password_btn" onclick="openPasswordOverlay()">Change Password</button>
+            </div>
+        </div>
+
+        <div class="update_password_overlay" id="password_overlay">
+            <div class="update_password">
+
+                <div class="overlay-header">Update Password</div>
+
+                <label for="new_password">New Password:</label>
+                <input type="text" id="password1" placeholder="Enter new password">
+                
+                <label for="new_password_check">Re-enter New Password:</label>
+                <input type="text" id="password2" placeholder="Re-enter new password">
+    
+                <div class="update_buttons">
+                    <button class="close" onclick="closePasswordOverlay()">Close</button>
+                    <button class="save" onclick="saveNewPassword()">Save</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <script type="module" src="../../Backend/firebaseauth.js" defer></script>
+    <script type="module" src="script.js"></script>
+    <script>
+        function openPasswordOverlay(){
+            document.getElementById("password_overlay").style.display = "block";
+        }
+        function closePasswordOverlay(){
+            document.getElementById("password_overlay").style.display = "none"
+        }
+        function saveNewPassword(){
+            document.getElementById("password_overlay").style.display = "none"
+        }
+    </script>
+</body>
+</html>
