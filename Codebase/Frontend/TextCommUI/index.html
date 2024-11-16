@@ -14,8 +14,8 @@
             <a href="#">Jinkleheimer</a>
         </div>
 
-        <div class = "message-container">
-            <div class = "messages">
+        <div class = "message-container" id ="message-container">
+            <div class = "messages" id = "messages">
                 <div class = "other-messages message">
                     <div class = "message-sender">Other</div>
                     <div class = "message-body">Hello</div>
@@ -50,14 +50,57 @@
             const app = initializeApp(firebaseConfig);
 
             // grabbing the needed database methods
-            import {getDatabase, set, get, update, remove, ref, child} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
+            import {getDatabase, set, get, update, remove, ref, child, onValue} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
 
             // initializing variables
             const db = getDatabase();
+            const dbRef = ref(db, 'chat/');
             var text = document.getElementById("myText")  // whatever text the user has entered in the textbox
             var submitBtn = document.getElementById("sendBtn")
             var userId = "Lane" // TODO: set dynamically
             var imgUrl = "" // TODO: set dynamically
+
+            // This will read all entries from firebase and add them to the message container
+            onValue(dbRef,(snapshot) =>{
+
+                snapshot.forEach(function(childSnapshot)
+                {
+                    const childData = childSnapshot.val();
+                    const storedId = childData.senderId
+                    console.log(storedId);
+
+                    //making the main message container
+                    const newMessage = document.createElement("div");
+                    if (storedId == userId)
+                    {
+                        newMessage.classList.add("my-messages");
+                    }
+                    else newMessage.classList.add("other-messages");
+                    newMessage.classList.add("message");
+
+                    //making the message sub-elements
+                    const senderElement = document.createElement("div");
+                    senderElement.classList.add("message-sender");
+                    senderElement.textContent = storedId; //TODO: Figure out why this does not correctly display
+
+                    const bodyElement = document.createElement("div");
+                    senderElement.classList.add("message-body");
+                    senderElement.textContent = childData.body;
+
+                    const timeElement = document.createElement("div");
+                    senderElement.classList.add("time");
+                    senderElement.textContent = childData.timeStamp;
+
+                    newMessage.appendChild(senderElement, bodyElement, timeElement);
+
+                    document.getElementById("messages").appendChild(newMessage);
+                });
+            }, (errorObject) => {
+                console.log('The read failed: '+ errorObject.name)
+            });
+
+
+
 
             //CRUD methods
             function sendData() // Create a new entry on the database
