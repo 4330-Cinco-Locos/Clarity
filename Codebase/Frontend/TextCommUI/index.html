@@ -16,16 +16,7 @@
 
         <div class = "message-container" id ="message-container">
             <div class = "messages" id = "messages">
-                <div class = "other-messages message">
-                    <div class = "message-sender">Other</div>
-                    <div class = "message-body">Hello</div>
-                    <div class = "time">10:29 PM</div>
-                </div>
-                <div class = "my-messages message">
-                    <div class = "message-sender">Me</div>
-                    <div class = "message-body">Hello</div>
-                    <div class = "time">10:29 PM</div>
-                </div>
+            </div>
             </div>
             <form class = "user-input-form">
                 <input type="text" class="my-input" id="myText" placeholder="My Message..."/>
@@ -67,31 +58,35 @@
                 {
                     const childData = childSnapshot.val();
                     const storedId = childData.senderId
-                    console.log(storedId);
 
                     //making the main message container
                     const newMessage = document.createElement("div");
-                    if (storedId == userId)
+                    if (storedId.localeCompare(userId) == 0)
                     {
                         newMessage.classList.add("my-messages");
                     }
-                    else newMessage.classList.add("other-messages");
+                    else 
+                    {
+                        newMessage.classList.add("other-messages");
+                    }
                     newMessage.classList.add("message");
 
                     //making the message sub-elements
                     const senderElement = document.createElement("div");
                     senderElement.classList.add("message-sender");
-                    senderElement.textContent = storedId; //TODO: Figure out why this does not correctly display
+                    senderElement.textContent = childData.senderId; //TODO: Figure out why this does not correctly display
 
                     const bodyElement = document.createElement("div");
-                    senderElement.classList.add("message-body");
-                    senderElement.textContent = childData.body;
+                    bodyElement.classList.add("message-body");
+                    bodyElement.textContent = childData.body;
 
                     const timeElement = document.createElement("div");
-                    senderElement.classList.add("time");
-                    senderElement.textContent = childData.timeStamp;
+                    timeElement.classList.add("time");
+                    timeElement.textContent = childData.timeStamp.toString();
 
-                    newMessage.appendChild(senderElement, bodyElement, timeElement);
+                    newMessage.appendChild(senderElement);
+                    newMessage.appendChild(bodyElement);
+                    newMessage.appendChild(timeElement);
 
                     document.getElementById("messages").appendChild(newMessage);
                 });
@@ -110,7 +105,7 @@
             set(ref(db, "chat/"+msgId), {
                 senderId: userId,
                 body: text.value, //have to grab the values IN the element, not the element itself
-                imageUrl: imgUrl.value,
+                imageUrl: imgUrl, //this will also need a .value once it is properly implemented
                 timeStamp: time
             })
             .then(()=>{
@@ -121,6 +116,7 @@
             })
             }
 
+            // this might need to be deleted later as it doesn't really have much of a use? //
             function getData() // Read entries from the database
             {
                 // NOTE: there may be a way to do this without having to iterate through the whole db everytime
