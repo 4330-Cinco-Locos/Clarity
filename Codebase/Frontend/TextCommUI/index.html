@@ -110,7 +110,7 @@
             set(ref(db, "chat/"+msgId), {
                 senderId: userId,
                 body: text.value, //have to grab the values IN the element, not the element itself
-                imageUrl: imgUrl,
+                imageUrl: imgUrl.value,
                 timeStamp: time
             })
             .then(()=>{
@@ -155,7 +155,7 @@
             }
 
             //event listeners
-            submitBtn.addEventListener('click', sendData());
+            submitBtn.addEventListener('click', function(){sendData();}, false); //sendData() has to be wrapped this way to prevent it from activating on page load
         </script>
     </body>
     <footer>
