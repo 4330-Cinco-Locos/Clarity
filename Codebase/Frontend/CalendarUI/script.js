@@ -1,6 +1,3 @@
-import firebase from "firebase/compat/app";
-import "firebase/firestore";
-
 const firebaseConfig = {
   apiKey: "AIzaSyAAxXs88pJUfCoeotb0C8gfTGxvltpPBz8",
   authDomain: "clarity-295d8.firebaseapp.com",
@@ -18,13 +15,11 @@ const db = firebase.firestore();
 // Main function to work with FullCalendar
 function fullCalendarMain() {
   // Get event data from Firestore (example code from Google)
-  /*
-  db.collection("users").get().then((querySnapshot) => { 
+  db.collection("eventDB").get().then((querySnapshot) => { 
     querySnapshot.forEach((doc) => { 
       console.log(`${doc.id} => ${doc.data()}`); 
     });
   });
-  */
   
   // Find HTML calendar element
   var calendarEl = document.getElementById('calendar');
