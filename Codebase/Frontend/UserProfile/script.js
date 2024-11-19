@@ -41,13 +41,15 @@ saveBtn.addEventListener('click', function(){
         //show pupup for a sucessfully updated password
         document.getElementById("sucessful").style.display = "block";
 
+        document.getElementById('password1').value = '';
+        document.getElementById('password2').value = '';
         
 
     }
     else{
         //show pupup for a sucessfully updated password
         document.getElementById("missmatched").style.display = "block";
-    
+        
         
 
     }
@@ -71,4 +73,6 @@ updatePasswordBtn.addEventListener('click', function(){
 //close the update password display
 closeBtn.addEventListener('click', function(){
     document.getElementById("password_overlay").style.display = "none";
+    document.getElementById('password1').value = '';
+    document.getElementById('password2').value = '';
 });
