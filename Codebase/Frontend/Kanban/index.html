@@ -11,7 +11,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getDatabase, set, ref, push, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAAxXs88pJUfCoeotb0C8gfTGxvltpPBz8",
@@ -24,80 +27,203 @@
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
 
-        // Initialize Realtime Database
-        const database = firebase.database();
+        let currentTask = null;
+        const taskNameInput = document.getElementById('taskName');
+        const attributesInput = document.getElementById('attributes');
+        const dateDueInput = document.getElementById('dateDue');
+        const prioritySelect = document.getElementById('priority');
+        const modalOverlay = document.getElementById('modalOverlay');
 
-        // Function to save event to Firebase
-        function saveEventToDatabase(eventData) {
-            const eventRef = database.ref('eventdb').push();
-            eventRef.set(eventData)
-                .then(() => console.log("Event saved to database."))
-                .catch((error) => console.error("Error saving event:", error));
+        // Open and close modal
+        function openModal(taskElement) {
+            currentTask = taskElement;
+            taskNameInput.value = taskElement.textContent;
+            modalOverlay.style.display = 'flex';
         }
 
-        // Function to retrieve events from Firebase
-        function getEventsFromDatabase() {
-            database.ref('eventdb').once('value')
-                .then(snapshot => {
-                    const events = snapshot.val();
-                    if (events) {
-                        Object.values(events).forEach(event => {
-                            displayEvent(event);
-                        });
-                    }
-                    console.log("Events retrieved from database.");
-                })
-                .catch(error => console.error("Error retrieving events:", error));
+        function closeModal() {
+            modalOverlay.style.display = 'none';
+            currentTask = null;
         }
 
-        // Function to check if data should be fetched on load
-        function fetchEventsOnLoad() {
-            const lastFetchTime = localStorage.getItem('lastFetchTime');
-            const currentTime = new Date().getTime();
-            const oneHour = 60 * 60 * 1000;
+        function saveTask() {
+            if (!currentTask) return;
 
-            // If no fetch has been done or if it’s been over an hour, fetch data
-            if (!lastFetchTime || currentTime - lastFetchTime > oneHour) {
-                getEventsFromDatabase();
-                localStorage.setItem('lastFetchTime', currentTime);
+            currentTask.textContent = taskNameInput.value;
+
+            const priority = prioritySelect.value;
+            let targetBucket;
+
+            switch (priority) {
+                case '1':
+                    targetBucket = document.getElementById('immediate');
+                    break;
+                case '2':
+                    targetBucket = document.getElementById('one-week');
+                    break;
+                case '3':
+                    targetBucket = document.getElementById('two-weeks');
+                    break;
+                case '4':
+                    targetBucket = document.getElementById('one-month');
+                    break;
             }
-        }
 
-        // Function to display event in the task list
-        function displayEvent(event) {
-            const taskPool = document.getElementById('taskPool');
-            const taskDiv = document.createElement('div');
-            taskDiv.className = 'task';
-            taskDiv.draggable = true;
-            taskDiv.textContent = event.name;
-            taskDiv.dataset.dateAdded = event.dateAdded;
-            taskDiv.dataset.dateDue = event.dateDue;
-            taskDiv.dataset.priority = event.priority;
-            taskDiv.dataset.attributes = event.attributes;
-            taskPool.appendChild(taskDiv);
+            if (targetBucket) {
+                targetBucket.appendChild(currentTask);
+            }
 
-            // Add event listeners for modal and drag functionality
-            taskDiv.addEventListener('click', (e) => {
-                e.preventDefault();
-                openModal(taskDiv);
+            console.log("Task saved:", {
+                name: taskNameInput.value,
+                dateAdded: new Date().toISOString(),
+                dateDue: dateDueInput.value,
+                priority: priority,
+                attributes: attributesInput.value
             });
 
-            taskDiv.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', e.target.id);
+            closeModal();
+        }
+
+        document.querySelectorAll('.task').forEach(task => {
+            task.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(task);
+            });
+
+            task.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.getAttribute('data-id'));
                 setTimeout(() => {
                     e.target.style.display = 'none';
                 }, 0);
             });
 
-            taskDiv.addEventListener('dragend', (e) => {
+            task.addEventListener('dragend', (e) => {
                 e.target.style.display = 'block';
+            });
+        });
+
+        document.querySelectorAll('.queue-box, .task-list').forEach(box => {
+            box.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            box.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const id = e.dataTransfer.getData('text/plain');
+                const task = document.querySelector(`[data-id='${id}']`);
+                if (!task) {
+                    console.error('Task not found:', id);
+                    return;
+                }
+                box.appendChild(task);
+                task.style.display = 'block';
+
+                // Update priority based on the target bucket
+                let updatedPriority;
+                if (box.id === 'immediate') {
+                    updatedPriority = 1;
+                } else if (box.id === 'one-week') {
+                    updatedPriority = 2;
+                } else if (box.id === 'two-weeks') {
+                    updatedPriority = 3;
+                } else if (box.id === 'one-month') {
+                    updatedPriority = 4;
+                }
+
+                if (updatedPriority) {
+                    // Update priority in Firebase
+                    const taskTitle = task.textContent.split(' (Priority:')[0].trim();
+                    const dbRef = ref(db, 'eventDB/');
+                    onValue(dbRef, (snapshot) => {
+                        snapshot.forEach((childSnapshot) => {
+                            const childData = childSnapshot.val();
+                            if (childData.title === taskTitle) {
+                                set(ref(db, `eventDB/${childSnapshot.key}`), {
+                                    ...childData,
+                                    priority: updatedPriority
+                                });
+                            }
+                        });
+                    }, { onlyOnce: true });
+                }
+            });
+        });
+
+        // Save event to Firebase
+        function saveEvent() {
+            const title = taskNameInput.value.trim();
+            const attributes = attributesInput.value.trim();
+            const start = dateDueInput.value + 'T09:00:00';
+            const end = dateDueInput.value + 'T17:00:00';
+            const priority = parseInt(prioritySelect.value);
+            const dateAdded = new Date().toISOString();
+
+            // Validation
+            if (!title) {
+                alert("Task title is required.");
+                return;
+            }
+            if (!priority || isNaN(priority)) {
+                alert("Please select a valid priority.");
+                return;
+            }
+            if (!start) {
+                alert("Please select a due date.");
+                return;
+            }
+
+            const eventData = {
+                title,
+                attributes,
+                dateAdded,
+                start,
+                end,
+                priority
+            };
+
+            // Save to Firebase
+            const eventRef = push(ref(db, 'eventDB/'));
+            set(eventRef, eventData)
+                .then(() => {
+                    console.log("Event saved successfully.");
+                    closeModal();
+                    addEventToPool(eventData); // Add event to task pool
+                })
+                .catch((error) => {
+                    console.error("Error saving event:", error);
+                });
+        }
+
+        // Add event to the task pool
+        function addEventToPool(event) {
+            const taskPool = document.getElementById('taskPool');
+            const taskDiv = document.createElement('div');
+            taskDiv.className = 'task';
+            taskDiv.textContent = `${event.title} (Priority: ${event.priority})`;
+            taskDiv.setAttribute('data-id', event.title + '-' + new Date().getTime());
+            taskDiv.draggable = true;
+            taskPool.appendChild(taskDiv);
+        }
+
+        // Real-time listener for events
+        function loadEvents() {
+            const dbRef = ref(db, "eventDB/");
+            onValue(dbRef, (snapshot) => {
+                const taskPool = document.getElementById('taskPool');
+                taskPool.innerHTML = ""; // Clear existing tasks
+
+                snapshot.forEach((childSnapshot) => {
+                    const childData = childSnapshot.val();
+                    addEventToPool(childData);
+                });
             });
         }
 
-        // Run fetchEventsOnLoad when page loads
-        window.addEventListener('load', fetchEventsOnLoad);
+        // Load events on page load
+        document.addEventListener("DOMContentLoaded", loadEvents);
     </script>
 </head>
 <body>
@@ -130,36 +256,35 @@
     <div class="sidebar">
         <img src="logo.webp" alt="Logo" class="logo">
         <h2>Task Pool</h2>
+        <button class="create-event-btn" onclick="openModal()">Create Event</button>
         <div class="task-list" id="taskPool"></div>
     </div>
 
-    <!-- Modal for editing task details -->
-    <div class="modal-overlay" id="modalOverlay">
+    <!-- Modal for creating a new event -->
+    <div class="modal-overlay" id="modalOverlay" style="display: none;">
         <div class="modal">
-            <div class="modal-header">Task Details</div>
+            <div class="modal-header">Create New Event</div>
             <label for="taskName">Name:</label>
-            <input type="text" id="taskName" placeholder="Enter task name">
-            
-            <label for="dateAdded">Date Added:</label>
-            <input type="date" id="dateAdded">
+            <input type="text" id="taskName" placeholder="Enter task name"><br>
 
-            <label for="dateDue">Date Due:</label>
-            <input type="date" id="dateDue">
+            <label for="attributes">Attributes:</label>
+            <input type="text" id="attributes" placeholder="Enter attributes"><br>
+
+            <label for="dateDue">Due Date:</label>
+            <input type="date" id="dateDue"><br>
 
             <label for="priority">Priority:</label>
             <select id="priority">
+                <option value="">Select priority</option>
                 <option value="1">Immediate</option>
                 <option value="2">1 Week</option>
                 <option value="3">2 Weeks</option>
                 <option value="4">1 Month+</option>
-            </select>
-
-            <label for="attributes">Attributes:</label>
-            <input type="text" id="attributes" placeholder="Enter attributes">
+            </select><br>
 
             <div class="modal-buttons">
-                <button class="close" onclick="closeModal()">Close</button>
-                <button class="save" onclick="saveTask()">Save</button>
+                <button onclick="closeModal()">Cancel</button>
+                <button onclick="saveEvent()">Save</button>
             </div>
         </div>
     </div>
@@ -171,11 +296,5 @@
         <div class="queue-box" id="two-weeks"><h3>2 Weeks</h3></div>
         <div class="queue-box" id="one-month"><h3>1 Month</h3></div>
     </div>
-
-    <!-- JavaScript for Navbar Dropdown Toggle -->
-    <script>
-        // JavaScript for modal and saving functionality is similar as in the previous code
-        // Function to save task to database, open modal, close modal, etc.
-    </script>
 </body>
 </html>
