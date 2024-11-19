@@ -7,23 +7,27 @@
         <link rel = "stylesheet" href = "style.css" />
     </head>
     <body>
-        <div class ="active-users">
-            <h1>Active Users:</h1>
-            <a href="#">John</a>
-            <a href="#">Jacob</a>
-            <a href="#">Jinkleheimer</a>
+        <!--This is the Topnav Container-->
+        <div class = "topnav">
+            <a href = "../HomeNav/index.html">Home</a>
+            <a href = "../UserProfile/index.html">Profile</a>
+            <a href = "../LoginLogoutUI/index.html">Login</a>
+            <a href = "../Kanban/index.html">Kanban</a>
+            <a href = "../CalendarUI/index.html">Calendar</a>
+            <a class = "active" href = "../TextCommUI/index.html">Chat</a>
         </div>
 
-        <div class = "message-container" id ="message-container">
-            <div class = "messages" id = "messages">
-            </div>
-            </div>
-            <form class = "user-input-form">
-                <input type="text" class="my-input" id="myText" placeholder="My Message..."/>
-                <button type="submit" class="button" id="sendBtn">Send</button>
-                <button class="button" id="imgBtn">+</button>
-            </form>
+        <!--This is the Sidenav Container-->
+        <div>
+
         </div>
+
+        <!--This is the Message Container-->
+        <div>
+
+        </div>
+
+        <!--All The JS functions for the messages-->
         <script type = "module">
             import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 
