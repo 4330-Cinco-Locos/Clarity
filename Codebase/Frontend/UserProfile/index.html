@@ -17,7 +17,7 @@
             <ul class="pageheadlinks">
                 <li><a href="aboutclarity">About Clarity</a></li>
                 <li><a href="contact">Contact Us</a></li>
-                <li><a href="getstarted">Get Started -></a></li>
+                <li><a href="../Dashboard/index.html">Get Started -></a></li>
             </ul>
             <div class="toggle_button">
                 <i class="fa-solid fa-bars"></i>
@@ -29,6 +29,7 @@
             <li><a href="../TextCommUI/index.html">Chatroom</a></li>
             <li><a href="../Kanban/index.html">Kanban</a></li>
             <li><a href="../CalendarUI/index.html">Calendar</a></li>
+            <li><a href="../UserProfile">Profile</a></li>
             <a href="../LoginLogoutUI/index.html" class="act_btn" id="signoutbutton">Sign Out</a>
         </div>
     </header>
@@ -61,7 +62,7 @@
                 </table>
             </div>
             <div class = password_button>
-                <button id="update_password_btn" onclick="openPasswordOverlay()">Change Password</button>
+                <button class = "passwdbtn" id="update_password_btn">Change Password</button>
             </div>
         </div>
 
@@ -77,25 +78,14 @@
                 <input type="text" id="password2" placeholder="Re-enter new password">
     
                 <div class="update_buttons">
-                    <button class="close" onclick="closePasswordOverlay()">Close</button>
-                    <button class="save" onclick="saveNewPassword()">Save</button>
+                    <button class="close">Close</button>
+                    <button class="save">Save</button>
                 </div>
             </div>
         </div>
 
     </main>
-    <script type="module" src="../../Backend/firebaseauth.js" defer></script>
     <script type="module" src="script.js"></script>
-    <script>
-        function openPasswordOverlay(){
-            document.getElementById("password_overlay").style.display = "block";
-        }
-        function closePasswordOverlay(){
-            document.getElementById("password_overlay").style.display = "none"
-        }
-        function saveNewPassword(){
-            document.getElementById("password_overlay").style.display = "none"
-        }
-    </script>
+    
 </body>
 </html>
