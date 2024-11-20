@@ -9,10 +9,10 @@
     <body>
         <!-- Top Navigation Bar -->
         <div class="top-nav">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Contact</a>
+            <a href="../Dashboard/index.html">Home</a>
+            <a href="../Kanban/index.html">Kanban</a>
+            <a href="../CalendarUI/index.html">Calendar</a>
+            <a class = "active" href="#">Chat</a>
         </div>
 
         <div class="main-container">
@@ -37,7 +37,7 @@
             <button class="file-button" onclick="document.getElementById('file-input').click();">+</button>
     
             <!-- Hidden file input -->
-            <input type="file" id="file-input" class="file-input" onchange="handleFileSelect(event)" />
+            <input type="file" id="file-input" class="file-input"/>
         </div>
         <script src = "script.js" type="module"></script>
     </body>

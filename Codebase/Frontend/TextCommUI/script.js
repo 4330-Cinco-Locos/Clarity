@@ -117,7 +117,7 @@ function deleteData() // Delete an entry from the database
 }
 
 // file button stuff
-const fileBtn = document.getElementById('file-input');
+const fileInput = document.getElementById('file-input');
 function handleFileSelect(event) {
     const file = event.target.files[0];
     if (file) {
@@ -131,3 +131,5 @@ textField.addEventListener('keydown', function(event) {
         sendData();
     }
 });
+
+fileInput.addEventListener('change', function(){handleFileSelect(event)});

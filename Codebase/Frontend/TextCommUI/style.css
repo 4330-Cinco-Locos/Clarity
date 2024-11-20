@@ -14,7 +14,7 @@ body {
 
 /* Top navigation bar */
 .top-nav {
-  background-color: #333;
+  background-color: #394047;
   color: white;
   display: flex;
   justify-content: flex-start; /* Align items to the left */
@@ -31,7 +31,14 @@ body {
 }
 
 .top-nav a:hover {
-  background-color: #575757;
+  background-color: #879193;
+}
+
+.top-nav a.active {
+  background-color: #879193;
+  text-decoration: none;
+  padding: 14px 16px;
+  margin-right: 15px; /* Optional: space between items */
 }
 
 /* Main container with side navigation */
@@ -42,7 +49,7 @@ body {
 
 /* Side navigation bar */
 .side-nav {
-  background-color: #333;
+  background-color: #394047;
   width: 150px;
   padding-top: 20px;
   position: fixed;
@@ -63,7 +70,7 @@ body {
 }
 
 .side-nav a:hover {
-  background-color: #575757;
+  background-color: #879193;
 }
 
 /* Content area */
@@ -95,7 +102,7 @@ body {
   display: flex;
   align-items: center;
   padding: 10px;
-  background-color: white;
+  background-color: #394047;
 }
 
 .text-entry {
@@ -111,7 +118,7 @@ body {
 .file-button {
   margin-left: 10px;
   padding: 10px 15px;
-  background-color: #4CAF50;
+  background-color: #e6af2e;
   color: white;
   border: none;
   border-radius: 5px;
@@ -119,7 +126,7 @@ body {
 }
 
 .file-button:hover {
-  background-color: #45a049;
+  filter: brightness(0.7);
 }
 
 /* Hidden file input */
@@ -135,12 +142,12 @@ body {
   margin: 10px 0;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #8da7be;
 }
 
 .myMessage
 {
-  background-color: #333;
+  background-color: #cde6f5;
 }
 
 /* Sender styling */
