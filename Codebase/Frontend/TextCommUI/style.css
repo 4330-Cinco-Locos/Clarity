@@ -43,7 +43,7 @@ body {
 /* Side navigation bar */
 .side-nav {
   background-color: #333;
-  width: 250px;
+  width: 150px;
   padding-top: 20px;
   position: fixed;
   top: 45px;
@@ -68,7 +68,7 @@ body {
 
 /* Content area */
 .content {
-  margin-left: 250px;
+  margin-left: 150px;
   padding: 20px;
   width: 100%;
   height: calc(100vh - 50px - 50px); /* Full height minus top navigation */
@@ -90,8 +90,8 @@ body {
 .text-entry-container {
   position: fixed;
   bottom: 0;
-  left: 250px; /* Align with the side navigation bar */
-  width: calc(100% - 250px); /* Full width minus side navigation width */
+  left: 150px; /* Align with the side navigation bar */
+  width: calc(100% - 150px); /* Full width minus side navigation width */
   display: flex;
   align-items: center;
   padding: 10px;
