@@ -154,14 +154,14 @@ body {
 .sender {
   font-weight: bold;
   font-size: 1.1em;
-  color: #333;
+  color: #394047;
 }
 
 /* Body (message content) styling */
 .body {
   margin-top: 5px;
   font-size: 1em;
-  color: #555;
+  color: #394047;
   line-height: 1.4;
 }
 
@@ -169,6 +169,6 @@ body {
 .time {
   margin-top: 10px;
   font-size: 0.9em;
-  color: #888;
+  color: #394047;
   text-align: right;  /* Align time to the right */
 }
