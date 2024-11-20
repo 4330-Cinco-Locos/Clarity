@@ -1,4 +1,4 @@
-
+import {getDatabase, set, get, update, remove, ref, child, onValue} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 
 const firebaseConfig = {
@@ -14,14 +14,10 @@ appId: "1:117186684063:web:a0a70113604e5c07ed2eaa"
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// grabbing the needed database methods
-import {getDatabase, set, get, update, remove, ref, child, onValue} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
-
 // initializing variables
 const db = getDatabase();
 const dbRef = ref(db, 'chat/');
-var text = document.getElementById("myText")  // whatever text the user has entered in the textbox
-var submitBtn = document.getElementById("sendBtn")
+const textField = document.getElementById("myText")  // whatever text the user has entered in the textbox
 var userId = "Lane" // TODO: set dynamically
 var imgUrl = "" // TODO: set dynamically
 
@@ -37,21 +33,17 @@ onValue(dbRef,(snapshot) =>{
         const newMessage = document.createElement("div");
         if (storedId.localeCompare(userId) == 0)
         {
-            newMessage.classList.add("my-messages");
-        }
-        else 
-        {
-            newMessage.classList.add("other-messages");
+            newMessage.classList.add("myMessage");
         }
         newMessage.classList.add("message");
 
         //making the message sub-elements
         const senderElement = document.createElement("div");
-        senderElement.classList.add("message-sender");
-        senderElement.textContent = childData.senderId; //TODO: Figure out why this does not correctly display
+        senderElement.classList.add("sender");
+        senderElement.textContent = childData.senderId;
 
         const bodyElement = document.createElement("div");
-        bodyElement.classList.add("message-body");
+        bodyElement.classList.add("body");
         bodyElement.textContent = childData.body;
 
         const timeElement = document.createElement("div");
@@ -62,7 +54,7 @@ onValue(dbRef,(snapshot) =>{
         newMessage.appendChild(bodyElement);
         newMessage.appendChild(timeElement);
 
-        document.getElementById("messages").appendChild(newMessage);
+        document.getElementById("content").appendChild(newMessage);
     });
 }, (errorObject) => {
     console.log('The read failed: '+ errorObject.name)
@@ -78,7 +70,7 @@ var time = new Date().toUTCString();
 var msgId = userId+time;
 set(ref(db, "chat/"+msgId), {
     senderId: userId,
-    body: text.value, //have to grab the values IN the element, not the element itself
+    body: textField.value, //have to grab the values IN the element, not the element itself
     imageUrl: imgUrl, //this will also need a .value once it is properly implemented
     timeStamp: time
 })
@@ -124,5 +116,18 @@ function deleteData() // Delete an entry from the database
 
 }
 
+// file button stuff
+const fileBtn = document.getElementById('file-input');
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+        alert('File selected: ' + file.name);
+    }
+}
+
 //event listeners
-submitBtn.addEventListener('click', function(){sendData();}, false); //sendData() has to be wrapped this way to prevent it from activating on page load
+textField.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        sendData();
+    }
+});

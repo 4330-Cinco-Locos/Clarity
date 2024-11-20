@@ -16,19 +16,18 @@ body {
 .top-nav {
   background-color: #333;
   color: white;
-  padding: 14px 16px;
   display: flex;
+  justify-content: flex-start; /* Align items to the left */
   align-items: center;
-  position: fixed;
   width: 100%;
-  height: 5%;
 }
 
+/* Topnav items */
 .top-nav a {
   color: white;
-  display: block;
   text-decoration: none;
   padding: 14px 16px;
+  margin-right: 15px; /* Optional: space between items */
 }
 
 .top-nav a:hover {
@@ -45,8 +44,9 @@ body {
 .side-nav {
   background-color: #333;
   width: 250px;
+  padding-top: 20px;
   position: fixed;
-  top: 5%;
+  top: 45px;
   bottom: 0;
   left: 0;
   display: flex;
@@ -71,9 +71,9 @@ body {
   margin-left: 250px;
   padding: 20px;
   width: 100%;
-  height: calc(100vh - 50px); /* Full height minus top navigation */
+  height: calc(100vh - 50px - 50px); /* Full height minus top navigation */
   overflow-y: scroll; /* Enable vertical scrolling */
-  scrollbar-width: thin; /* For Firefox: make the scrollbar thinner */
+  scrollbar-width: none; /* For Firefox: hide scrollbar */
 }
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
@@ -81,20 +81,87 @@ body {
   display: none;
 }
 
-/* Optional: For Firefox and modern browsers, hide scrollbar visually */
-.content::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+/* Sample content */
+.content h1 {
+  margin-top: 0;
 }
 
-.text-entry {
+/* Fixed bottom text entry field */
+.text-entry-container {
   position: fixed;
   bottom: 0;
   left: 250px; /* Align with the side navigation bar */
   width: calc(100% - 250px); /* Full width minus side navigation width */
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+}
+
+.text-entry {
+  flex-grow: 1;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
+}
+
+/* File input button */
+.file-button {
+  margin-left: 10px;
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file-button:hover {
+  background-color: #45a049;
+}
+
+/* Hidden file input */
+.file-input {
+  display: none;
+}
+
+/* Message container */
+.message {
+  display: flex;
+  flex-direction: column;  /* Stack the elements vertically */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.myMessage
+{
+  background-color: #333;
+}
+
+/* Sender styling */
+.sender {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #333;
+}
+
+/* Body (message content) styling */
+.body {
+  margin-top: 5px;
+  font-size: 1em;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* Time styling */
+.time {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #888;
+  text-align: right;  /* Align time to the right */
 }

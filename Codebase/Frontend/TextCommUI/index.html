@@ -26,11 +26,20 @@
             </div>
 
             <!-- Message Content Area -->
-            <div class="content">
-                <input type="text" class="text-entry" placeholder="Enter your text here..." />
+            <div class="content" id = "content">
             </div>
         </div>
-        <script src = "script.js"></script>
+
+        <div class="text-entry-container">
+            <input type="text" class="text-entry" id="myText" placeholder="Enter your text here..." />
+            
+            <!-- Button to trigger file input -->
+            <button class="file-button" onclick="document.getElementById('file-input').click();">+</button>
+    
+            <!-- Hidden file input -->
+            <input type="file" id="file-input" class="file-input" onchange="handleFileSelect(event)" />
+        </div>
+        <script src = "script.js" type="module"></script>
     </body>
     <footer>
 
