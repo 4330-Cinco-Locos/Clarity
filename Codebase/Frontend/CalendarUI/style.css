@@ -5,13 +5,3 @@ html, body {
   font-size: 14px;
   background: #3a414b;
 }
-  
-#calendar {
-  max-width: 60%;
-  margin: 0.5% auto;
-  background: #ffffff;
-  box-shadow: 0 0 50px #ffffff;
-  border-radius: 3%;
-  padding: 1.5%;
-  overflow: hidden;
-}
