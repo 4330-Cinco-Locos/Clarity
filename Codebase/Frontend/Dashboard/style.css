@@ -11,7 +11,39 @@ body{
     background-color: #141823;
     background-size: cover;
     background-position: center;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
+/* Top navigation bar */
+.top-nav {
+    background-color: #394047;
+    color: white;
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Topnav items */
+  .top-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 16px;
+    margin-right: 15px; /* Optional: space between items */
+  }
+  
+  .top-nav a:hover {
+    background-color: #879193;
+  }
+  
+  .top-nav a.active {
+    background-color: #879193;
+    text-decoration: none;
+    padding: 14px 16px;
+    margin-right: 15px; /* Optional: space between items */
+  }
 /* handles style of app's component links*/
 li{
     list-style: none;
@@ -136,6 +168,9 @@ section#middlescreen{
 
 .page_display {
     display: flex;
+    height: 100%;
+    padding-top: 20px;
+    top: 45px;
 }
 
 .page_display .queue-box{

@@ -140,14 +140,14 @@ body {
   flex-direction: column;  /* Stack the elements vertically */
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ddd;
+  border: 1px solid white;
   border-radius: 8px;
-  background-color: #8da7be;
+  background-color: white;
 }
 
 .myMessage
 {
-  background-color: #cde6f5;
+  background-color: white;
 }
 
 /* Sender styling */
