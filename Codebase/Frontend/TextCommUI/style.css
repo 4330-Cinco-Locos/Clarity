@@ -14,7 +14,7 @@ body {
 
 /* Top navigation bar */
 .top-nav {
-  background-color: #394047;
+  background-color: #141823;
   color: white;
   display: flex;
   justify-content: flex-start; /* Align items to the left */
@@ -49,7 +49,7 @@ body {
 
 /* Side navigation bar */
 .side-nav {
-  background-color: #394047;
+  background-color: #141823;
   width: 150px;
   padding-top: 20px;
   position: fixed;
@@ -81,6 +81,7 @@ body {
   height: calc(100vh - 50px - 50px); /* Full height minus top navigation */
   overflow-y: scroll; /* Enable vertical scrolling */
   scrollbar-width: none; /* For Firefox: hide scrollbar */
+  background:  #394047;
 }
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
@@ -97,12 +98,12 @@ body {
 .text-entry-container {
   position: fixed;
   bottom: 0;
-  left: 150px; /* Align with the side navigation bar */
-  width: calc(100% - 150px); /* Full width minus side navigation width */
+  left: 140px; /* Align with the side navigation bar */
+  width: calc(100% - 140px); /* Full width minus side navigation width */
   display: flex;
   align-items: center;
   padding: 10px;
-  background-color: #394047;
+  background-color: #141823;
 }
 
 .text-entry {
@@ -140,28 +141,28 @@ body {
   flex-direction: column;  /* Stack the elements vertically */
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid white;
+  border: 1px solid  #394047;
   border-radius: 8px;
-  background-color: white;
+  background-color:  #394047;
 }
 
 .myMessage
 {
-  background-color: white;
+  background-color:  #394047;
 }
 
 /* Sender styling */
 .sender {
   font-weight: bold;
   font-size: 1.1em;
-  color: #394047;
+  color: white;
 }
 
 /* Body (message content) styling */
 .body {
   margin-top: 5px;
   font-size: 1em;
-  color: #394047;
+  color: white;
   line-height: 1.4;
 }
 
@@ -169,6 +170,6 @@ body {
 .time {
   margin-top: 10px;
   font-size: 0.9em;
-  color: #394047;
+  color: white;
   text-align: right;  /* Align time to the right */
 }
