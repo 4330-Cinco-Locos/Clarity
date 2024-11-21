@@ -1,5 +1,23 @@
 console.log("script.js is running");
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+// grabbing the needed database methods
+import {getAuth, updatePassword, onAuthStateChanged} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAAxXs88pJUfCoeotb0C8gfTGxvltpPBz8",
+    authDomain: "clarity-295d8.firebaseapp.com",
+    databaseURL: "https://clarity-295d8-default-rtdb.firebaseio.com",
+    projectId: "clarity-295d8",
+    appId: "1:117186684063:web:a0a70113604e5c07ed2eaa"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+
+const auth = getAuth();
 
 const toggleBtn = document.querySelector('.toggle_button');
 const toggleBtnIco = document.querySelector('.toggle_button i');
@@ -24,33 +42,50 @@ toggleBtn.addEventListener('click', function() {
     toggleBtnIco.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
 });
 
+function getAdditionalUserInfo(){
+
+    const user = auth.currentUser;
+
+    document.getElementById("name").innerHTML = "admin"; //profile.name
+    document.getElementById("ID").innterHTML = "123456789"; //profile.uid
+    document.getElementById("email").innerHTML = "admin@gmail.com"; //profile.email
+
+    user.providerData.forEach((profile) => {
+        document.getElementById("name").innerHTML = "admin"; //profile.name
+        docuumet.getElementById("ID").innterHTML = "123456789"; //profile.uid
+        document.getElementById("email").innerHTML = "admin@gmail.com"; //profile.email
+    })
+}
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        getAdditionalUserInfo();
+    }
+    else{
+        console.log("No user is signed in");
+    }
+})
+
 //update user's password when the 'save' button is selected
 saveBtn.addEventListener('click', function(){
 
     if (newPassword.value == newPasswordCheck.value ){
+        
+        updatePassword(user, newPassword.value).then(() => {
+            //show pupup for a sucessfully updated password
+            document.getElementById("sucessful").style.display = "block";
 
-        /*
-        updatePassword(user, newPassword).then(() => {
-            // Update successful.
+            document.getElementById('password1').value = '';
+            document.getElementById('password2').value = '';
         }).catch((error) => {
             // An error ocurred
             // ...
         });
-        */
-
-        //show pupup for a sucessfully updated password
-        document.getElementById("sucessful").style.display = "block";
-
-        document.getElementById('password1').value = '';
-        document.getElementById('password2').value = '';
-        
 
     }
     else{
-        //show pupup for a sucessfully updated password
+        //show pupup for a missmathced passwords
         document.getElementById("missmatched").style.display = "block";
-        
-        
 
     }
 
