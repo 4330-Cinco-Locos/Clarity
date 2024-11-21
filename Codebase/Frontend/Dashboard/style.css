@@ -180,7 +180,6 @@ section#middlescreen{
     margin: 10px;
     border-radius: 15px;
     min-height: 400px;
-    box-shadow: 0 0 20px #f9fbee;
     border: 2px solid #f9fbee;
     transition: transform 0.2s;
     flex: 1;
@@ -192,7 +191,6 @@ section#middlescreen{
     color: #141823;
     padding: 10px;
     border-radius: 10px;
-    box-shadow: 0 0 15px #f9fbee;
 }
 
 .task {
@@ -200,7 +198,6 @@ section#middlescreen{
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
-    box-shadow: 0 0 15px #f9fbee;
     border: 2px solid #f9fbee;
     cursor: pointer;
     color: #f9fbee;
@@ -213,7 +210,6 @@ section#middlescreen{
     margin: 10px;
     border-radius: 15px;
     min-height: 400px;
-    box-shadow: 0 0 20px #f9fbee;
     border: 2px solid #f9fbee;
     transition: transform 0.2s;
     flex: 1;
@@ -225,7 +221,6 @@ section#middlescreen{
     color: #141823;
     padding: 10px;
     border-radius: 10px;
-    box-shadow: 0 0 15px #f9fbee;
 }
 
 .nav_btn {
@@ -236,7 +231,6 @@ section#middlescreen{
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;
-    box-shadow: 0 0 15px #f9fbee;
     border: 2px solid #f9fbee;
     cursor: pointer;
     color: #f9fbee;
