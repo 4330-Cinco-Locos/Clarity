@@ -71,12 +71,14 @@ saveBtn.addEventListener('click', function(){
 
     if (newPassword.value == newPasswordCheck.value ){
         
-        updatePassword(user, newPassword.value).then(() => {
-            //show pupup for a sucessfully updated password
-            document.getElementById("sucessful").style.display = "block";
+        //show pupup for a sucessfully updated password
+        document.getElementById("sucessful").style.display = "block";
 
-            document.getElementById('password1').value = '';
-            document.getElementById('password2').value = '';
+        document.getElementById('password1').value = '';
+        document.getElementById('password2').value = '';    
+
+        updatePassword(user, newPassword.value).then(() => {
+            
         }).catch((error) => {
             // An error ocurred
             // ...
