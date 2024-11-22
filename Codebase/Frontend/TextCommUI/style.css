@@ -141,13 +141,8 @@ body {
   flex-direction: column;  /* Stack the elements vertically */
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid  #394047;
-  border-radius: 8px;
-  background-color:  #394047;
-}
-
-.myMessage
-{
+  border-bottom: 1px solid  #464e56;
+  border-radius: 0px;
   background-color:  #394047;
 }
 

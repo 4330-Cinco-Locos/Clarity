@@ -31,10 +31,6 @@ onValue(dbRef,(snapshot) =>{
 
         //making the main message container
         const newMessage = document.createElement("div");
-        if (storedId.localeCompare(userId) == 0)
-        {
-            newMessage.classList.add("myMessage");
-        }
         newMessage.classList.add("message");
 
         //making the message sub-elements
