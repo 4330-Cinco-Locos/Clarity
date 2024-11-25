@@ -18,59 +18,52 @@ function parseJSON(input) {
   console.log(input); // Debug
   var events = new Array();
   for (var key in input) {
-    events.push(input[key]);
+    events.push({title : (input[key])["title"], start : (input[key])["start"], end : (input[key])["end"]});
   }
   return events;
 }
 
 ;(async () => { // IIFE used in order to use await at the top level
   const JSON_data = await getJSON(); // Await response before storing JSON data
-  const event_data = parseJSON(JSON_data); // Parse JSON data for events
+  var event_data = parseJSON(JSON_data); // Parse JSON data for events
   console.log(event_data); // Debug
 
-  // Event listener for activating the FullCalendar library upon page load
-  document.addEventListener('DOMContentLoaded', function() {
-    // Find HTML calendar element
-    var calendarEl = document.getElementById('calendar');
-    
-    // Instance new calendar object
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      editable: true,
-      dayMaxEvents: true,
-      navLinks: true,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      footerToolbar: {
-        center: 'addTaskButton',
-      },
-      customButtons: {
-        addTaskButton: {
-          text: 'Add a new task...',
-          click: function() {
-            var dateStr = prompt('Enter a date in the format of YYYY-MM-DD');
-            var date = new Date(dateStr + 'T00:00:00') // Using JS Date object
+  var calendarEl = document.getElementById('calendar'); // Get 'calendar; object from page
 
-            if (!isNaN(date.valueOf())) { // Check for valid date before adding
-              calendar.addEvent({ // addEvent() works locally, it doesn't add to the DB (TODO: fix this)
-                title: 'Demo Task (Dynamic)',
-                start: date,
-                allDay: true
-              });
-              alert('Task added!');
-            } else {
-              alert('Invalid date.');
-            }
+  var calendar = new FullCalendar.Calendar(calendarEl, { // Instance new calendar object
+    initialView: 'dayGridMonth',
+    editable: true,
+    dayMaxEvents: true,
+    navLinks: true,
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    footerToolbar: {
+      center: 'addTaskButton',
+    },
+    customButtons: {
+      addTaskButton: {
+        text: 'Add a new task...',
+        click: function() {
+          var dateStr = prompt('Enter a date in the format of YYYY-MM-DD');
+          var date = new Date(dateStr + 'T00:00:00') // Using JS Date object
+
+          if (!isNaN(date.valueOf())) { // Check for valid date before adding
+            calendar.addEvent({ // addEvent() works locally, it doesn't add to the DB (TODO: fix this)
+              title: 'Demo Task (Dynamic)',
+              start: date,
+              allDay: true
+            });
+            alert('Task added!');
+          } else {
+            alert('Invalid date.');
           }
         }
-      },
-      events: event_data
-    });
-    
-    calendar.render(); // Display the calendar on the page
+      }
+    },
+    events: event_data
   });
-
+  calendar.render(); // Display the calendar on the page
 })();
