@@ -14,8 +14,8 @@ async function getJSON() {
 }
 
 // Parse JSON into an array of Calendar events
-function parseJSON(input) {
-  console.log(input); // Debug
+function parseJSON(input) { // TODO: Add optional fields to the parser + some error checking
+  //console.log(input); // For debugging purposes, disable before release
   var events = new Array();
   for (var key in input) {
     events.push({title : (input[key])["title"], start : (input[key])["start"], end : (input[key])["end"]});
@@ -26,9 +26,9 @@ function parseJSON(input) {
 ;(async () => { // IIFE used in order to use await at the top level
   const JSON_data = await getJSON(); // Await response before storing JSON data
   var event_data = parseJSON(JSON_data); // Parse JSON data for events
-  console.log(event_data); // Debug
+  //console.log(event_data); // For debugging purposes, disable before release
 
-  var calendarEl = document.getElementById('calendar'); // Get 'calendar; object from page
+  var calendarEl = document.getElementById('calendar'); // Get 'calendar' object from page
 
   var calendar = new FullCalendar.Calendar(calendarEl, { // Instance new calendar object
     initialView: 'dayGridMonth',
@@ -46,12 +46,12 @@ function parseJSON(input) {
     customButtons: {
       addTaskButton: {
         text: 'Add a new task...',
-        click: function() {
+        click: function() { // TODO: Make a prompt with multiple forms for adding new events
           var dateStr = prompt('Enter a date in the format of YYYY-MM-DD');
           var date = new Date(dateStr + 'T00:00:00') // Using JS Date object
 
           if (!isNaN(date.valueOf())) { // Check for valid date before adding
-            calendar.addEvent({ // addEvent() works locally, it doesn't add to the DB (TODO: fix this)
+            calendar.addEvent({ // TODO: Make addEvent() add to the DB as well as the calendar
               title: 'Demo Task (Dynamic)',
               start: date,
               allDay: true
