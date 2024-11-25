@@ -6,6 +6,10 @@
 
 /* Body and main layout */
 body {
+  height: 100vh;
+  background-color: #141823;
+  background-size: cover;
+  background-position: center;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
