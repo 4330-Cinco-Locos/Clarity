@@ -124,7 +124,9 @@ body {
   background-color: #fff;
 }
 
-/* File input button */
+/* The file input method is currently non-functioning and may be scrapped */
+/* as such these css elements have been commented out */
+/* File input button
 .file-button {
   margin-left: 10px;
   padding: 10px 15px;
@@ -137,12 +139,12 @@ body {
 
 .file-button:hover {
   filter: brightness(0.7);
-}
+}*/
 
-/* Hidden file input */
+/* Hidden file input
 .file-input {
   display: none;
-}
+}*/
 
 /* Message container */
 .message {
