@@ -12,14 +12,42 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 const dbRef = ref(db, 'chat/');
 const textField = document.getElementById("myText");  // whatever text the user has entered in the textbox
-var userId = "loggedOut"; // TODO: set dynamically
-var imgUrl = ""; // TODO: set dynamically
+var userId = "";
+var imgUrl = ""; // TODO: set dynamically, pull from user var
 
 // this is the setter method for the userId var
 onAuthStateChanged(auth, (user) => {
     if (user) {
-      // User is signed in
-      userId = user.uid;
+        // User is signed in
+        //console.log("[DEBUG] user is signed in!\nGrabbing identification details");
+        //console.log("[DEBUG] checking for displayName value")
+        if (user.displayName != null) 
+            {
+                userId = user.displayName;
+                //console.log("[DEBUG] userId set: "+userId);
+                return;
+            }
+        //console.log("[DEBUG] displayName not found, checking for email value.\n");
+        if (user.email != null) 
+            {
+                // you cant send an entry to firebase containing a '.' so, we have to break this string
+                // so that we can send messages, sense the userId is part of msgId
+                const tmp = user.email;
+                const idx = tmp.indexOf("@");
+                if (idx !== -1) {
+                    const substring = tmp.substring(0, idx);
+                    userId = substring;
+                }
+                //console.log("[DEBUG] userId set: "+userId);
+                return;
+            }
+        //console.log("[DEBUG] email not found, checking for uid value.\n");
+        if (user.uid != null) 
+            {
+                userId = user.uid;
+                //console.log("[DEBUG] userId set: "+userId);
+                return;
+            }   
     }
     else
     {
@@ -27,12 +55,9 @@ onAuthStateChanged(auth, (user) => {
     }
   });
   
-
-
 // This will read all entries from firebase and add them to the message container
-onValue(dbRef,(snapshot) =>{
-    if(userId != "loggedOut")
-    {
+    onValue(dbRef,(snapshot) =>{
+        if(userId == "") alert("Only Logged In users may view messages!\n[DEBUG]: current userID: "+userId);;
         snapshot.forEach(function(childSnapshot)
         {
             const childData = childSnapshot.val();
@@ -61,11 +86,9 @@ onValue(dbRef,(snapshot) =>{
 
             document.getElementById("content").appendChild(newMessage);
         });
-    }
-    else{console.log("Users who are not logged in may not view messages!\n");}
-}, (errorObject) => {
-    console.log('The read failed: '+ errorObject.name)
-});
+    }, (errorObject) => {
+        console.log('The read failed: '+ errorObject.name)
+    });
 
 
 
@@ -73,7 +96,7 @@ onValue(dbRef,(snapshot) =>{
 //CRUD methods
 function sendData() // Create a new entry on the database
 {
-    if(userId != "loggedOut")
+    if(userId != "")
     {
         var time = new Date().toUTCString();
         var msgId = userId+time;
@@ -140,6 +163,7 @@ function handleFileSelect(event) {
 
 //event listeners
 textField.addEventListener('keydown', function(event) {
+    if(userId == "") alert("Only Logged In users may view messages!\n[DEBUG]: current userID: "+userId);;
     if (event.key === 'Enter') {
         sendData();
         textField.value = "";
