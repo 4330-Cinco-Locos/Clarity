@@ -7,7 +7,7 @@
 /* Body and main layout */
 body {
   height: 100vh;
-  background-color: #141823;
+  background-color:  #394047;
   background-size: cover;
   background-position: center;
   font-family: Arial, sans-serif;
@@ -63,7 +63,7 @@ body {
   width: 150px;
   padding-top: 0px;
   position: fixed;
-  top: 50px;
+  top: 47px;
   bottom: 0;
   left: 0;
   display: flex;
@@ -91,7 +91,7 @@ body {
   height: calc(100vh - 50px - 50px); /* Full height minus top navigation */
   overflow-y: scroll; /* Enable vertical scrolling */
   scrollbar-width: none; /* For Firefox: hide scrollbar */
-  background:  #394047;
+  background:   #394047;
 }
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
@@ -99,22 +99,18 @@ body {
   display: none;
 }
 
-/* Sample content */
-.content h1 {
-  margin-top: 0;
-}
-
 /* Fixed bottom text entry field */
 .text-entry-container {
   position: fixed;
   bottom: 0;
-  left: 140px; /* Align with the side navigation bar */
+  left: 150px; /* Align with the side navigation bar */
   width: calc(100% - 140px); /* Full width minus side navigation width */
   display: flex;
   align-items: center;
   padding: 10px;
   padding-right: 20px;
-  background-color: #141823;
+  padding-top: 0px;
+  background-color:  #394047;
 }
 
 .text-entry {
@@ -153,8 +149,9 @@ body {
   display: flex;
   flex-direction: column;  /* Stack the elements vertically */
   padding: 10px;
+  width: 1400px;
   margin: 10px 0;
-  border-bottom: 1px solid  #464e56;
+  border-bottom: 2px solid  #464e56;
   border-radius: 0px;
   background-color:  #394047;
 }
