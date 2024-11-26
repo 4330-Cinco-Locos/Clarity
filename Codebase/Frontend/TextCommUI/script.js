@@ -12,7 +12,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 const dbRef = ref(db, 'chat/');
 const textField = document.getElementById("myText");  // whatever text the user has entered in the textbox
-var userId = "";
+var userId = null;
 var imgUrl = ""; // TODO: set dynamically, pull from user var
 
 // this is the setter method for the userId var
@@ -54,15 +54,30 @@ onAuthStateChanged(auth, (user) => {
         alert("Only Logged in users may view and send messages\n")
     }
   });
-  
+
+function clear_msg_container()
+{
+    const msg_container = document.getElementById("content");
+
+    // Check if the parent element has any children
+    while (msg_container.firstChild) {
+    // Remove the first child
+    msg_container.removeChild(msg_container.firstChild);
+    }
+}
+
 // This will read all entries from firebase and add them to the message container
-    onValue(dbRef,(snapshot) =>{
-        if(userId == "") alert("Only Logged In users may view messages!\n[DEBUG]: current userID: "+userId);;
+onValue(dbRef,(snapshot) =>{
+    // remove the old elements
+    clear_msg_container();
+
+    // add the updated elements
+    if(userId != null)
+    {
+        //console.log("[DEBUG] current user: "+userId);
         snapshot.forEach(function(childSnapshot)
         {
             const childData = childSnapshot.val();
-            const storedId = childData.senderId
-
             //making the main message container
             const newMessage = document.createElement("div");
             newMessage.classList.add("message");
@@ -86,12 +101,11 @@ onAuthStateChanged(auth, (user) => {
 
             document.getElementById("content").appendChild(newMessage);
         });
-    }, (errorObject) => {
-        console.log('The read failed: '+ errorObject.name)
-    });
-
-
-
+    }
+    else alert("Only Logged In Users may view messages!\n");
+}, (errorObject) => {
+    console.log('The read failed: '+ errorObject.name)
+});
 
 //CRUD methods
 function sendData() // Create a new entry on the database
@@ -163,10 +177,13 @@ function handleFileSelect(event) {
 
 //event listeners
 textField.addEventListener('keydown', function(event) {
-    if(userId == "") alert("Only Logged In users may view messages!\n[DEBUG]: current userID: "+userId);;
     if (event.key === 'Enter') {
+        if(userId == null) alert("Only Logged In users may view messages!\n[DEBUG]: current userID: "+userId);
+        else
+        {
         sendData();
         textField.value = "";
+        }
     }
 });
 
