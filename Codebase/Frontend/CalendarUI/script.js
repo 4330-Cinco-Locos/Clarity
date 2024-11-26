@@ -17,8 +17,11 @@ async function getJSON() {
 function parseJSON(input) { // TODO: Add optional fields to the parser + some error checking
   //console.log(input); // For debugging purposes, disable before release
   var events = new Array();
-  for (var key in input) {
-    events.push({title : (input[key])["title"], start : (input[key])["start"], end : (input[key])["end"]});
+  for (var key in input) { events.push({
+    title : (input[key])["title"],
+    start : (input[key])["start"],
+    end : (input[key])["end"],
+    description : (input[key])["attribute"]});
   }
   return events;
 }
@@ -31,6 +34,7 @@ function parseJSON(input) { // TODO: Add optional fields to the parser + some er
   var calendarEl = document.getElementById('calendar'); // Get 'calendar' object from page
 
   var calendar = new FullCalendar.Calendar(calendarEl, { // Instance new calendar object
+    themeSystem: 'bootstrap5',
     initialView: 'dayGridMonth',
     editable: true,
     dayMaxEvents: true,
@@ -63,7 +67,15 @@ function parseJSON(input) { // TODO: Add optional fields to the parser + some er
         }
       }
     },
-    events: event_data
+    eventDidMount: function (info) { // On hover, have an event show a pop-up w/ description
+      var tooltip = new bootstrap.Tooltip(info.el, {
+        title: info.event.extendedProps.description,
+        placement: 'top',
+        trigger: 'hover',
+        container: 'body'
+      });
+    },
+    events: event_data // Use event_data array
   });
   calendar.render(); // Display the calendar on the page
 })();
