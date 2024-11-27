@@ -152,7 +152,9 @@ onValue(chanRef, (snapshot) =>
     const Label = document.createElement("p");
     Label.textContent = "Channel List:"
     sideNav.appendChild(Label);
-    
+
+    const buttons = document.createElement("div");
+    buttons.id = "Channel_Buttons";
     
     if (userId != null)
     {
@@ -160,14 +162,23 @@ onValue(chanRef, (snapshot) =>
         {
             const childData = childSnapshot.val();
             const channelBtn = document.createElement("button");
+            channelBtn.classList.add("channel-selector")
             channelBtn.textContent = childData.name;
-            sideNav.appendChild(channelBtn);
+            if(childData.name == "General") channelBtn.classList.add("active");
+
+            buttons.appendChild(channelBtn);
 
             channelBtn.addEventListener('click', function(){
-                alert("changing channel to "+childData.name)
+                const parent = document.getElementById("Channel_Buttons");
+                for (let child of parent.children)
+                {
+                    child.classList.remove("active") // if it doesnt have the class it just ignores it
+                }
+                channelBtn.classList.add("active");
                 changeChannel(childData.name);
             })
         });
+        sideNav.appendChild(buttons)
     }
 })
 

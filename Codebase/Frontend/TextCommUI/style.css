@@ -90,6 +90,18 @@ body {
   text-align: left;
 }
 
+.side-nav button.active {
+  background-color: #879193;
+  border-radius: 0px;
+  border: none;
+  color: white;
+  padding: 15px 10px;
+  text-decoration: none;
+  width: 100%;
+  text-align: left;
+}
+
+
 .side-nav button:hover {
   background-color: #879193;
 }
