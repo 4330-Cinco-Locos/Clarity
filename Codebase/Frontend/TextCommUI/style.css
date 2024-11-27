@@ -18,7 +18,7 @@ body {
 
 /* Top navigation bar */
 .top-nav {
-  padding-left: 15px;
+  padding-left: 0px;
   background-color: #141823;
   color: white;
   display: flex;
@@ -147,7 +147,7 @@ body {
 /* Message container */
 .message {
   display: flex;
-  flex-direction: column;  /* Stack the elements vertically */
+  flex-direction: row;  /* Stack the elements vertically */
   padding: 10px;
   width: 1400px;
   margin: 10px 0;
@@ -158,8 +158,9 @@ body {
 
 /* Sender styling */
 .sender {
+  width: 50px;
   font-weight: bold;
-  font-size: 1.1em;
+  font-size: 1.em;
   color: white;
 }
 
@@ -174,10 +175,16 @@ body {
 /* Time styling */
 .time {
   margin-top: 10px;
-  font-size: 0.9em;
+  font-size: 0.8em;
   color: white;
-  text-align: right;  /* Align time to the right */
+  text-align: left;  /* Align time to the right */
 }
-.img{
+
+.profile-picture{
+  flex-direction: row;
+  height: 50px;
+  width: 50px;
   float: left;
+  margin-right: 10px;
+  border-radius: 50%;
 }
