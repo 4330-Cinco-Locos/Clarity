@@ -13,22 +13,22 @@ const db = getDatabase();
 const dbRef = ref(db, 'chat/');
 const textField = document.getElementById("myText");  // whatever text the user has entered in the textbox
 var userId = null;
-var imgUrl = ""; // TODO: set dynamically, pull from user var
+var pfpElementSrc = null;
+
+function isString(variable){
+    return typeof variable === "string";
+}
 
 // this is the setter method for the userId var
 onAuthStateChanged(auth, (user) => {
-    if (user) {
-        // User is signed in
-        //console.log("[DEBUG] user is signed in!\nGrabbing identification details");
-        //console.log("[DEBUG] checking for displayName value")
+    if (user) { //is signed in
+        console.log("[DEBUG] user is signed in\n");
+        // getting username
         if (user.displayName != null) 
             {
                 userId = user.displayName;
-                //console.log("[DEBUG] userId set: "+userId);
-                return;
             }
-        //console.log("[DEBUG] displayName not found, checking for email value.\n");
-        if (user.email != null) 
+        else if (user.email != null) 
             {
                 // you cant send an entry to firebase containing a '.' so, we have to break this string
                 // so that we can send messages, sense the userId is part of msgId
@@ -38,16 +38,21 @@ onAuthStateChanged(auth, (user) => {
                     const substring = tmp.substring(0, idx);
                     userId = substring;
                 }
-                //console.log("[DEBUG] userId set: "+userId);
-                return;
             }
-        //console.log("[DEBUG] email not found, checking for uid value.\n");
-        if (user.uid != null) 
+        else if (user.uid != null) 
             {
                 userId = user.uid;
-                //console.log("[DEBUG] userId set: "+userId);
-                return;
-            }   
+            }
+        // getting pfp
+        const profilePicture = user.photoURL;
+        console.log("[DEBUG] Profile Picture URL: "+profilePicture);
+        if (profilePicture != null) pfpElementSrc = profilePicture;
+        else
+        {
+            console.log("ERROR: User has no profile picture. Using default profile picture")
+            // TODO: set pfpElementSrc to be the default
+            pfpElementSrc = "./default.jpg"; //this does not function
+        }
     }
     else
     {
@@ -55,50 +60,65 @@ onAuthStateChanged(auth, (user) => {
     }
   });
 
-function clear_msg_container()
+// clears an element with id div_name of all child elements
+// div_name must be a string type
+function clear_container(div_name)
 {
-    const msg_container = document.getElementById("content");
+    if (isString(div_name))
+    {
+        const msg_container = document.getElementById(div_name);
 
-    // Check if the parent element has any children
-    while (msg_container.firstChild) {
-    // Remove the first child
-    msg_container.removeChild(msg_container.firstChild);
+        // Check if the parent element has any children
+        while (msg_container.firstChild) {
+        // Remove the first child
+        msg_container.removeChild(msg_container.firstChild);
+        }
     }
+    else console.log("ERROR: clear_container was passsed an invalid parameter ["+div_name+"]\n");
 }
 
 // This will read all entries from firebase and add them to the message container
 onValue(dbRef,(snapshot) =>{
-    // remove the old elements
-    clear_msg_container();
-
-    // add the updated elements
+    clear_container("content");
     if(userId != null)
     {
         //console.log("[DEBUG] current user: "+userId);
         snapshot.forEach(function(childSnapshot)
         {
             const childData = childSnapshot.val();
-            //making the main message container
-            const newMessage = document.createElement("div");
+
+            //the main message container
+            const newMessage = document.createElement("p");
             newMessage.classList.add("message");
 
-            //making the message sub-elements
-            const senderElement = document.createElement("div");
+            //making the message text-elements
+            const textElements = document.createElement("div");
+            textElements.classList.add("textElements");
+
+            const senderElement = document.createElement("p");
             senderElement.classList.add("sender");
             senderElement.textContent = childData.senderId;
 
-            const bodyElement = document.createElement("div");
+            const bodyElement = document.createElement("p");
             bodyElement.classList.add("body");
             bodyElement.textContent = childData.body;
 
-            const timeElement = document.createElement("div");
+            const timeElement = document.createElement("p");
             timeElement.classList.add("time");
             timeElement.textContent = childData.timeStamp.toString();
 
-            newMessage.appendChild(senderElement);
-            newMessage.appendChild(bodyElement);
-            newMessage.appendChild(timeElement);
+            textElements.appendChild(senderElement);
+            textElements.appendChild(bodyElement);
+            textElements.appendChild(timeElement);
 
+            //making the image element
+            const imgElement = document.createElement("img");
+            imgElement.classList.add("profile-picture")
+            imgElement.src = childData.imageUrl;
+            imgElement.alt = "image"
+
+            newMessage.appendChild(imgElement);
+            newMessage.appendChild(textElements);
             document.getElementById("content").appendChild(newMessage);
         });
     }
@@ -107,17 +127,54 @@ onValue(dbRef,(snapshot) =>{
     console.log('The read failed: '+ errorObject.name)
 });
 
+// This will read all the entries from the 'active-users' section of the database and place them in the sidenav appropriately
+const userRef = ref(db, 'active-users/');
+onValue(userRef, (snapshot) =>
+{
+    const container = document.getElementById("active-users-list");
+    clear_container("active-users-list");
+
+    // adding back the header element
+    const labelElement = document.createElement("a");
+    // might add class def, but for now it doesn't need one
+    labelElement.textContent = "Active Users:";
+    container.appendChild(labelElement);
+
+    snapshot.forEach(function(childSnapshot)
+    {
+        const childData = childSnapshot.val();
+
+        const nameField = document.createElement("div"); // making an element to display a user's name
+        nameField.classList.add("name");
+        if (childData.displayName != null) nameField.textContent = childData.displayName;
+        else if(childData.email != null) nameField.textContent = childData.email;
+        else if(childData.uid != null) nameField.textContent = childData.uid;
+
+        /* not yet implemented
+        const imgField = document.createElement("img"); // making an element to store a user's pfp
+        imgField.classList.add("pfp");
+        if (childData.pfp != null) imgField.src = childData.pfp;
+        else imgField.src = default;
+        */
+
+        const userLabel = document.createElement("a");
+        userLabel.appendChild(nameField);
+        //userLabel.appendChild(imgField);
+    });
+})
+
 //CRUD methods
 function sendData() // Create a new entry on the database
 {
-    if(userId != "")
+    if(userId != null)
     {
+        console.log("[DEBUG] pfp source url: "+pfpElementSrc);
         var time = new Date().toUTCString();
         var msgId = userId+time;
         set(ref(db, "chat/"+msgId), {
             senderId: userId,
             body: textField.value, //have to grab the values IN the element, not the element itself
-            imageUrl: imgUrl, //this will also need a .value once it is properly implemented
+            imageUrl: pfpElementSrc,
             timeStamp: time
         })
         .catch((error)=>{
