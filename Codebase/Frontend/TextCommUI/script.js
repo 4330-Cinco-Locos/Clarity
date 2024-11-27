@@ -1,4 +1,4 @@
-import {getDatabase, set, get, update, remove, ref, child, onValue} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
+import { getDatabase, set, get, update, remove, ref, child, onValue } from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { auth } from "../../Backend/firebaseauth.js" 
@@ -11,9 +11,12 @@ const app = initializeApp(firebaseConfig);
 // initializing variables
 const db = getDatabase();
 const dbRef = ref(db, 'chat/');
+const chanRef = ref(db, 'channels/');
 const textField = document.getElementById("myText");  // whatever text the user has entered in the textbox
 var userId = null;
 var pfpElementSrc = null;
+var channel = "General";
+const valid_channels = ["General", "UI-Development", "Backend-Development"]
 
 function isString(variable){
     return typeof variable === "string";
@@ -22,7 +25,6 @@ function isString(variable){
 // this is the setter method for the userId var
 onAuthStateChanged(auth, (user) => {
     if (user) { //is signed in
-        console.log("[DEBUG] user is signed in\n");
         // getting username
         if (user.displayName != null) 
             {
@@ -45,7 +47,6 @@ onAuthStateChanged(auth, (user) => {
             }
         // getting pfp
         const profilePicture = user.photoURL;
-        console.log("[DEBUG] Profile Picture URL: "+profilePicture);
         if (profilePicture != null) pfpElementSrc = profilePicture;
         else
         {
@@ -86,40 +87,42 @@ onValue(dbRef,(snapshot) =>{
         snapshot.forEach(function(childSnapshot)
         {
             const childData = childSnapshot.val();
+            if (childData.channel == channel)
+            {
+                //the main message container
+                const newMessage = document.createElement("p");
+                newMessage.classList.add("message");
 
-            //the main message container
-            const newMessage = document.createElement("p");
-            newMessage.classList.add("message");
+                //making the message text-elements
+                const textElements = document.createElement("div");
+                textElements.classList.add("textElements");
 
-            //making the message text-elements
-            const textElements = document.createElement("div");
-            textElements.classList.add("textElements");
+                const senderElement = document.createElement("p");
+                senderElement.classList.add("sender");
+                senderElement.textContent = childData.senderId;
 
-            const senderElement = document.createElement("p");
-            senderElement.classList.add("sender");
-            senderElement.textContent = childData.senderId;
+                const bodyElement = document.createElement("p");
+                bodyElement.classList.add("body");
+                bodyElement.textContent = childData.body;
 
-            const bodyElement = document.createElement("p");
-            bodyElement.classList.add("body");
-            bodyElement.textContent = childData.body;
+                const timeElement = document.createElement("p");
+                timeElement.classList.add("time");
+                timeElement.textContent = childData.timeStamp.toString();
 
-            const timeElement = document.createElement("p");
-            timeElement.classList.add("time");
-            timeElement.textContent = childData.timeStamp.toString();
+                textElements.appendChild(senderElement);
+                textElements.appendChild(bodyElement);
+                textElements.appendChild(timeElement);
 
-            textElements.appendChild(senderElement);
-            textElements.appendChild(bodyElement);
-            textElements.appendChild(timeElement);
+                //making the image element
+                const imgElement = document.createElement("img");
+                imgElement.classList.add("profile-picture")
+                imgElement.src = childData.imageUrl;
+                imgElement.alt = "image"
 
-            //making the image element
-            const imgElement = document.createElement("img");
-            imgElement.classList.add("profile-picture")
-            imgElement.src = childData.imageUrl;
-            imgElement.alt = "image"
-
-            newMessage.appendChild(imgElement);
-            newMessage.appendChild(textElements);
-            document.getElementById("content").appendChild(newMessage);
+                newMessage.appendChild(imgElement);
+                newMessage.appendChild(textElements);
+                document.getElementById("content").appendChild(newMessage);
+            }
         });
     }
     else alert("Only Logged In Users may view messages!\n");
@@ -127,40 +130,45 @@ onValue(dbRef,(snapshot) =>{
     console.log('The read failed: '+ errorObject.name)
 });
 
-// This will read all the entries from the 'active-users' section of the database and place them in the sidenav appropriately
-const userRef = ref(db, 'active-users/');
-onValue(userRef, (snapshot) =>
+function changeChannel(newChannel)
 {
-    const container = document.getElementById("active-users-list");
-    clear_container("active-users-list");
+    const refreshChatRef = ref(db, "chat/refresher");
+    channel = newChannel;
+    // Temporarily modify the data, just to trigger the listener
+    set(refreshChatRef, {refresh: true})
+    .then(() => {
+        // Optionally reset data after a short delay
+      setTimeout(() => set(refreshChatRef, {}), 1000); // Clear after 1 second
+    })
+    .catch((error) => console.error("Error triggering listener:", error));
+}
 
-    // adding back the header element
-    const labelElement = document.createElement("a");
-    // might add class def, but for now it doesn't need one
-    labelElement.textContent = "Active Users:";
-    container.appendChild(labelElement);
 
-    snapshot.forEach(function(childSnapshot)
+// This will read all the entries from the valid-channels section & place them in the sidenav appropriately
+onValue(chanRef, (snapshot) =>
+{
+    const sideNav = document.getElementById("channels-list");
+    clear_container("channels-list")
+    const Label = document.createElement("p");
+    Label.textContent = "Channel List:"
+    sideNav.appendChild(Label);
+    
+    
+    if (userId != null)
     {
-        const childData = childSnapshot.val();
+        snapshot.forEach(function(childSnapshot)
+        {
+            const childData = childSnapshot.val();
+            const channelBtn = document.createElement("button");
+            channelBtn.textContent = childData.name;
+            sideNav.appendChild(channelBtn);
 
-        const nameField = document.createElement("div"); // making an element to display a user's name
-        nameField.classList.add("name");
-        if (childData.displayName != null) nameField.textContent = childData.displayName;
-        else if(childData.email != null) nameField.textContent = childData.email;
-        else if(childData.uid != null) nameField.textContent = childData.uid;
-
-        /* not yet implemented
-        const imgField = document.createElement("img"); // making an element to store a user's pfp
-        imgField.classList.add("pfp");
-        if (childData.pfp != null) imgField.src = childData.pfp;
-        else imgField.src = default;
-        */
-
-        const userLabel = document.createElement("a");
-        userLabel.appendChild(nameField);
-        //userLabel.appendChild(imgField);
-    });
+            channelBtn.addEventListener('click', function(){
+                alert("changing channel to "+childData.name)
+                changeChannel(childData.name);
+            })
+        });
+    }
 })
 
 //CRUD methods
@@ -168,13 +176,13 @@ function sendData() // Create a new entry on the database
 {
     if(userId != null)
     {
-        console.log("[DEBUG] pfp source url: "+pfpElementSrc);
         var time = new Date().toUTCString();
         var msgId = userId+time;
         set(ref(db, "chat/"+msgId), {
             senderId: userId,
             body: textField.value, //have to grab the values IN the element, not the element itself
             imageUrl: pfpElementSrc,
+            channel: channel,
             timeStamp: time
         })
         .catch((error)=>{
