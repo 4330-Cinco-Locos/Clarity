@@ -71,15 +71,26 @@ body {
   align-items: flex-start;
 }
 
-.side-nav a {
+.side-nav p {
   color: white;
-  padding: 15px 20px;
+  padding-top: 10px;
+  padding-left: 10px;
+  text-decoration: underline;
+  width: 100%;
+  text-align: left;
+}
+
+.side-nav button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  padding: 15px 10px;
   text-decoration: none;
   width: 100%;
   text-align: left;
 }
 
-.side-nav a:hover {
+.side-nav button:hover {
   background-color: #879193;
 }
 
