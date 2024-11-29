@@ -1,6 +1,6 @@
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
   import { firebaseConfig } from "./apiKey.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -21,6 +21,7 @@
         // input fields
         const email = document.getElementById('create-email').value;
         const password = document.getElementById('create-password').value;
+        const username = document.getElementById('create-username').value;
   
         // email pattern
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,6 +36,9 @@
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             const user = userCredential.user;
+            updateProfile(user, {
+              displayName: username,
+            })
             alert("Creating Account..");
           })
           .catch((error) => {

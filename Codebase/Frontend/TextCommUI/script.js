@@ -1,5 +1,6 @@
 import {getDatabase, set, get, update, remove, ref, child, onValue} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { onAuthStateChanged, auth } from "../../Backend/firebaseauth.js";
 
 const firebaseConfig = {
 apiKey: "AIzaSyAAxXs88pJUfCoeotb0C8gfTGxvltpPBz8",
@@ -11,6 +12,20 @@ messagingSenderId: "117186684063",
 appId: "1:117186684063:web:a0a70113604e5c07ed2eaa"
 };
 
+// test logging the username to see if it tracks across pages - LC
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in
+
+        // Example: Log the current user UID to console
+        console.log("Curr User UID: ", user.uid);
+        console.log("Curr user, username", user.displayName);
+
+    } else {
+        // User is signed out
+        console.log("No user is signed in.");
+    }
+});
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 

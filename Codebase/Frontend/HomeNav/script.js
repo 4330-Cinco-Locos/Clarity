@@ -12,6 +12,7 @@ onAuthStateChanged(auth, (user) => {
 
         // Example: Log the current user UID to console
         console.log("Curr User UID: ", user.uid);
+        console.log("Curr user, username", user.displayName);
 
     } else {
         // User is signed out
