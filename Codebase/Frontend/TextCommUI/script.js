@@ -1,6 +1,6 @@
-import { getDatabase, set, get, update, remove, ref, child, onValue } from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
+import { getDatabase, set, ref, onValue } from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { auth } from "../../Backend/firebaseauth.js" 
 
 
@@ -20,6 +20,7 @@ onAuthStateChanged(auth, (user) => {
         console.log("No user is signed in.");
     }
 });
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
@@ -31,7 +32,6 @@ const textField = document.getElementById("myText");  // whatever text the user 
 var userId = null;
 var pfpElementSrc = null;
 var channel = "General";
-const valid_channels = ["General", "UI-Development", "Backend-Development"]
 
 function isString(variable){
     return typeof variable === "string";
@@ -102,6 +102,7 @@ onValue(dbRef,(snapshot) =>{
         snapshot.forEach(function(childSnapshot)
         {
             const childData = childSnapshot.val();
+            console.log(childData);
             if (childData.channel == channel)
             {
                 //the main message container
@@ -158,7 +159,6 @@ function changeChannel(newChannel)
     .catch((error) => console.error("Error triggering listener:", error));
 }
 
-
 // This will read all the entries from the valid-channels section & place them in the sidenav appropriately
 onValue(chanRef, (snapshot) =>
 {
@@ -197,19 +197,17 @@ onValue(chanRef, (snapshot) =>
     }
 })
 
-//CRUD methods
-function sendData() // Create a new entry on the database
+function sendData() // Creates a new entry in the database
 {
     if(userId != null)
     {
-        var time = new Date().toUTCString();
-        var msgId = userId+time;
-        set(ref(db, "chat/"+msgId), {
+        var time = new Date();
+        set(ref(db, "chat/"+time.getTime()), {
             senderId: userId,
             body: textField.value, //have to grab the values IN the element, not the element itself
             imageUrl: pfpElementSrc,
             channel: channel,
-            timeStamp: time
+            timeStamp: time.toUTCString()
         })
         .catch((error)=>{
             alert(error)
@@ -219,50 +217,6 @@ function sendData() // Create a new entry on the database
     {
         alert("Users who are not logged in may not send messages!\n");
         console.log("Users who are not logged in may not send messages!\n");
-    }
-}
-
-// this might need to be deleted later as it doesn't really have much of a use? //
-function getData() // Read entries from the database
-{
-    // NOTE: there may be a way to do this without having to iterate through the whole db everytime
-    // If possible, implement this version instead, as iterating through the whole db will get very
-    // slow as the db scales up
-
-    // read through each entry in the db
-        // if the message's senderId == userId, display it as a user message element
-        // else display it as an other message element
-
-}
-
-function updateData() // Update an entry in the database
-{
-    // called when an edit button is clicked on an individual message
-    
-    // pull the username and timestamp to get the msgId
-
-    // push the message's text into the text box and wait for user editing
-
-    // when the user hits submit, edit the entry in the db
-}
-
-function deleteData() // Delete an entry from the database
-{
-    // called when a delete button is clicked on an individual message
-
-    // pull the username and timestamp to get the msgId
-
-    // delete the message from the db
-
-}
-
-// file button stuff
-const fileBtn = document.getElementById('file-button');
-const fileInput = document.getElementById('file-input');
-function handleFileSelect(event) {
-    const file = event.target.files[0];
-    if (file) {
-        alert('File selected: ' + file.name);
     }
 }
 
@@ -277,6 +231,3 @@ textField.addEventListener('keydown', function(event) {
         }
     }
 });
-
-//fileBtn.addEventListener('click', function(){fileInput.click()});
-//fileInput.addEventListener('change', function(){handleFileSelect(event)});
