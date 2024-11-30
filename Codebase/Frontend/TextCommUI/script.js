@@ -98,11 +98,9 @@ onValue(dbRef,(snapshot) =>{
     clear_container("content");
     if(userId != null)
     {
-        //console.log("[DEBUG] current user: "+userId);
         snapshot.forEach(function(childSnapshot)
         {
             const childData = childSnapshot.val();
-            console.log(childData);
             if (childData.channel == channel)
             {
                 //the main message container
