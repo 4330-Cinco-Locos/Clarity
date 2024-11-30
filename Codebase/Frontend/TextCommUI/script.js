@@ -3,8 +3,23 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebas
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { auth } from "../../Backend/firebaseauth.js" 
 
+
 import { firebaseConfig } from "../../Backend/apiKey.js";
 
+// test logging the username to see if it tracks across pages - LC
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in
+
+        // Example: Log the current user UID to console
+        console.log("Curr User UID: ", user.uid);
+        console.log("Curr user, username", user.displayName);
+
+    } else {
+        // User is signed out
+        console.log("No user is signed in.");
+    }
+});
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
