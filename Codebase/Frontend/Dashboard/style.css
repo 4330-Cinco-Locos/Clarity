@@ -37,7 +37,8 @@ body{
     padding: 14px 16px;
   }
   
-  .top-nav a:hover {
+  .top-nav a:hover{
+    transition: color 0.3s, background-color 0.3s;
     background-color: #40251f;
   }
   
@@ -46,7 +47,6 @@ body{
     color: white;
     text-decoration: none;
     padding: 14px 16px;
-    margin-right: 15px; /* Optional: space between items */
   }
   
   .top-nav a.profile{
