@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Chakra Petch', 'sans-serif'
+    font-family: Arial, sans-serif;
 }
 body{
     background-color: #40251f;
@@ -66,7 +66,7 @@ h2 /*"The literal word 'Login' header"*/{
 .input-group/*pw and username fields*/{
     position: relative;
     margin: 30px 0;
-    border-bottom: 2px solid #E2E3DD;
+    border-bottom: 2px solid #40251F;
 }
 .input-group label/*pw and username fields*/{
     position: absolute;
@@ -74,7 +74,7 @@ h2 /*"The literal word 'Login' header"*/{
     left: 5px;
     transform: translateY(-50%);
     font-size: 16px;
-    color: #E2E3DD;
+    color: #40251F;
     pointer-events: none;
     transition: .5s;
 }
@@ -100,7 +100,7 @@ h2 /*"The literal word 'Login' header"*/{
 
 }
 .remember label/*remember me button stuff*/{
-    color: #E2E3DD;
+    color: #40251F;
     font-size: 16px;
 
 }
@@ -129,7 +129,7 @@ button/*login button*/{
 
 }
 .signUp-link p{
-    color: #E2E3DD;
+    color: #40251F;
 }
 .signUp-link p a{
     color: #40251F;
@@ -138,6 +138,7 @@ button/*login button*/{
 }
 .signUp-link p a:hover{
     text-decoration: underline;
+    color: blue;
 }
 
 /* stuff for the video background */
