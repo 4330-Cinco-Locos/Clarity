@@ -75,7 +75,8 @@ function parseJSON(input) { // TODO: Add optional fields to the parser + some er
         container: 'body'
       });
     },
-    events: event_data // Use event_data array
+    events: event_data, // Use event_data array
+    eventColor: '#d9ae89'
   });
   calendar.render(); // Display the calendar on the page
 })();
