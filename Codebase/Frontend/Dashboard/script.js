@@ -65,7 +65,7 @@ function addTask(event, key){
 
     task.classList.add('task');
     task.id = key;
-    task.innerHTML = `<div class="task">${event.attribute}</div>`;
+    task.innerHTML = `<div class="task-title">${event.attribute}</div>`;
 
     queueBox.appendChild(task);
 

@@ -201,6 +201,8 @@ section#middlescreen{
     border: 2px solid #f9fbee;
     cursor: pointer;
     color: #f9fbee;
+    text-align:center;
+
 }
 
 .page_display .navigation_buttons {
