@@ -7,6 +7,7 @@
     font-family: 'Chakra Petch', 'sans-serif'
 }
 body{
+    background-color: #40251f;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +18,7 @@ body{
     width: 400px;
     height: 500px;
     background: #D9AE89;
-    border: 2px solid #E2E3DD;
+    border: 2px solid black;
     border-radius: 30px;
     padding: 40px;
     overflow: hidden;
@@ -65,7 +66,7 @@ h2 /*"The literal word 'Login' header"*/{
 .input-group/*pw and username fields*/{
     position: relative;
     margin: 30px 0;
-    border-bottom: 2px solid #f9fbee;
+    border-bottom: 2px solid #E2E3DD;
 }
 .input-group label/*pw and username fields*/{
     position: absolute;
@@ -73,7 +74,7 @@ h2 /*"The literal word 'Login' header"*/{
     left: 5px;
     transform: translateY(-50%);
     font-size: 16px;
-    color: #f9fbee;
+    color: #E2E3DD;
     pointer-events: none;
     transition: .5s;
 }
@@ -99,7 +100,7 @@ h2 /*"The literal word 'Login' header"*/{
 
 }
 .remember label/*remember me button stuff*/{
-    color: #f9fbee;
+    color: #E2E3DD;
     font-size: 16px;
 
 }
@@ -128,7 +129,7 @@ button/*login button*/{
 
 }
 .signUp-link p{
-    color: #f9fbee;
+    color: #E2E3DD;
 }
 .signUp-link p a{
     color: #40251F;

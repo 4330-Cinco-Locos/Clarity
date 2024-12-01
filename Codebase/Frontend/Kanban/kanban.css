@@ -1,18 +1,23 @@
+/* Apply box-sizing to all elements to prevent padding from increasing size */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* General body styling to prevent overflow */
 body {
     margin: 0;
     padding: 0;
     height: 100vh;
+    overflow: hidden; /* Prevents body scrolling */
     display: flex;
-    background-color: #141823; /* Dark Blue / Grey */
-    
+    flex-direction: column;
+    background-color: #141823;
     background-size: cover;
     background-position: center;
     font-family: 'Chakra Petch', sans-serif;
-    color: #f9fbee; /* White */
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+    color: #f9fbee;
 }
 
 /* Top navigation bar */
@@ -20,91 +25,74 @@ body {
     background-color: #141823;
     color: white;
     display: flex;
-    justify-content: flex-start; /* Align items to the left */
+    justify-content: space-around; /* Adjusted to match reference image */
     align-items: center;
     width: 100%;
+    padding: 15px 20px; /* Updated padding for better alignment */
+    overflow: hidden;
+    border-bottom: 0.1em solid #f9fbee; /* Added border for visual separation */
 }
-  
-/* Topnav items */
+
 .top-nav a {
-    color: white;
+    color: #f9fbee;
     text-decoration: none;
-    padding: 14px 16px;
-    margin-right: 15px; /* Optional: space between items */
+    margin: 0 15px; /* Added margin for spacing between items */
+    padding: 10px 15px; /* Added padding for better clickable area */
+    transition: color 0.3s, background-color 0.3s;
 }
 
 .top-nav a:hover {
-    background-color: #879193;
-}
-
-.top-nav a.active {
-    background-color: #879193;
-    text-decoration: none;
-    padding: 14px 16px;
-    margin-right: 15px; /* Optional: space between items */
+    color: #141823;
+    background-color: #f9fbee;
+    border-radius: 0.5em; /* Added border-radius for smoother appearance */
 }
 
 /* Sidebar styling */
 .sidebar {
-    width: 15%; /* Changed to percentage for responsiveness */
+    width: 15%;
     background-color: #141823;
     position: fixed;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto; /* Enables scrolling if content exceeds the sidebar */
+    overflow-x: hidden; /* Prevents horizontal overflow */
     border-right: 0.15em solid #f9fbee;
     padding: 2%;
     padding-top: 20px;
-    top: 45px;
-}
-
-.logo {
-    width: 100%;
-    height: auto;
-    max-width: 10em;
-    margin-bottom: 1em;
-}
-
-.sidebar a {
-    display: block;
-    color: #f9fbee;
-    padding: 1em 0;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.sidebar a.active {
-    background-color: #f9fbee;
-    color: #141823;
-}
-
-.sidebar a:hover:not(.active) {
-    background-color: #1d1f2a;
-    color: #f9fbee;
+    top: 0; /* Fix to top to avoid offset */
 }
 
 /* Content and queue box styling */
 .content {
-    margin-left: 15%; /* Adjusted to be in percentage relative to the sidebar */
-    padding: 2% 15% 2% 2%; /* Adjusted padding: 15% on the right side */
+    margin-left: 15%;
+    padding: 2%;
     display: flex;
+    flex-wrap: wrap; /* Allow wrapping of boxes to prevent overflow */
     justify-content: space-between;
     align-items: flex-start;
     width: calc(100% - 15%); /* Account for sidebar width */
+    height: calc(100vh - 60px); /* Adjusted height to account for navbar */
+    overflow-y: auto; /* Enable scrolling in content area */
+    overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
+/* Queue box */
 .queue-box {
-    width: 22%;
+    flex: 1;
+    width: 100%;
+    max-width: 100%;
     background-color: #141823;
     padding: 2%;
     margin: 1%;
     border-radius: 1em;
-    min-height: 25em;
+    min-height: 60em; /* Increased height further to accommodate at least 10 items by default */
     border: 0.15em solid #f9fbee;
-    transition: transform 0.2s;
+    transition: transform 0.2s, background-color 0.2s;
+    overflow: visible;
 }
 
 .queue-box:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); /* Ensure hover effect for enlarging */
+    background-color: #1d1f2a; /* Darker color to highlight hover */
 }
 
 .queue-box h3 {
@@ -113,21 +101,7 @@ body {
     color: #141823;
     padding: 1em;
     border-radius: 0.75em;
-}
-
-/* Task item styling */
-.task {
-    background-color: #1d1f2a;
-    padding: 1em;
-    margin: 1em 0;
-    border-radius: 0.5em;
-    border: 0.15em solid #f9fbee;
-    cursor: pointer;
-    color: #f9fbee;
-}
-
-.task:hover {
-    background-color: #2c2f3a;
+    overflow-wrap: break-word; /* Prevent long words from causing overflow */
 }
 
 /* Modal styling */
@@ -141,6 +115,7 @@ body {
     background: rgba(0, 0, 0, 0.7);
     justify-content: center;
     align-items: center;
+    overflow: auto; /* Allows scrolling if modal content exceeds the height */
     z-index: 1000;
 }
 
@@ -148,64 +123,50 @@ body {
     background-color: #f9fbee;
     color: #141823;
     padding: 2%;
-    width: 25em;
+    width: 90%;
+    max-width: 30em; /* Increased max-width for better visibility */
     border-radius: 1em;
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
 }
 
-.modal .modal-header {
-    font-size: 1.5em;
-    margin-bottom: 0.5em;
-}
-
-.modal label {
-    display: block;
-    margin-top: 1em;
-}
-
-.modal input, .modal select {
-    width: 100%;
-    padding: 0.5em;
-    margin-top: 0.5em;
-    border-radius: 0.5em;
-    border: 0.1em solid #141823;
-}
-
-.modal-buttons {
-    text-align: right;
-    margin-top: 1.5em;
-}
-
-.modal-buttons button {
-    padding: 0.5em 1em;
-    margin-left: 0.5em;
-    border: none;
-    border-radius: 0.5em;
-    cursor: pointer;
-}
-
-.modal-buttons .save {
-    background-color: #141823;
-    color: #f9fbee;
-}
-
-.modal-buttons .close {
-    background-color: #f1f1f1;
-    color: #141823;
-}
-
-/* Responsive Navbar */
+/* Responsive styles to prevent overflow */
 @media (max-width: 768px) {
-    .navigationbar .pageheadlinks,
-    .navigationbar .act_btn {
-        display: none;
+    .sidebar {
+        width: 40%; /* Make sidebar smaller for mobile */
+        height: auto; /* Allow height to adjust naturally */
     }
 
-    .navigationbar .toggle_button {
-        display: block;
+    .content {
+        margin-left: 40%; /* Adjust content margin for sidebar */
+        padding: 2%;
+        width: calc(100% - 40%);
     }
 
-    .dropdown {
-        display: block;
+    .queue-box {
+        min-width: 90%; /* Allow boxes to take up the full width in mobile */
+        max-width: 100%;
     }
+
+    .top-nav a {
+        padding: 10px;
+        margin-right: 5px; /* Adjust padding for mobile */
+    }
+}
+
+/* Task item styling to ensure proper layout */
+.task {
+    background-color: #1d1f2a;
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 0.5em;
+    border: 0.15em solid #f9fbee;
+    cursor: pointer;
+    color: #f9fbee;
+    overflow: hidden; /* Prevent overflow */
+    text-overflow: ellipsis; /* Ellipsis for overflowing text */
+    white-space: nowrap; /* Prevent line breaks */
+}
+
+.task:hover {
+    background-color: #2c2f3a;
 }

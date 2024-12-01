@@ -8,7 +8,7 @@
 }
 body{
     height: 100vh;
-    background-color: #141823;
+    background-color: #40251F;
     background-size: cover;
     background-position: center;
 }
@@ -20,11 +20,11 @@ li{
 /* text of app's component links*/
 a{
     text-decoration: none;
-    color: #f9fbee;
+    color: #D9AE89;
     font-size: 16px;
 }
 a:hover{
-    color: goldenrod;
+    color: #E2E3DD;
 }
 /* top page head*/
 header{
@@ -52,14 +52,14 @@ header{
 }
 /* the bars*/
 .navigationbar .toggle_button{
-    color: #f9fbee;
+    color: #D9AE89;
     font-size: 24px;
     cursor: pointer;
     display: none;
 }
 /* signout/signin button*/
 .act_btn{
-    background-color: #f9fbee;
+    background-color: #D9AE89;
     color: #141823;
     padding: 8px 16px;
     border: none;
@@ -72,7 +72,7 @@ header{
 }
 .act_btn:hover{
     scale: 1.05;
-    color: #141823;
+    color: #E2E3DD;
 
 }
 .act_btn:active{
@@ -87,7 +87,7 @@ header{
     top: 60px;
     height: 0;
     width: 300px;
-    background: rgba(255, 255, 255, 0.1);
+    background: #40251F 0.1;
     backdrop-filter: blur(15px);
     border-radius: 10px;
     overflow: hidden;
@@ -98,7 +98,7 @@ header{
 
 }
 .dropdown li{
-    padding: 11px;
+    padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,7 +117,7 @@ section#middlescreen{
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #f9fbee;
+    color: #D9AE89;
 }
 /*responsive*/
 
