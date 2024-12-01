@@ -50,20 +50,8 @@ function parseJSON(input) { // TODO: Add optional fields to the parser + some er
     customButtons: {
       addTaskButton: {
         text: 'Add a new task...',
-        click: function() { // TODO: Make a prompt with multiple forms for adding new events
-          var dateStr = prompt('Enter a date in the format of YYYY-MM-DD');
-          var date = new Date(dateStr + 'T00:00:00') // Using JS Date object
-
-          if (!isNaN(date.valueOf())) { // Check for valid date before adding
-            calendar.addEvent({ // TODO: Make addEvent() add to the DB as well as the calendar
-              title: 'Demo Task (Dynamic)',
-              start: date,
-              allDay: true
-            });
-            alert('Task added!');
-          } else {
-            alert('Invalid date.');
-          }
+        click: function () {
+          openModal();
         }
       }
     },

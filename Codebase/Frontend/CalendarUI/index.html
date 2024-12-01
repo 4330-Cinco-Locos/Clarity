@@ -12,12 +12,10 @@
         <!-- Import FullCalendar.js v6.1.15 with Bootstrap 5 compatibility -->
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.15/index.global.min.js"></script>
-        <!-- Import Firebase & Realtime Database -->
-        <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database-compat.js"></script>
-        <!-- Import local CSS & JS file -->
+        <!-- Import local CSS & JS files -->
         <link rel="stylesheet" href="style.css"/>
-        <script src="script.js"></script>
+        <script type="module" src="script_firebase.js"></script>
+        <script type="module" src="script.js"></script>
     </head>
     <body>
         <!-- Top Navigation Bar -->
@@ -29,6 +27,34 @@
             <a href="../TextCommUI/index.html">Chat</a>
         </div>
         <!-- Calendar Element -->
-        <div id='calendar'></div>
+        <div id="calendar"></div>
+        <!-- Modal for creating a new event -->
+        <div class="modal-overlay" id="modalOverlay" style="display: none;">
+            <div class="modal">
+                <h1><div class="modal-header">Create New Event</div></b></h1>
+                <label for="taskName">Name:</label>
+                <input type="text" id="taskName" placeholder="Enter task name"><br>
+
+                <label for="attribute">Attribute:</label>
+                <input type="text" id="attribute" placeholder="Enter attribute"><br>
+
+                <label for="dateDue">Due Date:</label>
+                <input type="date" id="dateDue"><br>
+
+                <label for="priority">Priority:</label>
+                <select id="priority">
+                    <option value="">Select priority</option>
+                    <option value="1">Immediate</option>
+                    <option value="2">1 Week</option>
+                    <option value="3">2 Weeks</option>
+                    <option value="4">1 Month+</option>
+                </select><br>
+
+                <div class="modal-buttons">
+                    <button onclick="closeModal()">Cancel</button>
+                    <button onclick="saveTask()">Save</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
