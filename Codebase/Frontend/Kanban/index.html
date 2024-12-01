@@ -65,7 +65,7 @@
             } else {
                 // Clear modal fields for new task
                 taskNameInput.value = "";
-                attributesInput.value = "";
+                attributeInput.value = "";
                 dateDueInput.value = "";
                 prioritySelect.value = "";
             }
@@ -81,7 +81,7 @@
         // Save task and update Firebase
         window.saveTask = function() {
             const updatedName = taskNameInput.value.trim();
-            const updatedAttributes = attributesInput.value.trim();
+            const updatedAttribute = attributeInput.value.trim();
             const updatedDateDue = dateDueInput.value;
             const updatedPriority = prioritySelect.value;
 
@@ -96,7 +96,7 @@
                 const taskRef = ref(db, `eventDB/${taskId}`);
                 update(taskRef, {
                     title: updatedName,
-                    attributes: updatedAttributes,
+                    attribute: updatedAttributes,
                     dateDue: updatedDateDue,
                     priority: parseInt(updatedPriority)
                 }).then(() => {
