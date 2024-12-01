@@ -304,3 +304,32 @@ header{
     font-size: 30px;
     color: white;
 }
+
+/* Top navigation bar */
+.top-nav {
+    background-color: #141823;
+    color: white;
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Topnav items */
+  .top-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 16px;
+    margin-right: 15px; /* Optional: space between items */
+  }
+  
+  .top-nav a:hover {
+    background-color: #879193;
+  }
+  
+  .top-nav a.active {
+    background-color: #879193;
+    text-decoration: none;
+    padding: 14px 16px;
+    margin-right: 15px; /* Optional: space between items */
+  }
