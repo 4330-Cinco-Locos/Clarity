@@ -31,6 +31,7 @@ a:hover{
 header{
     position: relative;
     padding: 0 32px;
+    display: none;
 }
 /*nav bar on top of page head*/
 .navigationbar{
@@ -119,7 +120,7 @@ header{
     }
 
     .navigationbar .toggle_button{
-        display: block;
+        display: none;
     }
     .dropdown{
         display: block;
