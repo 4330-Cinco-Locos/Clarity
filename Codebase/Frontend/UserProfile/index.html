@@ -1,90 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
-    crossorigin="anonymous" 
-    referrerpolicy="no-referrer" />
-    <title>Welcome to Clarity</title>
-</head>
-<body>
-    <!-- Top Navigation Bar -->
-    <div class="top-nav">
-        <a href="../HomeNav/index.html">Home</a>
-        <a href="../Dashboard/index.html">Dashboard</a>
-        <a href="../Kanban/index.html">Kanban</a>
-        <a href="../CalendarUI/index.html">Calendar</a>
-        <a href="../TextCommUI/index.html">Chat</a>
-        <a href="../UserProfile/index.html">Profile</a>
-    </div>
-
-    <main>
-
-        <div class = "card">
-            <h1>User Profile</h1>
-            <img src="https://static.thenounproject.com/png/4154905-200.png" id="profile_img" alt="Profile Image">
-            <div class = "info">
-                <table>
-                    <tbody>
-
-                        <tr>
-                            <td>Name</td>
-                            <td>: </td>
-                            <td id="name">No Current User Found</span></td>
-                        </tr>
-
-                        <tr>
-                            <td>User ID</td>
-                            <td>: </td>
-                            <td id="ID">No Current User Found</span></td>
-                        </tr>
-
-                        <tr>
-                            <td>Email</td>
-                            <td>: </td>
-                            <td id="email">No Current User Found</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class = password_button>
-                <button class = "passwdbtn" id="update_password_btn">Change Password</button>
-            </div>
+    <head>
+        <meta charset ="UTF-8"/>
+        <meta name="viewport" content = "width=device-width, initial-scale = 1.0" />
+        <title>User Profile</title>
+        <link rel = "stylesheet" href = "style.css" />
+    </head>
+    <body>
+        <!-- Top Navigation Bar -->
+        <div class="top-nav">
+            <a href="../HomeNav/index.html">Home</a>
+            <a href="../Dashboard/index.html">Dashboard</a>
+            <a href="../Kanban/index.html">Kanban</a>
+            <a href="../CalendarUI/index.html">Calendar</a>
+            <a href="../TextCommUI/index.html">Chat</a>
+            <a class = "active" href="#">User Profile</a>
         </div>
 
-        <div class="update_password_overlay" id="password_overlay">
-            <div class="update_password">
+        <main>
+            
+            <div class = "card">
+                <h1>User Profile</h1>
+                <img src="https://static.thenounproject.com/png/4154905-200.png" id="profile_img" alt="Profile Image">
+                <div class = "info">
+                    <table>
+                        <tbody>
 
-                <div class="overlay-header">Update Password</div>
+                            <tr>
+                                <td>Name</td>
+                                <td>: </td>
+                                <td id="name">No Current User Found</span></td>
+                            </tr>
 
-                <label for="new_password">New Password:</label>
-                <input type="text" id="password1" placeholder="Enter new password">
-                
-                <label for="new_password_check">Re-enter New Password:</label>
-                <input type="text" id="password2" placeholder="Re-enter new password">
-    
-                <div class="update_buttons">
-                    <button class="close">Close</button>
-                    <button class="save">Save</button>
+                            <tr>
+                                <td>User ID</td>
+                                <td>: </td>
+                                <td id="ID">No Current User Found</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>Email</td>
+                                <td>: </td>
+                                <td id="email">No Current User Found</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class = password_button>
+                    <button class = "passwdbtn" id="update_password_btn">Change Password</button>
                 </div>
             </div>
-        </div>
 
-        <div class = "password_update_popup" id="missmatched">
-            <h2>Entered Passwords Do Not Match!</h2>
-            <button class="close_popup" id="close_missmatch_popup">x</button>
-        </div>
+            <div class="update_password_overlay" id="password_overlay">
+                <div class="update_password">
 
-        <div class = "password_update_popup" id="sucessful">
-            <h2>Password was Sucessfully Updated!</h2>
-            <button class="close_popup" id="close_sucessful_popup">x</button>
-        </div>
+                    <div class="overlay-header">Update Password</div>
 
-    </main>
-    <script type="module" src="script.js"></script>
-    
-</body>
+                    <label for="new_password">New Password:</label>
+                    <input type="text" id="password1" placeholder="Enter new password">
+                    
+                    <label for="new_password_check">Re-enter New Password:</label>
+                    <input type="text" id="password2" placeholder="Re-enter new password">
+        
+                    <div class="update_buttons">
+                        <button class="close">Close</button>
+                        <button class="save">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class = "password_update_popup" id="missmatched">
+                <h2>Entered Passwords Do Not Match!</h2>
+                <button class="close_popup" id="close_missmatch_popup">x</button>
+            </div>
+
+            <div class = "password_update_popup" id="sucessful">
+                <h2>Password was Sucessfully Updated!</h2>
+                <button class="close_popup" id="close_sucessful_popup">x</button>
+            </div>
+
+        </main>
+        <script type="module" src="script.js"></script>
+        
+    </body>
 </html>
