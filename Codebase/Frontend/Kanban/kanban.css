@@ -68,6 +68,16 @@ body {
     top: 0; /* Fix to top to avoid offset */
 }
 
+/* Sidebar logo styling */
+.logo {
+    width: 80%; /* Adjusted width to better fit within the sidebar */
+    height: auto;
+    max-height: 150px; /* Further restricted the logo height to fit nicely in the sidebar */
+    object-fit: contain;
+    display: block;
+    margin: 20px auto; /* Added some margin for better spacing */
+}
+
 /* Content and queue box styling */
 .content {
     margin-left: 15%;
@@ -132,8 +142,33 @@ body {
     padding: 2%;
     width: 90%;
     max-width: 30em; /* Increased max-width for better visibility */
-    border-radius: 1em;
+    height: 30em; /* Make modal square */
+    border-radius: 15px; /* Added rounded edges to the modal */
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+}
+
+.modal label {
+    width: 100%;
+    text-align: center;
+    margin-top: .4em;
+}
+
+.modal input, .modal select {
+    width: 80%;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    margin-top: 1em;
 }
 
 /* Responsive styles to prevent overflow */
@@ -176,4 +211,23 @@ body {
 
 .task:hover {
     background-color: #2c2f3a;
+}
+
+/* Create Event button styling */
+.create-event-btn {
+    background-color: #228B22; /* Set button color to green */
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 0.5em;
+    border: 0.15em solid #f9fbee;
+    cursor: pointer;
+    color: #f9fbee;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.create-event-btn:hover {
+    background-color: #196619; /* Darken green on hover */
+    transform: scale(1.05); /* Ensure hover effect for enlarging */
 }
