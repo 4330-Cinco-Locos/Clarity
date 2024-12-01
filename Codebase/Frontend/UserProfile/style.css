@@ -145,11 +145,24 @@ header{
     align-items: center;
 }
 
+.card img{
+    border: 10px solid white;
+    padding-bottom: 100 px;
+    padding-top: 100 px;
+    align-items: center;
+    width: 25%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 .card .info{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
     padding-bottom: 50px;
+    padding-top: 50px;
 }
 
 .card .password_button {
@@ -167,12 +180,15 @@ header{
     border-collapse: collapse;
     align-content: center;
     padding-bottom: 100px;
+    margin: 0 auto;
 }
 
 .card .info table td {
     color: white;
     text-align: left;
+    padding: 10px;
     padding: 0px;
+    
 }
 
 .card .info table tr {

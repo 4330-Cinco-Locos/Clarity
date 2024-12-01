@@ -63,6 +63,9 @@ function getAdditionalUserInfo(user){
         document.getElementById("name").innerHTML = profile.name; //profile.name
         document.getElementById("ID").innerHTML = profile.uid; //profile.uid
         document.getElementById("email").innerHTML = profile.email; //profile.email
+
+        const profileImage = profile.photoURL || '../../Backend/default.jpg';
+        document.getElementById("profile_img").src = profileImage;
     })
 }
 
