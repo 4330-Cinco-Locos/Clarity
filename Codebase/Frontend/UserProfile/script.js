@@ -60,7 +60,7 @@ onAuthStateChanged(auth, (user) => {
 function getAdditionalUserInfo(user){
 
     user.providerData.forEach((profile) => {
-        document.getElementById("name").innerHTML = profile.name; //profile.name
+        document.getElementById("name").innerHTML = profile.displayName; //profile.name
         document.getElementById("ID").innerHTML = profile.uid; //profile.uid
         document.getElementById("email").innerHTML = profile.email; //profile.email
 
