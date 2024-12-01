@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="kanban.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Task Scheduler with Navbar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
@@ -44,58 +47,91 @@
         });
 
         // Open and close modal
-        function openModal(taskElement) {
+        window.openModal = function(taskElement = null) {
             currentTask = taskElement;
-            const taskId = taskElement.getAttribute('data-id');
-            const taskRef = ref(db, `eventDB/${taskId}`);
+            if (taskElement) {
+                const taskId = taskElement.getAttribute('data-id');
+                const taskRef = ref(db, `eventDB/${taskId}`);
 
-            onValue(taskRef, (snapshot) => {
-                const childData = snapshot.val();
-                if (childData) {
-                    taskNameInput.value = childData.title;
-                    attributesInput.value = childData.attributes || "";
-                    dateDueInput.value = childData.dateDue || "";
-                    prioritySelect.value = childData.priority || "";
-                }
-            }, { onlyOnce: true });
+                onValue(taskRef, (snapshot) => {
+                    const childData = snapshot.val();
+                    if (childData) {
+                        taskNameInput.value = childData.title;
+                        attributesInput.value = childData.attributes || "";
+                        dateDueInput.value = childData.dateDue || "";
+                        prioritySelect.value = childData.priority || "";
+                    }
+                }, { onlyOnce: true });
+            } else {
+                // Clear modal fields for new task
+                taskNameInput.value = "";
+                attributesInput.value = "";
+                dateDueInput.value = "";
+                prioritySelect.value = "";
+            }
 
             modalOverlay.style.display = 'flex';
         }
 
-        function closeModal() {
+        window.closeModal = function() {
             modalOverlay.style.display = 'none';
             currentTask = null;
         }
 
         // Save task and update Firebase
-        function saveTask() {
-            if (!currentTask) return;
-
+        window.saveTask = function() {
             const updatedName = taskNameInput.value.trim();
             const updatedAttributes = attributesInput.value.trim();
             const updatedDateDue = dateDueInput.value;
             const updatedPriority = prioritySelect.value;
 
-            // Update the task text in the UI
-            currentTask.textContent = `${updatedName} (Priority: ${updatedPriority})`;
+            if (!updatedName) {
+                alert("Task name is required.");
+                return;
+            }
 
-            // Get the task ID
-            const taskId = currentTask.getAttribute('data-id');
+            if (currentTask) {
+                // Update existing task
+                const taskId = currentTask.getAttribute('data-id');
+                const taskRef = ref(db, `eventDB/${taskId}`);
+                update(taskRef, {
+                    title: updatedName,
+                    attributes: updatedAttributes,
+                    dateDue: updatedDateDue,
+                    priority: parseInt(updatedPriority)
+                }).then(() => {
+                    console.log("Task updated successfully in Firebase.");
+                }).catch((error) => {
+                    console.error("Error updating task:", error);
+                });
 
-            // Update the task in Firebase directly using the task ID
-            const taskRef = ref(db, `eventDB/${taskId}`);
-            update(taskRef, {
-                title: updatedName,
-                attributes: updatedAttributes,
-                dateDue: updatedDateDue,
-                priority: parseInt(updatedPriority)
-            }).then(() => {
-                console.log("Task updated successfully in Firebase.");
-            }).catch((error) => {
-                console.error("Error updating task:", error);
-            });
+                currentTask.textContent = `${updatedName} (Priority: ${updatedPriority})`;
+            } else {
+                // Create new task
+                const start = updatedDateDue + 'T09:00:00';
+                const end = updatedDateDue + 'T17:00:00';
+                const dateAdded = new Date().toISOString();
 
-            // Close the modal after saving
+                const eventData = {
+                    title: updatedName,
+                    attributes: updatedAttributes,
+                    dateAdded,
+                    start,
+                    end,
+                    priority: parseInt(updatedPriority)
+                };
+
+                const eventRef = push(ref(db, 'eventDB/'));
+                set(eventRef, eventData)
+                    .then(() => {
+                        console.log("Event saved successfully.");
+                        addEventToPool(eventData, eventRef.key);
+                    })
+                    .catch((error) => {
+                        console.error("Error saving event:", error);
+                    });
+            }
+
             closeModal();
         }
 
@@ -268,14 +304,16 @@
         <a href="../Dashboard/index.html">Home</a>
         <a class="active" href="#">Kanban</a>
         <a href="../CalendarUI/index.html">Calendar</a>
-        <a href="../TextCommUI/index.html">Chat</a>
+        <a href="../Chat/index.html">Kanban</a>
     </div>
 
     <!-- Sidebar for Task Pool with logo at the top -->
     <div class="sidebar">
         <img src="logo2.png" alt="Logo" class="logo">
         <h2>Task Pool</h2>
-        <button class="create-event-btn" onclick="openModal()">Create Event</button>
+        <div class="create-event-container">
+    <button class="create-event-btn" onclick="openModal()">Create Event</button>
+        </div>
         <div class="task-list" id="taskPool"></div>
     </div>
 
@@ -315,5 +353,7 @@
         <div class="queue-box" id="two-weeks"><h3>2 Weeks</h3></div>
         <div class="queue-box" id="one-month"><h3>1 Month</h3></div>
     </div>
+
+    
 </body>
 </html>

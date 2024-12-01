@@ -7,7 +7,7 @@
         height: 100vh;
         display: flex;
         background-color: #141823; /* Dark Blue / Grey */
-        background-image: url('bgimg.jpg');
+        
         background-size: cover;
         background-position: center;
         font-family: 'Chakra Petch', sans-serif;
