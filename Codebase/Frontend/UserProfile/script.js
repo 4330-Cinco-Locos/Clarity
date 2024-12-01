@@ -48,7 +48,7 @@ onAuthStateChanged(auth, (user) => {
     const passwordButton = document.querySelector('.passwdbtn');
 
     if (user) {
-        getAdditionalUserInfo(user);
+        getAdditionalUserInfo();
         passwordButton.style.display = "block";
     }
     else{
@@ -57,16 +57,18 @@ onAuthStateChanged(auth, (user) => {
     }
 })
 
-function getAdditionalUserInfo(user){
+function getAdditionalUserInfo(){
 
-    user.providerData.forEach((profile) => {
-        document.getElementById("name").innerHTML = profile.name; //profile.name
-        document.getElementById("ID").innerHTML = profile.uid; //profile.uid
-        document.getElementById("email").innerHTML = profile.email; //profile.email
+    const user = auth.currentUser;
 
-        const profileImage = profile.photoURL || '../../Backend/default.jpg';
-        document.getElementById("profile_img").src = profileImage;
-    })
+    document.getElementById("name").innerHTML = user.displayName; //profile.name
+    document.getElementById("ID").innerHTML = user.uid; //profile.uid
+    document.getElementById("email").innerHTML = user.email; //profile.email
+
+    const profileImage = user.photoURL|| "https://static.thenounproject.com/png/4154905-200.png";
+    document.getElementById("profile_img").src = profileImage;
+    console.log(profileImage)
+
 }
 
 //update user's password when the 'save' button is selected
