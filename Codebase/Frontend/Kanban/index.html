@@ -34,11 +34,11 @@
         const db = getDatabase();
 
         let currentTask = null;
-        let taskNameInput, attributesInput, dateDueInput, prioritySelect, modalOverlay;
+        let taskNameInput, attributeInput, dateDueInput, prioritySelect, modalOverlay;
 
         document.addEventListener("DOMContentLoaded", () => {
             taskNameInput = document.getElementById('taskName');
-            attributesInput = document.getElementById('attributes');
+            attributeInput = document.getElementById('attribute');
             dateDueInput = document.getElementById('dateDue');
             prioritySelect = document.getElementById('priority');
             modalOverlay = document.getElementById('modalOverlay');
@@ -57,7 +57,7 @@
                     const childData = snapshot.val();
                     if (childData) {
                         taskNameInput.value = childData.title;
-                        attributesInput.value = childData.attributes || "";
+                        attributeInput.value = childData.attribute || "";
                         dateDueInput.value = childData.dateDue || "";
                         prioritySelect.value = childData.priority || "";
                     }
@@ -96,7 +96,7 @@
                 const taskRef = ref(db, `eventDB/${taskId}`);
                 update(taskRef, {
                     title: updatedName,
-                    attribute: updatedAttributes,
+                    attribute: updatedAttribute,
                     dateDue: updatedDateDue,
                     priority: parseInt(updatedPriority)
                 }).then(() => {
@@ -114,7 +114,7 @@
 
                 const eventData = {
                     title: updatedName,
-                    attributes: updatedAttributes,
+                    attribute: updatedAttribute,
                     dateAdded,
                     start,
                     end,
@@ -200,7 +200,7 @@
         // Save event to Firebase
         function saveEvent() {
             const title = taskNameInput.value.trim();
-            const attributes = attributesInput.value.trim();
+            const attribute = attributeInput.value.trim();
             const start = dateDueInput.value + 'T09:00:00';
             const end = dateDueInput.value + 'T17:00:00';
             const priority = parseInt(prioritySelect.value);
@@ -222,7 +222,7 @@
 
             const eventData = {
                 title,
-                attributes,
+                attribute,
                 dateAdded,
                 start,
                 end,
@@ -325,8 +325,8 @@
             <label for="taskName">Name:</label>
             <input type="text" id="taskName" placeholder="Enter task name"><br>
 
-            <label for="attributes">Attributes:</label>
-            <input type="text" id="attributes" placeholder="Enter attributes"><br>
+            <label for="attribute">Attribute:</label>
+            <input type="text" id="attribute" placeholder="Enter attribute"><br>
 
             <label for="dateDue">Due Date:</label>
             <input type="date" id="dateDue"><br>
