@@ -42,34 +42,41 @@ toggleBtn.addEventListener('click', function() {
     toggleBtnIco.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
 });
 
-function getAdditionalUserInfo(){
-
-    const user = auth.currentUser;
-
-    document.getElementById("name").innerHTML = "admin"; //profile.name
-    document.getElementById("ID").innterHTML = "123456789"; //profile.uid
-    document.getElementById("email").innerHTML = "admin@gmail.com"; //profile.email
-
-    user.providerData.forEach((profile) => {
-        document.getElementById("name").innerHTML = "admin"; //profile.name
-        docuumet.getElementById("ID").innterHTML = "123456789"; //profile.uid
-        document.getElementById("email").innerHTML = "admin@gmail.com"; //profile.email
-    })
-}
 
 onAuthStateChanged(auth, (user) => {
+    
+    const passwordButton = document.querySelector('.passwdbtn');
+
     if (user) {
-        getAdditionalUserInfo();
+        getAdditionalUserInfo(user);
+        passwordButton.style.display = "block";
     }
     else{
         console.log("No user is signed in");
+        passwordButton.style.display = "none";
     }
 })
+
+function getAdditionalUserInfo(user){
+
+    user.providerData.forEach((profile) => {
+        document.getElementById("name").innerHTML = profile.name; //profile.name
+        document.getElementById("ID").innerHTML = profile.uid; //profile.uid
+        document.getElementById("email").innerHTML = profile.email; //profile.email
+    })
+}
 
 //update user's password when the 'save' button is selected
 saveBtn.addEventListener('click', function(){
 
-    if (newPassword.value == newPasswordCheck.value ){
+    const user = auth.currentUser;
+
+    if(!user) {
+        console.log("No user is logged in");
+        document.getElementById("password_overlay").style.display = "none";
+    }
+
+    else if (newPassword.value == newPasswordCheck.value ){
         
         //show pupup for a sucessfully updated password
         document.getElementById("sucessful").style.display = "block";

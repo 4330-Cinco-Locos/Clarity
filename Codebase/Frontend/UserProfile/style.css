@@ -192,6 +192,7 @@ header{
     box-shadow: 0 0 20px #f9fbee;
     border: 2px solid #f9fbee;
     position: relative;
+    display: none;
 
 }
 
