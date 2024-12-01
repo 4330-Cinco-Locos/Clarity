@@ -13,7 +13,7 @@ body {
     overflow: hidden; /* Prevents body scrolling */
     display: flex;
     flex-direction: column;
-    background-color: #141823;
+    background-color: #e5e1d8;
     background-size: cover;
     background-position: center;
     font-family: 'Chakra Petch', sans-serif;
@@ -22,7 +22,7 @@ body {
 
 /* Top navigation bar */
 .top-nav {
-    background-color: #141823;
+    background-color: #31312f;
     color: white;
     display: flex;
     justify-content: space-around; /* Adjusted to match reference image */
@@ -30,7 +30,7 @@ body {
     width: 100%;
     padding: 15px 20px; /* Updated padding for better alignment */
     overflow: hidden;
-    border-bottom: 0.1em solid #f9fbee; /* Added border for visual separation */
+    border-bottom: 0.1em solid black; /* Added border for visual separation */
 }
 
 .top-nav a {
@@ -39,25 +39,32 @@ body {
     margin: 0 15px; /* Added margin for spacing between items */
     padding: 10px 15px; /* Added padding for better clickable area */
     transition: color 0.3s, background-color 0.3s;
+    height: 100%;
 }
 
 .top-nav a:hover {
-    color: #141823;
-    background-color: #f9fbee;
+    color: white;
+    background-color: #40251f;
+    border-radius: 0.5em; /* Added border-radius for smoother appearance */
+}
+
+.top-nav a.active{
+    background-color: #40251f;
     border-radius: 0.5em; /* Added border-radius for smoother appearance */
 }
 
 /* Sidebar styling */
 .sidebar {
     width: 15%;
-    background-color: #141823;
+    background-color: #d9ae89;
     position: fixed;
     height: 100%;
     overflow-y: auto; /* Enables scrolling if content exceeds the sidebar */
     overflow-x: hidden; /* Prevents horizontal overflow */
-    border-right: 0.15em solid #f9fbee;
+    border-right: 0.15em solid black;
     padding: 2%;
     padding-top: 20px;
+    color: #31312f;
     top: 0; /* Fix to top to avoid offset */
 }
 
@@ -80,25 +87,25 @@ body {
     flex: 1;
     width: 100%;
     max-width: 100%;
-    background-color: #141823;
+    background-color: #d9ae89;
     padding: 2%;
     margin: 1%;
     border-radius: 1em;
     min-height: 60em; /* Increased height further to accommodate at least 10 items by default */
-    border: 0.15em solid #f9fbee;
+    border: 0.15em solid black;
     transition: transform 0.2s, background-color 0.2s;
     overflow: visible;
 }
 
 .queue-box:hover {
     transform: scale(1.05); /* Ensure hover effect for enlarging */
-    background-color: #1d1f2a; /* Darker color to highlight hover */
+    background-color: #40251f; /* Darker color to highlight hover */
 }
 
 .queue-box h3 {
     text-align: center;
     background-color: #f9fbee;
-    color: #141823;
+    color: #31312f;
     padding: 1em;
     border-radius: 0.75em;
     overflow-wrap: break-word; /* Prevent long words from causing overflow */
@@ -121,7 +128,7 @@ body {
 
 .modal {
     background-color: #f9fbee;
-    color: #141823;
+    color: #d9ae89;
     padding: 2%;
     width: 90%;
     max-width: 30em; /* Increased max-width for better visibility */
@@ -155,7 +162,7 @@ body {
 
 /* Task item styling to ensure proper layout */
 .task {
-    background-color: #1d1f2a;
+    background-color: #40251f;
     padding: 1em;
     margin: 1em 0;
     border-radius: 0.5em;
