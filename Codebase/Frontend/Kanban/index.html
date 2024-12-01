@@ -10,290 +10,25 @@
     <title>Task Scheduler with Navbar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- Firebase App (the compat version of Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
+    <!-- Firebase Setup -->
+    <script type="module" src="./firebaseSetup.js"></script>
+    <script type="module" src="./firebaseSend.js"></script>
+    <script type="module" src="./firebaseGet.js"></script>
+    <script type="module" src="./firebaseUpdate.js"></script>
+    <script type="module" src="./firebaseSaver.js"></script>
+    
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getDatabase, set, ref, push, onValue, update } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAAxXs88pJUfCoeotb0C8gfTGxvltpPBz8",
-            authDomain: "clarity-295d8.firebaseapp.com",
-            databaseURL: "https://clarity-295d8-default-rtdb.firebaseio.com",
-            projectId: "clarity-295d8",
-            storageBucket: "clarity-295d8.appspot.com",
-            messagingSenderId: "117186684063",
-            appId: "1:117186684063:web:a0a70113604e5c07ed2eaa"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase();
-
-        let currentTask = null;
-        let taskNameInput, attributeInput, dateDueInput, prioritySelect, modalOverlay;
+        import { loadEvents } from "./firebaseGet.js";
+        import { openModal, closeModal, saveTask, addEventToPool } from "./uiHelper.js";
+        import { db, formatDate } from "./firebaseSetup.js";
 
         document.addEventListener("DOMContentLoaded", () => {
-            taskNameInput = document.getElementById('taskName');
-            attributeInput = document.getElementById('attribute');
-            dateDueInput = document.getElementById('dateDue');
-            prioritySelect = document.getElementById('priority');
-            modalOverlay = document.getElementById('modalOverlay');
-
-            loadEvents();
+            loadEvents(addEventToPool);
         });
 
-        // Open and close modal
-        window.openModal = function(taskElement = null) {
-            currentTask = taskElement;
-            if (taskElement) {
-                const taskId = taskElement.getAttribute('data-id');
-                const taskRef = ref(db, `eventDB/${taskId}`);
-
-                onValue(taskRef, (snapshot) => {
-                    const childData = snapshot.val();
-                    if (childData) {
-                        taskNameInput.value = childData.title;
-                        attributeInput.value = childData.attribute || "";
-                        dateDueInput.value = childData.dateDue || "";
-                        prioritySelect.value = childData.priority || "";
-                    }
-                }, { onlyOnce: true });
-            } else {
-                // Clear modal fields for new task
-                taskNameInput.value = "";
-                attributeInput.value = "";
-                dateDueInput.value = "";
-                prioritySelect.value = "";
-            }
-
-            modalOverlay.style.display = 'flex';
-        }
-
-        window.closeModal = function() {
-            modalOverlay.style.display = 'none';
-            currentTask = null;
-        }
-
-        // Save task and update Firebase
-        window.saveTask = function() {
-            const updatedName = taskNameInput.value.trim();
-            const updatedAttribute = attributeInput.value.trim();
-            const updatedDateDue = dateDueInput.value;
-            const updatedPriority = prioritySelect.value;
-
-            if (!updatedName) {
-                alert("Task name is required.");
-                return;
-            }
-
-            if (currentTask) {
-                // Update existing task
-                const taskId = currentTask.getAttribute('data-id');
-                const taskRef = ref(db, `eventDB/${taskId}`);
-                update(taskRef, {
-                    title: updatedName,
-                    attribute: updatedAttribute,
-                    dateDue: updatedDateDue,
-                    priority: parseInt(updatedPriority)
-                }).then(() => {
-                    console.log("Task updated successfully in Firebase.");
-                }).catch((error) => {
-                    console.error("Error updating task:", error);
-                });
-
-                currentTask.textContent = `${updatedName} (Priority: ${updatedPriority})`;
-            } else {
-                // Create new task
-                const start = updatedDateDue + 'T09:00:00';
-                const end = updatedDateDue + 'T17:00:00';
-                const dateAdded = new Date().toISOString();
-
-                const eventData = {
-                    title: updatedName,
-                    attribute: updatedAttribute,
-                    dateAdded,
-                    start,
-                    end,
-                    priority: parseInt(updatedPriority)
-                };
-
-                const eventRef = push(ref(db, 'eventDB/'));
-                set(eventRef, eventData)
-                    .then(() => {
-                        console.log("Event saved successfully.");
-                        addEventToPool(eventData, eventRef.key);
-                    })
-                    .catch((error) => {
-                        console.error("Error saving event:", error);
-                    });
-            }
-
-            closeModal();
-        }
-
-        function addTaskEventListeners(task) {
-            task.addEventListener('click', (e) => {
-                e.preventDefault();
-                openModal(task);
-            });
-
-            task.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', e.target.getAttribute('data-id'));
-                setTimeout(() => {
-                    e.target.style.display = 'none';
-                }, 0);
-            });
-
-            task.addEventListener('dragend', (e) => {
-                e.target.style.display = 'block';
-            });
-        }
-
-        document.querySelectorAll('.queue-box, .task-list').forEach(box => {
-            box.addEventListener('dragover', (e) => {
-                e.preventDefault();
-            });
-
-            box.addEventListener('drop', (e) => {
-                e.preventDefault();
-                const id = e.dataTransfer.getData('text/plain');
-                const task = document.querySelector(`[data-id='${id}']`);
-                if (!task) {
-                    console.error('Task not found:', id);
-                    return;
-                }
-
-                // Move the task to the new bucket
-                box.appendChild(task);
-                task.style.display = 'block';
-
-                // Update priority based on the target bucket
-                let updatedPriority;
-                if (box.id === 'immediate') {
-                    updatedPriority = 1;
-                } else if (box.id === 'one-week') {
-                    updatedPriority = 2;
-                } else if (box.id === 'two-weeks') {
-                    updatedPriority = 3;
-                } else if (box.id === 'one-month') {
-                    updatedPriority = 4;
-                }
-
-                if (updatedPriority) {
-                    // Update priority in Firebase using the task ID
-                    const taskRef = ref(db, `eventDB/${id}`);
-                    update(taskRef, {
-                        priority: updatedPriority
-                    }).then(() => {
-                        console.log("Priority updated successfully in Firebase.");
-                    }).catch((error) => {
-                        console.error("Error updating priority:", error);
-                    });
-                }
-            });
-        });
-
-        // Save event to Firebase
-        function saveEvent() {
-            const title = taskNameInput.value.trim();
-            const attribute = attributeInput.value.trim();
-            const start = dateDueInput.value + 'T09:00:00';
-            const end = dateDueInput.value + 'T17:00:00';
-            const priority = parseInt(prioritySelect.value);
-            const dateAdded = new Date().toISOString();
-
-            // Validation
-            if (!title) {
-                alert("Task title is required.");
-                return;
-            }
-            if (!priority || isNaN(priority)) {
-                alert("Please select a valid priority.");
-                return;
-            }
-            if (!start) {
-                alert("Please select a due date.");
-                return;
-            }
-
-            const eventData = {
-                title,
-                attribute,
-                dateAdded,
-                start,
-                end,
-                priority
-            };
-
-            // Save to Firebase
-            const eventRef = push(ref(db, 'eventDB/'));
-            set(eventRef, eventData)
-                .then(() => {
-                    console.log("Event saved successfully.");
-                    closeModal();
-                    addEventToPool(eventData, eventRef.key); // Add event to task pool with key
-                })
-                .catch((error) => {
-                    console.error("Error saving event:", error);
-                });
-        }
-
-        // Add event to the task pool
-        function addEventToPool(event, key) {
-            const taskPool = document.getElementById('taskPool');
-            const taskDiv = document.createElement('div');
-            taskDiv.className = 'task';
-            taskDiv.textContent = `${event.title} (Priority: ${event.priority})`;
-            taskDiv.setAttribute('data-id', key);
-            taskDiv.draggable = true;
-            addTaskEventListeners(taskDiv); // Add event listeners to the new task
-
-            // Place the task in the correct queue based on its priority
-            let targetBucket;
-            switch (event.priority) {
-                case 1:
-                    targetBucket = document.getElementById('immediate');
-                    break;
-                case 2:
-                    targetBucket = document.getElementById('one-week');
-                    break;
-                case 3:
-                    targetBucket = document.getElementById('two-weeks');
-                    break;
-                case 4:
-                    targetBucket = document.getElementById('one-month');
-                    break;
-                default:
-                    targetBucket = taskPool; // Default to task pool if no valid priority
-            }
-
-            targetBucket.appendChild(taskDiv);
-        }
-
-        // Real-time listener for events
-        function loadEvents() {
-            const dbRef = ref(db, "eventDB/");
-            onValue(dbRef, (snapshot) => {
-                // Clear existing tasks from all buckets but keep headers
-                document.querySelectorAll('.queue-box').forEach(box => {
-                    const header = box.querySelector('h3');
-                    box.innerHTML = "";
-                    if (header) {
-                        box.appendChild(header); // Re-append the header
-                    }
-                });
-
-                snapshot.forEach((childSnapshot) => {
-                    const childData = childSnapshot.val();
-                    addEventToPool(childData, childSnapshot.key);
-                });
-            });
-        }
-
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.saveTask = saveTask;
     </script>
 
 </head>
@@ -303,7 +38,7 @@
     <div class="top-nav" id = "top-nav">
         <a href="../HomeNav/index.html">Home</a>
         <a href="../Dashboard/index.html">Dashboard</a>
-        <a class = "active" href="#">Kanban</a>
+        <a class="active" href="#">Kanban</a>
         <a href="../CalendarUI/index.html">Calendar</a>
         <a href="../TextCommUI/index.html">Chat</a>
     </div>
@@ -313,7 +48,7 @@
         <img src="logo2.png" alt="Logo" class="logo">
         <h2>Task Pool</h2>
         <div class="create-event-container">
-    <button class="create-event-btn" onclick="openModal()">Create Event</button>
+            <button class="create-event-btn" onclick="openModal()">Create Event</button>
         </div>
         <div class="task-list" id="taskPool"></div>
     </div>
@@ -355,6 +90,5 @@
         <div class="queue-box" id="one-month"><h3>1 Month</h3></div>
     </div>
 
-    
 </body>
 </html>
