@@ -37,6 +37,26 @@ function isString(variable){
     return typeof variable === "string";
 }
 
+function add_login_button(){
+    const topnav = document.getElementById('top-nav');
+
+    const login_button = document.createElement('a');
+    profile_button.classList.add("profile");
+    login_button.textContent = "Login";
+    profile_button.setAttribute("href", "../LoginLogoutUI/index.html");
+    topnav.appendChild(login_button);
+}
+
+function add_profile_button(){
+    const topnav = document.getElementById('top-nav');
+
+    const profile_button = document.createElement('a');
+    profile_button.classList.add("profile");
+    profile_button.textContent = userId;
+    profile_button.setAttribute("href", "../UserProfile/index.html");
+    topnav.appendChild(profile_button);
+}
+
 // this is the setter method for the userId var
 onAuthStateChanged(auth, (user) => {
     if (user) { //is signed in
@@ -69,9 +89,11 @@ onAuthStateChanged(auth, (user) => {
             // TODO: set pfpElementSrc to be the default
             pfpElementSrc = "./default.jpg"; //this does not function
         }
+        add_profile_button();
     }
     else
     {
+        add_login_button();
         alert("Only Logged in users may view and send messages\n")
     }
   });
