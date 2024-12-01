@@ -16,7 +16,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getDatabase, set, ref, push, onValue, update } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        import { getDatabase, set, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
         // Firebase configuration
         const firebaseConfig = {
@@ -118,6 +118,7 @@
                     dateAdded,
                     start,
                     end,
+                    dateDue: updatedDateDue,
                     priority: parseInt(updatedPriority)
                 };
 
@@ -125,7 +126,6 @@
                 set(eventRef, eventData)
                     .then(() => {
                         console.log("Event saved successfully.");
-                        // Removed the call to `addEventToPool(eventData, eventRef.key);`
                     })
                     .catch((error) => {
                         console.error("Error saving event:", error);
@@ -153,7 +153,7 @@
             });
         }
 
-        document.querySelectorAll('.queue-box, .task-list').forEach(box => {
+        document.querySelectorAll('.queue-box, .task-list, .delete-box').forEach(box => {
             box.addEventListener('dragover', (e) => {
                 e.preventDefault();
             });
@@ -168,31 +168,44 @@
                 }
 
                 // Move the task to the new bucket
-                box.appendChild(task);
-                task.style.display = 'block';
-
-                // Update priority based on the target bucket
-                let updatedPriority;
-                if (box.id === 'immediate') {
-                    updatedPriority = 1;
-                } else if (box.id === 'one-week') {
-                    updatedPriority = 2;
-                } else if (box.id === 'two-weeks') {
-                    updatedPriority = 3;
-                } else if (box.id === 'one-month') {
-                    updatedPriority = 4;
-                }
-
-                if (updatedPriority) {
-                    // Update priority in Firebase using the task ID
+                if (box.classList.contains('delete-box')) {
+                    // Remove task from Firebase
                     const taskRef = ref(db, `eventDB/${id}`);
-                    update(taskRef, {
-                        priority: updatedPriority
-                    }).then(() => {
-                        console.log("Priority updated successfully in Firebase.");
+                    remove(taskRef).then(() => {
+                        console.log("Task deleted successfully from Firebase.");
+                        task.remove();
                     }).catch((error) => {
-                        console.error("Error updating priority:", error);
+                        console.error("Error deleting task:", error);
                     });
+                } else {
+                    box.appendChild(task);
+                    task.style.display = 'block';
+
+                    // Update priority based on the target bucket
+                    let updatedPriority;
+                    if (box.id === 'immediate') {
+                        updatedPriority = 1;
+                    } else if (box.id === 'one-week') {
+                        updatedPriority = 2;
+                    } else if (box.id === 'two-weeks') {
+                        updatedPriority = 3;
+                    } else if (box.id === 'one-month') {
+                        updatedPriority = 4;
+                    } else if (box.id === 'done') {
+                        updatedPriority = 5; // Mark as done
+                    }
+
+                    if (updatedPriority) {
+                        // Update priority in Firebase using the task ID
+                        const taskRef = ref(db, `eventDB/${id}`);
+                        update(taskRef, {
+                            priority: updatedPriority
+                        }).then(() => {
+                            console.log("Priority updated successfully in Firebase.");
+                        }).catch((error) => {
+                            console.error("Error updating priority:", error);
+                        });
+                    }
                 }
             });
         });
@@ -222,6 +235,9 @@
                 case 4:
                     targetBucket = document.getElementById('one-month');
                     break;
+                case 5:
+                    targetBucket = document.getElementById('done');
+                    break;
                 default:
                     targetBucket = taskPool; // Default to task pool if no valid priority
             }
@@ -242,9 +258,31 @@
                     }
                 });
 
+                const upcomingEvents = [];
                 snapshot.forEach((childSnapshot) => {
                     const childData = childSnapshot.val();
+                    const daysLeft = Math.ceil((new Date(childData.end) - new Date()) / (1000 * 60 * 60 * 24));
+                    if (childData.end && daysLeft >= 0) {
+                        upcomingEvents.push(childData);
+                    }
                     addEventToPool(childData, childSnapshot.key);
+                });
+
+                // Sort events by end date
+                upcomingEvents.sort((a, b) => new Date(a.end) - new Date(b.end));
+                // Log the upcoming events for debugging purposes
+                console.log("Upcoming Events:", upcomingEvents);
+                // Clear and update upcoming tasks box
+                const upcomingBox = document.getElementById('upcoming-tasks-sidebar');
+                upcomingBox.innerHTML = "<h3>Upcoming Tasks</h3>";
+                upcomingEvents.slice(0, 5).forEach(event => {
+                    if (event.end) {
+                        const daysLeft = Math.ceil((new Date(event.end) - new Date()) / (1000 * 60 * 60 * 24));
+                        const eventDiv = document.createElement('div');
+                        eventDiv.className = 'task';
+                        eventDiv.textContent = `${event.title} - Due in ${daysLeft} day(s)`;
+                        upcomingBox.appendChild(eventDiv);
+                    }
                 });
             });
         }
@@ -271,12 +309,16 @@
     <button class="create-event-btn" onclick="openModal()">Create Event</button>
         </div>
         <div class="task-list" id="taskPool"></div>
+        <div class="upcoming-tasks-sidebar" id="upcoming-tasks-sidebar"><h3>Upcoming Tasks</h3></div>
+        <div class="delete-box" id="delete-box" style="background-color: #ff4444; color: white; padding: 1em; text-align: center; margin-top: 1em; border-radius: 1em;">
+            <h3>Delete Task</h3>
+        </div>
     </div>
 
     <!-- Modal for creating a new event -->
     <div class="modal-overlay" id="modalOverlay" style="display: none;">
         <div class="modal">
-            <h1><div class="modal-header">Create New Event</div></b></h1>
+            <h1><b><div class="modal-header">Create New Event</div></b></h1>
             <label for="taskName">Name:</label>
             <input type="text" id="taskName" placeholder="Enter task name"><br>
 
@@ -293,6 +335,7 @@
                 <option value="2">1 Week</option>
                 <option value="3">2 Weeks</option>
                 <option value="4">1 Month+</option>
+                <option value="5">Done</option>
             </select><br>
 
             <div class="modal-buttons">
@@ -308,6 +351,7 @@
         <div class="queue-box" id="one-week"><h3>1 Week</h3></div>
         <div class="queue-box" id="two-weeks"><h3>2 Weeks</h3></div>
         <div class="queue-box" id="one-month"><h3>1 Month</h3></div>
+        <div class="queue-box" id="done"><h3>Done</h3></div>
     </div>
 
     
