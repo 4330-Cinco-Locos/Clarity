@@ -34,11 +34,11 @@
         const db = getDatabase();
 
         let currentTask = null;
-        let taskNameInput, attributesInput, dateDueInput, prioritySelect, modalOverlay;
+        let taskNameInput, attributeInput, dateDueInput, prioritySelect, modalOverlay;
 
         document.addEventListener("DOMContentLoaded", () => {
             taskNameInput = document.getElementById('taskName');
-            attributesInput = document.getElementById('attributes');
+            attributeInput = document.getElementById('attribute');
             dateDueInput = document.getElementById('dateDue');
             prioritySelect = document.getElementById('priority');
             modalOverlay = document.getElementById('modalOverlay');
@@ -57,7 +57,7 @@
                     const childData = snapshot.val();
                     if (childData) {
                         taskNameInput.value = childData.title;
-                        attributesInput.value = childData.attributes || "";
+                        attributeInput.value = childData.attribute || "";
                         dateDueInput.value = childData.dateDue || "";
                         prioritySelect.value = childData.priority || "";
                     }
@@ -65,7 +65,7 @@
             } else {
                 // Clear modal fields for new task
                 taskNameInput.value = "";
-                attributesInput.value = "";
+                attributeInput.value = "";
                 dateDueInput.value = "";
                 prioritySelect.value = "";
             }
@@ -81,7 +81,7 @@
         // Save task and update Firebase
         window.saveTask = function() {
             const updatedName = taskNameInput.value.trim();
-            const updatedAttributes = attributesInput.value.trim();
+            const updatedAttribute = attributeInput.value.trim();
             const updatedDateDue = dateDueInput.value;
             const updatedPriority = prioritySelect.value;
 
@@ -96,7 +96,7 @@
                 const taskRef = ref(db, `eventDB/${taskId}`);
                 update(taskRef, {
                     title: updatedName,
-                    attributes: updatedAttributes,
+                    attribute: updatedAttribute,
                     dateDue: updatedDateDue,
                     priority: parseInt(updatedPriority)
                 }).then(() => {
@@ -114,7 +114,7 @@
 
                 const eventData = {
                     title: updatedName,
-                    attributes: updatedAttributes,
+                    attribute: updatedAttribute,
                     dateAdded,
                     start,
                     end,
@@ -200,7 +200,7 @@
         // Save event to Firebase
         function saveEvent() {
             const title = taskNameInput.value.trim();
-            const attributes = attributesInput.value.trim();
+            const attribute = attributeInput.value.trim();
             const start = dateDueInput.value + 'T09:00:00';
             const end = dateDueInput.value + 'T17:00:00';
             const priority = parseInt(prioritySelect.value);
@@ -222,7 +222,7 @@
 
             const eventData = {
                 title,
-                attributes,
+                attribute,
                 dateAdded,
                 start,
                 end,
@@ -300,11 +300,12 @@
 <body>
 
     <!-- Top Navigation Bar -->
-    <div class="top-nav"> 
-        <a href="../Dashboard/index.html">Home</a>
-        <a class="active" href="#">Kanban</a>
+    <div class="top-nav" id = "top-nav">
+        <a href="../HomeNav/index.html">Home</a>
+        <a href="../Dashboard/index.html">Dashboard</a>
+        <a class = "active" href="#">Kanban</a>
         <a href="../CalendarUI/index.html">Calendar</a>
-        <a href="../Chat/index.html">Kanban</a>
+        <a href="../TextCommUI/index.html">Chat</a>
     </div>
 
     <!-- Sidebar for Task Pool with logo at the top -->
@@ -324,8 +325,8 @@
             <label for="taskName">Name:</label>
             <input type="text" id="taskName" placeholder="Enter task name"><br>
 
-            <label for="attributes">Attributes:</label>
-            <input type="text" id="attributes" placeholder="Enter attributes"><br>
+            <label for="attribute">Attribute:</label>
+            <input type="text" id="attribute" placeholder="Enter attribute"><br>
 
             <label for="dateDue">Due Date:</label>
             <input type="date" id="dateDue"><br>
