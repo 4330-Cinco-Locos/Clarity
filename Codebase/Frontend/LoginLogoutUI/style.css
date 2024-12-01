@@ -11,14 +11,13 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url('bgimg.jpg');
 }
 .wrapper/*the box*/{
     position: relative;
     width: 400px;
     height: 500px;
-    background: #141823;
-    border: 2px solid #f9fbee;
+    background: #D9AE89;
+    border: 2px solid #E2E3DD;
     border-radius: 30px;
     padding: 40px;
     overflow: hidden;
@@ -48,7 +47,7 @@ h1/*CLARITY title on login/signup page*/{
     font-size: 80px;
     font-weight: 300;
     letter-spacing: 1px;
-    color: #f9fbee;
+    color: #D9AE89;
     text-align: center;
     position: absolute;
     top: 90px;
@@ -60,7 +59,7 @@ h1/*CLARITY title on login/signup page*/{
 }
 h2 /*"The literal word 'Login' header"*/{
     font-size: 30px;
-    color: #f9fbee;
+    color: #40251F;
     text-align: center;
 }
 .input-group/*pw and username fields*/{
@@ -82,7 +81,7 @@ h2 /*"The literal word 'Login' header"*/{
     width: 320px;
     height: 40px;
     font-size: 16px;
-    color: #f9fbee;
+    color: #40251F;
     padding: 0 5px;
     background: transparent;
     border: none;
@@ -105,17 +104,17 @@ h2 /*"The literal word 'Login' header"*/{
 
 }
 .remember label input/*remember me button stuff*/{
-    accent-color: goldenrod;
+    accent-color: #40251F;
     
 }
 button/*login button*/{
     position: relative;
     width: 100%;
     height: 40px;
-    background: #f9fbee;
-    box-shadow: 0 0 5px #f9fbee;
+    background: #40251F;
+    box-shadow: 0 0 5px #E2E3DD;
     font-size: 16px;
-    color: black;
+    color: #D9AE89;
     font-weight: 500;
     cursor: pointer;
     border-radius: 40px;
@@ -132,7 +131,7 @@ button/*login button*/{
     color: #f9fbee;
 }
 .signUp-link p a{
-    color: goldenrod;
+    color: #40251F;
     text-decoration: none;
     font-weight: 500;
 }
