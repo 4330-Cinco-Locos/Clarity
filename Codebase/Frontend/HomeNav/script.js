@@ -11,11 +11,13 @@ onAuthStateChanged(auth, (user) => {
         // User is signed in
 
         // Example: Log the current user UID to console
+        signOutBtn.textContent = 'Sign Out';
         console.log("Curr User UID: ", user.uid);
         console.log("Curr user, username", user.displayName);
 
     } else {
         // User is signed out
+        signOutBtn.textContent = 'Login';
         console.log("No user is signed in.");
     }
 });
