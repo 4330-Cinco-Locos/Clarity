@@ -120,7 +120,8 @@ section#middlescreen{
     color: #f9fbee;
 }
 /*responsive*/
-@media (max-width: 1920px){
+
+@media (max-width: 3000px){
     .navigationbar .links,
     .navigationbar .act_btn{
         display: none;

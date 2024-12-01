@@ -21,7 +21,6 @@ const db = getDatabase();
 
 let currentTask = null;
 
-
 const toggleBtn = document.querySelector('.toggle_button');
 const toggleBtnIco = document.querySelector('.toggle_button i');
 const dropdownM = document.querySelector('.dropdown');
@@ -35,11 +34,38 @@ toggleBtn.addEventListener('click', function() {
     toggleBtnIco.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
 });
 
+// clears an element with id div_name of all child elements
+// div_name must be a string type
+function clear_container(div_name)
+{
+    if (isString(div_name))
+    {
+        const msg_container = document.getElementById(div_name);
+
+        // Check if the parent element has any children
+        while (msg_container.firstChild) {
+        // Remove the first child
+        msg_container.removeChild(msg_container.firstChild);
+        }
+    }
+    else console.log("ERROR: clear_container was passsed an invalid parameter ["+div_name+"]\n");
+}
+
+function isString(variable){
+    return typeof variable === "string";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     
     const reference = ref(db, `eventDB`);
 
     onValue(reference, (snapshot)=> {
+        clear_container("immediate");
+        const queueBox = document.querySelector('.queue-box');
+        const label = document.createElement('h3');
+        label.textContent = "Immediate Tasks (Priority 1)";
+        queueBox.appendChild(label);
+
         const data = snapshot.val();
 
         for (const key in data) {
