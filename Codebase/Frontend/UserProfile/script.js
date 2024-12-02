@@ -2,7 +2,7 @@ console.log("script.js is running");
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 // grabbing the needed database methods
-import {getAuth, updatePassword, onAuthStateChanged} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"
+import {getAuth, updatePassword, onAuthStateChanged, updateProfile} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"
 
 const firebaseConfig = {
     apiKey: "AIzaSyAAxXs88pJUfCoeotb0C8gfTGxvltpPBz8",
@@ -28,11 +28,16 @@ const saveBtn = document.querySelector('.save');
 const closeBtn = document.querySelector('.close');
 const updatePasswordBtn = document.querySelector('.passwdbtn');
 
+const uploadImageBtn = document.querySelector('.image_upload_btn');
+const uploadBtn = document.querySelector('.upload');
+const closeUploadBtn = document.querySelector('.close_upload');
+
 const closeMissmatchBtn = document.querySelector('#close_missmatch_popup');
 const closeSucessfulBtn = document.querySelector('#close_sucessful_popup');
 
 const newPassword = document.getElementById('password1');
 const newPasswordCheck = document.getElementById('password2');
+const newURL = document.getElementById('url');
 
 
 // togglebtn is the bars dropdown icon
@@ -46,14 +51,18 @@ toggleBtn.addEventListener('click', function() {
 onAuthStateChanged(auth, (user) => {
     
     const passwordButton = document.querySelector('.passwdbtn');
+    const photoUploadButton = document.querySelector('.image_upload_btn');
 
     if (user) {
-        getAdditionalUserInfo();
         passwordButton.style.display = "block";
+        photoUploadButton.style.display = "block";
+        getAdditionalUserInfo();
+        
     }
     else{
         console.log("No user is signed in");
         passwordButton.style.display = "none";
+        photoUploadButton.style.display = "none";
     }
 })
 
@@ -65,23 +74,54 @@ function getAdditionalUserInfo(){
     document.getElementById("ID").innerHTML = user.uid; //profile.uid
     document.getElementById("email").innerHTML = user.email; //profile.email
 
-    const profileImage = user.photoURL|| "https://static.thenounproject.com/png/4154905-200.png";
+    const profileImage = user.photoURL || "https://static.thenounproject.com/png/4154905-200.png";
     document.getElementById("profile_img").src = profileImage;
     console.log(profileImage)
 
 }
+
+//show overlay if change password button is selected
+uploadImageBtn.addEventListener('click', function(){
+
+    document.getElementById("image_overlay").style.display = "block";
+
+});
+
+uploadBtn.addEventListener('click', function(){
+
+
+    //update user profile url
+
+    updateProfile(auth.currentUser, {
+        photoURL: newURL.value
+    }).then(( ) => {
+        console.log('Profile Image Uploaded');
+    }).catch((error) => {
+        console.log('File was not Uploaded');
+    })
+
+
+    document.getElementById("image_overlay").style.display = "none";
+
+});
+
+closeUploadBtn.addEventListener('click', function(){
+
+    document.getElementById("image_overlay").style.display = "none";
+
+});
 
 //update user's password when the 'save' button is selected
 saveBtn.addEventListener('click', function(){
 
     const user = auth.currentUser;
 
-    if(!user) {
-        console.log("No user is logged in");
-        document.getElementById("password_overlay").style.display = "none";
-    }
+       if (newPassword.value == newPasswordCheck.value ){
 
-    else if (newPassword.value == newPasswordCheck.value ){
+        if (newPassword.value.length < 6) {
+            alert("Password must be at least 6 characters long.");
+            return;
+        }
         
         //show pupup for a sucessfully updated password
         document.getElementById("sucessful").style.display = "block";
@@ -92,8 +132,7 @@ saveBtn.addEventListener('click', function(){
         updatePassword(user, newPassword.value).then(() => {
             
         }).catch((error) => {
-            // An error ocurred
-            // ...
+            alert("Error updating password:");
         });
 
     }

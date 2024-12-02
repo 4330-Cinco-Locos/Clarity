@@ -31,26 +31,26 @@
 
         <div class = "card">
             <h1>User Profile</h1>
-            <img src="../../Backend/default.jpg">
+            <img src="../../Backend/default.jpg" id="profile_img">
+            <div class = image_upload>
+                <button class = "image_upload_btn" id="image_upload_btn">Upload Profile Picture</button>
+            </div>
             <div class = "info">
                 <table>
                     <tbody>
 
                         <tr>
-                            <td>Name</td>
-                            <td>: </td>
+                            <td><strong>Name:</strong></td>
                             <td id="name">No Current User Found</span></td>
                         </tr>
 
                         <tr>
-                            <td>User ID</td>
-                            <td>: </td>
+                            <td><strong>User ID:</strong></td>
                             <td id="ID">No Current User Found</span></td>
                         </tr>
 
                         <tr>
-                            <td>Email</td>
-                            <td>: </td>
+                            <td><strong>Email:</strong></td>
                             <td id="email">No Current User Found</span></td>
                         </tr>
                     </tbody>
@@ -76,6 +76,22 @@
                     <button class="close">Close</button>
                     <button class="save">Save</button>
                 </div>
+            </div>
+        </div>
+
+        <div class="update_image_overlay" id="image_overlay">
+            <div class="update_image">
+
+                <div class="overlay-header">Add a URL to a new profile image</div>
+
+                <label for="image_url">URL:</label>
+                <input type="text" id="url" placeholder="">
+
+                <div class="upload_buttons">
+                    <button class="close_upload">Close</button>
+                    <button class="upload">Upload</button>
+                </div>
+    
             </div>
         </div>
 
