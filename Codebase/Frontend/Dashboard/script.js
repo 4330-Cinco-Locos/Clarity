@@ -19,6 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 const auth = getAuth();
+var isLoggedIn = false;
 
 let currentTask = null;
 
@@ -56,6 +57,15 @@ function isString(variable){
     return typeof variable === "string";
 }
 
+function add_login_button(){
+    const topnav = document.getElementById('top-nav');
+    const login_button = document.createElement('a');
+    login_button.classList.add("profile");
+    login_button.textContent = "Login";
+    login_button.setAttribute("href", "../LoginLogoutUI/index.html");
+    topnav.appendChild(login_button);
+}
+
 function add_profile_button(user){
     const topnav = document.getElementById('top-nav');
 
@@ -69,38 +79,59 @@ function add_profile_button(user){
 onAuthStateChanged(auth, (user) => {
     
     if (user) {
-        add_profile_button(user);    
+        add_profile_button(user);   
+        isLoggedIn = true;
+    }
+    else{
+        add_login_button();
+        isLoggedIn = false;
     }
 
 })
 
 document.addEventListener("DOMContentLoaded", () => {
     
-    const reference = ref(db, `eventDB`);
+    if(isLoggedIn){
+        const reference = ref(db, `eventDB`);
 
-    onValue(reference, (snapshot)=> {
+        onValue(reference, (snapshot)=> {
+            clear_container("immediate");
+            const queueBox = document.querySelector('.queue-box');
+            const label = document.createElement('h3');
+            label.textContent = "Immediate Tasks (Priority 1)";
+            queueBox.appendChild(label);
+
+            const data = snapshot.val();
+
+            for (const key in data) {
+                if(data.hasOwnProperty(key)) {
+                    const event = data[key]
+
+                    if (event.priority == 1){
+                        console.log(`Event key: ${key}, Event Date:`, event);
+                        addTask(event, key);
+                    }
+
+                }
+            }
+
+        })
+    }
+    else
+    {
         clear_container("immediate");
+
         const queueBox = document.querySelector('.queue-box');
         const label = document.createElement('h3');
         label.textContent = "Immediate Tasks (Priority 1)";
         queueBox.appendChild(label);
 
-        const data = snapshot.val();
-
-        for (const key in data) {
-            if(data.hasOwnProperty(key)) {
-                const event = data[key]
-
-                if (event.priority == 1){
-                    console.log(`Event key: ${key}, Event Date:`, event);
-                    addTask(event, key);
-                }
-
-            }
-        }
-
-    })
-
+        const login_notif = document.createElement('div');
+        login_notif.textContent = "Warning: you must be logged in to view task content";
+        login_notif.classList.add('Warning');
+        login_notif.id = 'Warning';
+        queueBox.appendChild(login_notif);
+    }
 })
 
 function addTask(event, key){
