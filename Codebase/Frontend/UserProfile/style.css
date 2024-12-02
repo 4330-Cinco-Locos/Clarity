@@ -16,6 +16,7 @@ body{
 }
 main {
     padding-top: 25px;
+    padding-bottom: 50px;
 }
 /* handles style of app's component links*/
 li{
