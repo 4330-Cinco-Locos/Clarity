@@ -18,16 +18,27 @@ Codebase
 - Front end: HTML, CSS, JS
 - Back end: <Placeholder>
 
+Technology Used:
+ReactJS, HTML, Firebase
+
+
+
 ### Integration
 - [x] Basic UI Integration
 - [x] Committ tracking/planning functionality
-- [ ] Login function
+- [x] Login function
 - [ ] Heirarchy of users (managers, users, etc)
 - [ ] Timetables and metrics
-- [ ] Assignability of tasks and tasking
-- [ ] 
-- [ ] Scalability of Team
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
+- [x] Assignability of tasks and tasking
+- [x] Kanban Integration 
+- [x] Scalability of Team
+
+
+
+
+How To:
+
+Install: Go to a website
+Voila!
+
+
