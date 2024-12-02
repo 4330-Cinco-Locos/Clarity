@@ -46,6 +46,15 @@ function add_login_button(){
     topnav.appendChild(login_button);
 }
 
+function add_login_message(){
+    const container = document.getElementById('content');
+
+    const login_message = document.createElement('p');
+    login_message.textContent = "Warning: users may not view messages when not logged in.";
+    login_message.classList.add("Warning");
+    container.appendChild(login_message);
+}
+
 function add_profile_button(){
     const topnav = document.getElementById('top-nav');
     const profile_button = document.createElement('a');
@@ -92,7 +101,6 @@ onAuthStateChanged(auth, (user) => {
     else
     {
         add_login_button();
-        alert("Only Logged in users may view and send messages\n")
     }
   });
 
@@ -159,7 +167,7 @@ onValue(dbRef,(snapshot) =>{
             }
         });
     }
-    else alert("Only Logged In Users may view messages!\n");
+    else add_login_message();
 }, (errorObject) => {
     console.log('The read failed: '+ errorObject.name)
 });
