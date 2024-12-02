@@ -60,6 +60,7 @@ body{
 header{
     position: relative;
     padding: 0 32px;
+    display: none;
 }
 
 /* handles style of app's component links*/
