@@ -11,34 +11,38 @@ An innovative bridge of small-team management and socialization solving issues p
  - Landon Clarke, [@github/Larke20](github.com/Larke20)
  - Logan Price [@github/BigLDPS](github.com/BigLDPS)
    
-## Project Details
+## Implementation Details
 
-Codebase
 ### Languages 
 - Front end: HTML, CSS, JS
-- Back end: <Placeholder>
+- Back end: Firebase
 
 Technology Used:
-ReactJS, HTML, Firebase
-
-
+HTML, Firebase
 
 ### Integration
 - [x] Basic UI Integration
 - [x] Committ tracking/planning functionality
 - [x] Login function
-- [ ] Heirarchy of users (managers, users, etc)
-- [ ] Timetables and metrics
 - [x] Assignability of tasks and tasking
 - [x] Kanban Integration 
 - [x] Scalability of Team
+- [x] Text-Communicaton between users
+- [x] Multi-Channel text communication
 
+### Running the Program
+Option 1: running without VSCode
+- 1: Download the codebase to your local machine
+- 2: Navigate to the codebase location
+- 3: select Login/LogoutUI folder (other pages work, but may not display info)
+- 4: double click the index.html file within the folder
 
+Option 2: running through VSCode
+- 1: Download the codebase to your local machine
+- 2: Open the codebase in VSCode
+- 3: Install the 'Live Server' extension, by Ritwick Dey
+- 4: open the terminal within the codebase and navigate to the Login/LogoutUI folder
+- 5: in the bottom right of the vscode window, select the 'Go Live' button
 
-
-How To:
-
-Install: Go to a website
-Voila!
-
-
+### Demonstration
+[note: as this is currently setup for easy demo purposes, any email works for creating an account, so long as it meets email format. This include non-existant emails]
