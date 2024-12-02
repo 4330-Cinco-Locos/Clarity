@@ -8,9 +8,14 @@
 }
 body{
     height: 100vh;
+    margin: 0;
+    padding: 0;
     background-color: #e5e1d8;
     background-size: cover;
     background-position: center;
+}
+main {
+    padding-top: 25px;
 }
 /* handles style of app's component links*/
 li{
@@ -130,7 +135,7 @@ header{
 .card {
     width: 75%;
     background-color: #d9ae89;
-    padding-top: 100px;
+    padding-top: 200px;
     padding: 15px;
     margin: 10px;
     border-radius: 15px;

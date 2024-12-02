@@ -47,6 +47,15 @@ toggleBtn.addEventListener('click', function() {
     toggleBtnIco.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
 });
 
+function add_profile_button(user){
+    const topnav = document.getElementById('top-nav');
+
+    const profile_button = document.createElement('a');
+    profile_button.classList.add("profile");
+    profile_button.textContent = user.displayName;
+    profile_button.setAttribute("href", "../UserProfile/index.html");
+    topnav.appendChild(profile_button);
+}
 
 onAuthStateChanged(auth, (user) => {
     
@@ -56,7 +65,9 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         passwordButton.style.display = "block";
         photoUploadButton.style.display = "block";
+        add_profile_button(user);
         getAdditionalUserInfo();
+
         
     }
     else{
@@ -65,6 +76,8 @@ onAuthStateChanged(auth, (user) => {
         photoUploadButton.style.display = "none";
     }
 })
+
+
 
 function getAdditionalUserInfo(){
 
