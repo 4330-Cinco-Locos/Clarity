@@ -9,7 +9,10 @@
     
     <title>Task Scheduler with Navbar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+
+
     <!-- Firebase App (the compat version of Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -34,12 +37,12 @@
         const db = getDatabase();
 
         let currentTask = null;
-        let taskNameInput, attributeInput, dateDueInput, prioritySelect, modalOverlay;
+        let taskNameInput, attributeInput, endInput, prioritySelect, modalOverlay;
 
         document.addEventListener("DOMContentLoaded", () => {
             taskNameInput = document.getElementById('taskName');
             attributeInput = document.getElementById('attribute');
-            dateDueInput = document.getElementById('dateDue');
+            endInput = document.getElementById('end');
             prioritySelect = document.getElementById('priority');
             modalOverlay = document.getElementById('modalOverlay');
 
@@ -58,7 +61,7 @@
                     if (childData) {
                         taskNameInput.value = childData.title;
                         attributeInput.value = childData.attribute || "";
-                        dateDueInput.value = childData.dateDue || "";
+                        endInput.value = childData.end || "";
                         prioritySelect.value = childData.priority || "";
                     }
                 }, { onlyOnce: true });
@@ -66,7 +69,7 @@
                 // Clear modal fields for new task
                 taskNameInput.value = "";
                 attributeInput.value = "";
-                dateDueInput.value = "";
+                endInput.value = "";
                 prioritySelect.value = "";
             }
 
@@ -82,7 +85,7 @@
         window.saveTask = function() {
             const updatedName = taskNameInput.value.trim();
             const updatedAttribute = attributeInput.value.trim();
-            const updatedDateDue = dateDueInput.value;
+            const updatedend = endInput.value;
             const updatedPriority = prioritySelect.value;
 
             if (!updatedName) {
@@ -97,7 +100,7 @@
                 update(taskRef, {
                     title: updatedName,
                     attribute: updatedAttribute,
-                    dateDue: updatedDateDue,
+                    end: updatedend,
                     priority: parseInt(updatedPriority)
                 }).then(() => {
                     console.log("Task updated successfully in Firebase.");
@@ -108,8 +111,8 @@
                 currentTask.textContent = `${updatedName} (Priority: ${updatedPriority})`;
             } else {
                 // Create new task
-                const start = updatedDateDue + 'T09:00:00';
-                const end = updatedDateDue + 'T17:00:00';
+                const start = updatedend + 'T09:00:00';
+                const end = updatedend + 'T17:00:00';
                 const dateAdded = new Date().toISOString();
 
                 const eventData = {
@@ -118,7 +121,7 @@
                     dateAdded,
                     start,
                     end,
-                    dateDue: updatedDateDue,
+                    end: updatedend,
                     priority: parseInt(updatedPriority)
                 };
 
@@ -215,7 +218,7 @@
             const taskPool = document.getElementById('taskPool');
             const taskDiv = document.createElement('div');
             taskDiv.className = 'task';
-            taskDiv.textContent = `${event.title} (Priority: ${event.priority})`;
+            taskDiv.textContent = `${event.title} `;
             taskDiv.setAttribute('data-id', key);
             taskDiv.draggable = true;
             addTaskEventListeners(taskDiv); // Add event listeners to the new task
@@ -280,7 +283,7 @@
                         const daysLeft = Math.ceil((new Date(event.end) - new Date()) / (1000 * 60 * 60 * 24));
                         const eventDiv = document.createElement('div');
                         eventDiv.className = 'task';
-                        eventDiv.textContent = `${event.title} - Due in ${daysLeft} day(s)`;
+                        eventDiv.textContent = `${event.title} -  ${daysLeft} day(s)`;
                         upcomingBox.appendChild(eventDiv);
                     }
                 });
@@ -294,6 +297,7 @@
 
     <!-- Top Navigation Bar -->
     <div class="top-nav" id = "top-nav">
+        <a href="../HomeNav/index.html">Home</a>
         <a href="../HomeNav/index.html">Home</a>
         <a href="../Dashboard/index.html">Dashboard</a>
         <a class = "active" href="#">Kanban</a>
@@ -325,8 +329,8 @@
             <label for="attribute">Attribute:</label>
             <input type="text" id="attribute" placeholder="Enter attribute"><br>
 
-            <label for="dateDue">Due Date:</label>
-            <input type="date" id="dateDue"><br>
+            <label for="end">Due Date:</label>
+            <input type="date" id="end"><br>
 
             <label for="priority">Priority:</label>
             <select id="priority">
