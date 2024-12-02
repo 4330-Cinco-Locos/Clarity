@@ -20,6 +20,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getDatabase, set, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+        import {getAuth, updatePassword, onAuthStateChanged} from  "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"
 
         // Firebase configuration
         const firebaseConfig = {
@@ -35,6 +36,7 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase();
+        const auth = getAuth();
 
         let currentTask = null;
         let taskNameInput, attributeInput, endInput, prioritySelect, modalOverlay;
@@ -49,6 +51,24 @@
             loadEvents();
         });
 
+        function add_profile_button(user){
+            const topnav = document.getElementById('top-nav');
+
+            const profile_button = document.createElement('a');
+            profile_button.classList.add("profile");
+            profile_button.textContent = user.displayName;
+            profile_button.setAttribute("href", "../UserProfile/index.html");
+            topnav.appendChild(profile_button);
+        }
+
+        onAuthStateChanged(auth, (user) => {
+    
+            if (user) {
+                add_profile_button(user);    
+            }
+
+        })
+        
         // Open and close modal
         window.openModal = function(taskElement = null) {
             currentTask = taskElement;
