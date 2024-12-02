@@ -39,17 +39,15 @@ function isString(variable){
 
 function add_login_button(){
     const topnav = document.getElementById('top-nav');
-
     const login_button = document.createElement('a');
-    profile_button.classList.add("profile");
+    login_button.classList.add("profile");
     login_button.textContent = "Login";
-    profile_button.setAttribute("href", "../LoginLogoutUI/index.html");
+    login_button.setAttribute("href", "../LoginLogoutUI/index.html");
     topnav.appendChild(login_button);
 }
 
 function add_profile_button(){
     const topnav = document.getElementById('top-nav');
-
     const profile_button = document.createElement('a');
     profile_button.classList.add("profile");
     profile_button.textContent = userId;
