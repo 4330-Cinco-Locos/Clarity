@@ -264,3 +264,10 @@ section#middlescreen{
     cursor: pointer;
     color: #f9fbee;
 }
+
+.top-nav a.profile{
+    color: white;
+    text-decoration: none;
+    padding: 14px 16px;
+    margin-left: auto;
+  }

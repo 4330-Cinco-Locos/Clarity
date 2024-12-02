@@ -18,6 +18,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
+const auth = getAuth();
 
 let currentTask = null;
 
@@ -55,6 +56,24 @@ function isString(variable){
     return typeof variable === "string";
 }
 
+function add_profile_button(user){
+    const topnav = document.getElementById('top-nav');
+
+    const profile_button = document.createElement('a');
+    profile_button.classList.add("profile");
+    profile_button.textContent = user.displayName;
+    profile_button.setAttribute("href", "../UserProfile/index.html");
+    topnav.appendChild(profile_button);
+}
+
+onAuthStateChanged(auth, (user) => {
+    
+    if (user) {
+        add_profile_button(user);    
+    }
+
+})
+
 document.addEventListener("DOMContentLoaded", () => {
     
     const reference = ref(db, `eventDB`);
@@ -91,7 +110,7 @@ function addTask(event, key){
 
     task.classList.add('task');
     task.id = key;
-    task.innerHTML = `<div class="task-title">${event.attribute}</div>`;
+    task.innerHTML = `<div class="task-title">${event.title}</div>`;
 
     queueBox.appendChild(task);
 
