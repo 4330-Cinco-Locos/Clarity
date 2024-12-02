@@ -5,7 +5,8 @@ html, body {
   font-size: 14px;
   background: #d9ae89;
 }
-  
+
+/* Calendar styling */
 #calendar {
   max-width: 60%;
   margin: 0.5% auto;
@@ -20,18 +21,6 @@ html, body {
 #calendar button{
   background-color: #31312f;
   border: #31312f;
-}
-
-.fc-daygrid-day-frame{
-  border: 3px solid #31312f;
-}
-
-.fc-timegrid-col-frame{
-  border: 3px solid #31312f;
-}
-
-.fc-timegrid-slot{
-  border: 3px solid #31312f;
 }
 
 /* Top navigation bar */
@@ -71,4 +60,54 @@ html, body {
   text-decoration: none;
   padding: 14px 16px;
   margin-left: auto;
+}
+
+/* Modal styling */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  overflow: auto; /* Allows scrolling if modal content exceeds the height */
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #f9fbee;
+  color: #d9ae89;
+  padding: 2%;
+  width: 90%;
+  max-width: 30em; /* Increased max-width for better visibility */
+  height: 30em; /* Make modal square */
+  border-radius: 15px; /* Added rounded edges to the modal */
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.modal label {
+  width: 100%;
+  text-align: center;
+  margin-top: .4em;
+}
+
+.modal input, .modal select {
+  width: 80%;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin-top: 1em;
 }
