@@ -41,7 +41,7 @@
               displayName: username,
               photoUrl: defaultProfilePic,
             })
-            alert("Creating Account..");
+            window.location.href = "../HomeNav/index.html"; 
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -75,8 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          alert("Signing In, click ok to continue...");
-
           // Handle authentication state change
           onAuthStateChanged(auth, (user) => {
             if (user) {
