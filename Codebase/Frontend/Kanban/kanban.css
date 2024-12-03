@@ -52,6 +52,12 @@ body {
     background-color: #40251f;
     border-radius: 0.5em; /* Added border-radius for smoother appearance */
 }
+.top-nav a.profile{
+    color: white;
+    text-decoration: none;
+    padding: 14px 16px;
+    margin-left: 16;
+  }
 
 /* Sidebar styling */
 .sidebar {
@@ -231,10 +237,3 @@ body {
     background-color: #196619; /* Darken green on hover */
     transform: scale(1.05); /* Ensure hover effect for enlarging */
 }
-
-.top-nav a.profile{
-    color: white;
-    text-decoration: none;
-    padding: 14px 16px;
-    margin-left: auto;
-  }
