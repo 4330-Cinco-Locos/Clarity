@@ -78,9 +78,9 @@ html, body {
 }
 
 .modal {
+  position: relative;
   background-color: #f9fbee;
   color: #d9ae89;
-  padding: 2%;
   width: 90%;
   max-width: 30em; /* Increased max-width for better visibility */
   height: 30em; /* Make modal square */
