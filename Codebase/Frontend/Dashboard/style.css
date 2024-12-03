@@ -230,6 +230,17 @@ section#middlescreen{
     text-align:center;
 }
 
+.warning {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #31312f;
+    text-align:center;
+    font-size: x-large;
+    font-weight: bold;
+  }
+
 .page_display .navigation_buttons {
     width: 45%;
     background-color: #d9ae89;
@@ -263,21 +274,3 @@ section#middlescreen{
     cursor: pointer;
     color: #f9fbee;
 }
-
-.top-nav a.profile{
-    color: white;
-    text-decoration: none;
-    padding: 14px 16px;
-    margin-left: auto;
-  }
-
-.Warning{
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    cursor: pointer;
-    color: #31312f;
-    text-align:center;
-    font-size: x-large;
-    font-weight: bold;
-  }

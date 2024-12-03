@@ -27,6 +27,7 @@ const toggleBtn = document.querySelector('.toggle_button');
 const toggleBtnIco = document.querySelector('.toggle_button i');
 const dropdownM = document.querySelector('.dropdown');
 const signOutBtn = document.querySelector('.act_btn');
+var userId;
 
 
 // togglebtn is the bars dropdown icon
@@ -61,33 +62,50 @@ function add_login_button(){
     const topnav = document.getElementById('top-nav');
     const login_button = document.createElement('a');
     login_button.classList.add("profile");
+    login_button.id = "profile"
     login_button.textContent = "Login";
     login_button.setAttribute("href", "../LoginLogoutUI/index.html");
     topnav.appendChild(login_button);
 }
 
-function add_profile_button(user){
+function add_profile_button(){
     const topnav = document.getElementById('top-nav');
-
     const profile_button = document.createElement('a');
     profile_button.classList.add("profile");
-    profile_button.textContent = user.displayName;
+    profile_button.textContent = userId;
     profile_button.setAttribute("href", "../UserProfile/index.html");
     topnav.appendChild(profile_button);
 }
 
 onAuthStateChanged(auth, (user) => {
-    
-    if (user) {
-        add_profile_button(user);   
-        isLoggedIn = true;
+    if (user) { //is signed in
+        // getting username
+        if (user.displayName != null) 
+            {
+                userId = user.displayName;
+            }
+        else if (user.email != null) 
+            {
+                // you cant send an entry to firebase containing a '.' so, we have to break this string
+                // so that we can send messages, sense the userId is part of msgId
+                const tmp = user.email;
+                const idx = tmp.indexOf("@");
+                if (idx !== -1) {
+                    const substring = tmp.substring(0, idx);
+                    userId = substring;
+                }
+            }
+        else if (user.uid != null) 
+            {
+                userId = user.uid;
+            }
+        add_profile_button();
     }
-    else{
+    else
+    {
         add_login_button();
-        isLoggedIn = false;
     }
-
-})
+  });
 
 document.addEventListener("DOMContentLoaded", () => {
     
@@ -128,8 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const login_notif = document.createElement('div');
         login_notif.textContent = "Warning: you must be logged in to view task content";
-        login_notif.classList.add('Warning');
-        login_notif.id = 'Warning';
+        login_notif.classList.add('warning');
+        login_notif.id = 'warning';
         queueBox.appendChild(login_notif);
     }
 })
