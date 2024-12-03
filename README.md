@@ -62,4 +62,7 @@ Calendar: the calendar is another feature of the program and simply contains a t
 Chatroom: the chatroom contains a text entry field at the bottom of the screen which can be used to send messages to the current channel. To send a message, simply type in you text and click the enter key when finished. Additionally, on the left navbar there are a selection of 'Active Channels', each of these are clickable elements. Clicking one will change the channel the user is currently in. Users can only view messages sent in their current channel and all messages sent while in a channel will be sent to that channel only.
 
 ### Demonstration
+https://github.com/user-attachments/assets/1a0b6849-7c9d-4fab-8f46-92f07dd78efb
+
+
 
